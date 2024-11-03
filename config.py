@@ -7,3 +7,4 @@ SCOPES = [
     'https://www.googleapis.com/auth/gmail.modify'
 ]
 EMAIL_QUERY = 'label:unread from:(venmo@venmo.com) subject:("paid you")'
+VENMO_PATTERN = r"([A-Za-z]+\s[A-Za-z]+)\s+paid\s+you\s+\$([\d]+\.\d{2})"

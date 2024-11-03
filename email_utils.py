@@ -1,4 +1,5 @@
 from googleapiclient.errors import HttpError
+import re
 
 # Fetch a list of email IDs matching the given query
 def get_email_ids(service, query):
@@ -33,6 +34,26 @@ def get_emails(service, message_ids):
         print(f'Batch request failed: {batch_error}')
 
     return messages
+
+# Extract name, amount, and date of email
+def parse_email(messages, pattern):
+    name = None
+    amount = None
+    date = None
+
+    for message in messages:
+        # Extract name and amount
+        match = re.search(pattern, message['snippet']) 
+        if match:
+            name, amount = match.groups()
+        else:
+            print('Incorrect email')
+            continue
+        # Extract date
+        for header in message['payload']['headers']:
+            if header['name'] == 'Date':
+                date = header['value']
+    return name, amount, date
 
 # Mark emails as read by removing the 'UNREAD' label
 def mark_emails_as_read(service, message_ids):
