@@ -6,7 +6,8 @@ API_NAME = 'gmail'
 API_VERSION = 'v1'
 # If modifying these scopes, delete the file token.json.
 SCOPES = [
-    'https://www.googleapis.com/auth/gmail.readonly'
+    'https://www.googleapis.com/auth/gmail.readonly',
+    'https://www.googleapis.com/auth/gmail.modify'
 ]
 
 
@@ -36,3 +37,12 @@ if __name__ == "__main__":
 
     for message in messages:
         print(message['snippet'])
+
+    postData = {
+        'ids': message_ids,
+        'removeLabelIds': ['UNREAD']
+    }
+    service.users().messages().batchModify(
+        userId='me',
+        body=postData
+    ).execute()
