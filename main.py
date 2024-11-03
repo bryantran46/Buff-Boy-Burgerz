@@ -1,48 +1,21 @@
-import json
 from google_apis import create_service
+from config import CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES, EMAIL_QUERY
+from email_utils import get_email_ids, get_emails, mark_emails_as_read
 
-CLIENT_SECRET_FILE = 'credentials.json'
-API_NAME = 'gmail'
-API_VERSION = 'v1'
-# If modifying these scopes, delete the file token.json.
-SCOPES = [
-    'https://www.googleapis.com/auth/gmail.readonly',
-    'https://www.googleapis.com/auth/gmail.modify'
-]
-
-
-if __name__ == "__main__":
+def main():
     service = create_service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+    message_ids = get_email_ids(service, EMAIL_QUERY)
 
-    # get email
-    results = service.users().messages().list(
-        userId='me', 
-        maxResults='20', 
-        q='label:unread from:(venmo@venmo.com) subject:("paid you")'
-    ).execute()
-    message_ids = [message['id'] for message in results.get('messages', [])]
-
-    messages = []
-    def add(id, msg, err):
-        # id is given because this will not be called in the same order
-        if err:
-            print(err, 'for message:', id)
-        else:
-            messages.append(msg)
-
-    batch = service.new_batch_http_request()
-    for msg in message_ids:
-        batch.add(service.users().messages().get(userId='me', id=msg), add)
-    batch.execute()
-
+    if not message_ids:
+        print("No unread emails matching the query.")
+        return
+    
+    messages = get_emails(service, message_ids)
     for message in messages:
         print(message['snippet'])
 
-    postData = {
-        'ids': message_ids,
-        'removeLabelIds': ['UNREAD']
-    }
-    service.users().messages().batchModify(
-        userId='me',
-        body=postData
-    ).execute()
+    mark_emails_as_read(service, message_ids)
+
+
+if __name__ == "__main__":
+    main()
