@@ -11,9 +11,10 @@ def main():
         return
     
     messages = get_emails(service, message_ids)
-    
-    name, amount, date = parse_email(messages, VENMO_PATTERN)
-    print(f'Name: {name}, Amount: ${amount}, Date: {date}')
+
+    transactions = parse_email(messages, VENMO_PATTERN)
+    for name, amount, date in transactions:
+        print(f'Name: {name}, Amount: ${amount}, Date: {date}')
 
     mark_emails_as_read(service, message_ids)
 

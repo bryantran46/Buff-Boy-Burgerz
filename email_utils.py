@@ -37,11 +37,11 @@ def get_emails(service, message_ids):
 
 # Extract name, amount, and date of email
 def parse_email(messages, pattern):
-    name = None
-    amount = None
-    date = None
-
+    transactions = []
     for message in messages:
+        name = None
+        amount = None
+        date = None
         # Extract name and amount
         match = re.search(pattern, message['snippet']) 
         if match:
@@ -53,7 +53,8 @@ def parse_email(messages, pattern):
         for header in message['payload']['headers']:
             if header['name'] == 'Date':
                 date = header['value']
-    return name, amount, date
+        transactions.append((name, amount, date))
+    return transactions
 
 # Mark emails as read by removing the 'UNREAD' label
 def mark_emails_as_read(service, message_ids):
