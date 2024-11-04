@@ -1,4 +1,6 @@
+from google_apis import create_service
 from googleapiclient.errors import HttpError
+from config import CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES
 import re
 from datetime import datetime
 
@@ -51,10 +53,10 @@ def parse_email(messages, pattern):
             print('Incorrect email')
             continue
         # Extract date
-        date = int(message['internalDate']) // 1000
-        date = datetime.fromtimestamp(date).strftime('%m/%d/%Y, %I:%M:%S %p')
+        sort_key = int(message['internalDate']) // 1000
+        date = datetime.fromtimestamp(sort_key).strftime('%m/%d/%Y, %I:%M:%S %p')
         # Add name, amount, and date to transactions list
-        transactions.append((name, amount, date))
+        transactions.append((sort_key, name, amount, date))
     return transactions
 
 # Mark emails as read by removing the 'UNREAD' label
@@ -69,3 +71,20 @@ def mark_emails_as_read(service, message_ids):
         print(f"Marked {len(message_ids)} messages as read.")
     except HttpError as error:
         print(f'An error occurred: {error}')
+
+# Get specified transaction_config emails, extract (name, amount, date),
+# and mark emails as read
+def process_transaction_emails(transaction_config):
+    query = transaction_config['query']
+    pattern = transaction_config['pattern']
+
+    service = create_service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+    message_ids = get_email_ids(service, query)
+    if not message_ids:
+        print("No unread emails matching the query.")
+        return
+    messages = get_emails(service, message_ids)
+    transactions = parse_email(messages, pattern)
+    mark_emails_as_read(service, message_ids)
+
+    return transactions
