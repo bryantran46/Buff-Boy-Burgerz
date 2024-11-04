@@ -79,7 +79,7 @@ def process_transaction_emails(transaction_config, service):
     message_ids = get_email_ids(service, query)
     if not message_ids:
         print("No unread emails matching the query.")
-        return
+        return []
     messages = get_emails(service, message_ids)
     transactions = parse_email(messages, pattern)
     mark_emails_as_read(service, message_ids)
