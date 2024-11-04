@@ -1,5 +1,6 @@
 from googleapiclient.errors import HttpError
 import re
+from datetime import datetime
 
 # Fetch a list of email IDs matching the given query
 def get_email_ids(service, query):
@@ -50,9 +51,9 @@ def parse_email(messages, pattern):
             print('Incorrect email')
             continue
         # Extract date
-        for header in message['payload']['headers']:
-            if header['name'] == 'Date':
-                date = header['value']
+        date = int(message['internalDate']) // 1000
+        date = datetime.fromtimestamp(date).strftime('%m/%d/%Y, %I:%M:%S %p')
+        # Add name, amount, and date to transactions list
         transactions.append((name, amount, date))
     return transactions
 
