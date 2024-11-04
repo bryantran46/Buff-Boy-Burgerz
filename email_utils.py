@@ -1,6 +1,4 @@
-from google_apis import create_service
 from googleapiclient.errors import HttpError
-from config import CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES
 import re
 from datetime import datetime
 
@@ -74,11 +72,10 @@ def mark_emails_as_read(service, message_ids):
 
 # Get specified transaction_config emails, extract (name, amount, date),
 # and mark emails as read
-def process_transaction_emails(transaction_config):
+def process_transaction_emails(transaction_config, service):
     query = transaction_config['query']
     pattern = transaction_config['pattern']
 
-    service = create_service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
     message_ids = get_email_ids(service, query)
     if not message_ids:
         print("No unread emails matching the query.")
