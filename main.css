@@ -1,27 +1,56 @@
+:root {
+    --primary-bg-color: white;
+    --secondary-bg-color: #f2f4f7;
+    --primary-text-color: black;
+    font-family: Arial, sans-serif;
+  }  
+.transaction-summary {
+    display: grid;
+    width: 70vw;
+    grid-template-columns: auto auto;
+}
 table {
-    width: 50vw;
+    width: 70vw;
     border-collapse: collapse;
 }
-thead > tr > td {
-    height: 25px;
-    padding: 15px;
+.transaction-header-cell {
+    height: 7vh;
+    padding: 2vh;
     border: 1px solid #ddd;
-    font-family: Arial, sans-serif;
+    display: grid;
+    grid-template-columns: 63vw 7vw;
+    align-items: center;
+    background-color: var(--secondary-bg-color);
+}
+#in-progress-table .transaction-header-cell {
+    border-radius:  10px 10px 0 0;
+}
+#queue-table tbody tr:last-child td  {
+    border-radius:  0 0 10px 10px;
+}
+.transaction-header-cell > .transaction-button {
+    color: #555;
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
 }
 .transaction-cell {
-    padding: 15px;
-    border: 1px solid #ddd;
-    font-family: Arial, sans-serif;
-
+    padding: 2vh;
+    border: 1px solid var(--secondary-bg-color);
     display: grid;
-    grid-template-rows: 25px 25px 25px;
-    grid-template-columns: 10vw 35vw 5vw;
-
+    grid-template-rows: repeat(3, 3vh);
+    grid-template-columns: 6vw 15vw 42vw 7vw;
     align-items: center;
 }
+.transaction-cell img {
+    width: 5vw;
+    grid-row: 1 / 4;
+    grid-column: 1 / 2;
+    justify-self: flex-start;
+    align-self: center;
+}
 .transaction-type {
-    color: #555;
-    grid-row: 1 / 3;
+    color: var(--primary-text-color);
+    grid-row: 1 / 4;
     grid-column: 1 / 2;
     justify-self: center;
 }
@@ -31,25 +60,100 @@ thead > tr > td {
     grid-column: 2 / 3;
 }
 .transaction-time {
-    color: #555;
+    color: var(--primary-text-color);
     grid-row: 2 / 3;
     grid-column: 2 / 3;
     align-self: baseline
 }
 .transaction-order {
-    color: #555;
-    grid-row: 3 / 4;
-    grid-column: 2 / 3;
+    color: var(--primary-text-color);
+    grid-row: 1 / 4;
+    grid-column: 3 / 4;
 }
 .transaction-price {
     font-weight: bold;
     grid-row: 1 / 2;
-    grid-column: 3 / 4;
+    grid-column: 4 / 5;
     justify-self: center;
 }
 .transaction-button {
     color: #555;
     grid-row: 2 / 4;
-    grid-column: 3 / 4;
-    height: 40px
+    grid-column: 4 / 5;
+    height: 6vh;
+    width: 5vw;
+    justify-self: center;
+}
+/* Reset margin and padding for the body */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Header styling */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10vh;
+    background-color: var(--secondary-bg-color);
+    color: var(--primary-text-color);
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    z-index: 1;
+    padding: 0 2vw;
+}
+/* Sidebar styling */
+.sidebar {
+    position: fixed;
+    top: 10vh;
+    left: 0;
+    width: 25vw;
+    height: 100%;
+    background-color: var(--secondary-bg-color);
+    color: var(--primary-text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+/* Sidebar links */
+.sidebar a {
+    padding: 2vh 0 2vh 2vw;
+    text-decoration: none;
+    color: var(--primary-text-color);
+    display: block;
+    width: 95%;
+}
+.sidebar a:hover {
+    color: red;
+}
+/* Main content styling */
+.main-content-background {
+    position: fixed;
+    top: 9vh;
+    left: 24vw;
+    background-color: var(--primary-bg-color);
+    z-index: 2;
+    border-radius: 30px 0 0 0;
+    width: 76vw;
+    height: 100vh;
+}
+.main-content {
+    position: relative;
+    z-index: 3;
+    left: 24vw;
+    top: 9vh;
+    padding: 1vh 2vw;
+    width: 70vw;
+}
+.header-scroll-block {
+    position: fixed;
+    top: 0;
+    left: 25vw;
+    width: 100%;
+    height: 9vh;
+    z-index: 4;
+    background-color: var(--secondary-bg-color);
 }

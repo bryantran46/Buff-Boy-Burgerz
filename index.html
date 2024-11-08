@@ -7,66 +7,107 @@
     <title>Transactions Dashboard</title>
 </head>
 <body>
-    <h2>Transactions Dashboard</h2>
+    <div class="header">
+        <h1>Buff Boy Burgerz</h1>
+    </div>
 
-    <table class="transactions-table">
-        <thead>
-            <tr>
-                <td>Orders In Progress</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="transaction-cell">
-                    <div class="transaction-name">John Doe</div>
-                    <div class="transaction-order">1 Burger</div>
-                    <div class="transaction-price">$7.00</div>
-                    <div class="transaction-time">12:15 PM</div>
-                    <div class="transaction-type">Venmo</div>
-                    <button class="transaction-button">Finish</button>
-                </td>
-            </tr>
-            <tr>
-                <td class="transaction-cell">
-                    <div class="transaction-name">John Doe</div>
-                    <div class="transaction-order">1 Burger</div>
-                    <div class="transaction-price">$7.00</div>
-                    <div class="transaction-time">12:15 PM</div>
-                    <div class="transaction-type">Venmo</div>
-                    <button class="transaction-button">Finish</button>
-                </td>
-            </tr>
-            <tr>
-                <td class="transaction-cell">
-                    <div class="transaction-name">John Doe</div>
-                    <div class="transaction-order">1 Burger</div>
-                    <div class="transaction-price">$7.00</div>
-                    <div class="transaction-time">12:15 PM</div>
-                    <div class="transaction-type">Venmo</div>
-                    <button class="transaction-button">Finish</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table id="transactions-table">
-        <thead>
-            <tr>
-                <td>Orders in Queue</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="transaction-cell">
-                    <div class="transaction-name">John Doe</div>
-                    <div class="transaction-order">1 Burger</div>
-                    <div class="transaction-price">$7.00</div>
-                    <div class="transaction-time">12:15 PM</div>
-                    <div class="transaction-type">Venmo</div>
-                    <button class="transaction-button">Finish</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</body>
+    <div class="header-scroll-block"></div>
+
+    <div class="sidebar">
+        <a href="#index">Transaction Dashboard</a>
+        <a href="#">Finished Orders</a>
+        <a href="#">Kiosk</a>
+    </div>
+
+    <div class="main-content-background"></div>
+    <div class="main-content">
+        <h2>Transactions Dashboard</h2>
+
+        <div class="transaction-summary">
+            <div class="transaction-detail">
+                <h3>Total Burgers Sold</h3>
+                <p>30</p>
+            </div>
+            <div class="transaction-detail">
+                <h3>Total Burgers Left</h3>
+                <p>10</p>
+            </div>
+        </div>
+
+        <table id="in-progress-table", class="transactions-table">
+            <thead>
+                <tr>
+                    <td class="transaction-header-cell">
+                        <div class="transaction-header-label">Orders In Progress</div>
+                        <button class="transaction-button">Finish</button>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="transaction-cell">
+                        <div class="transaction-name">Orgil Tsetsendelger</div>
+                        <div class="transaction-order">1 Burger</div>
+                        <div class="transaction-price">$7.00</div>
+                        <div class="transaction-time">12:15 PM</div>
+                        <img src="./venmo.svg">
+                        <button class="transaction-button">Finish</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="transaction-cell">
+                        <div class="transaction-name">John Doe</div>
+                        <div class="transaction-order">1 Burger</div>
+                        <div class="transaction-price">$7.00</div>
+                        <div class="transaction-time">12:15 PM</div>
+                        <img src="./venmo.svg">
+                        <button class="transaction-button">Finish</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="transaction-cell">
+                        <div class="transaction-name">John Doe</div>
+                        <div class="transaction-order">1 Burger</div>
+                        <div class="transaction-price">$7.00</div>
+                        <div class="transaction-time">12:15 PM</div>
+                        <img src="./venmo.svg">
+                        <button class="transaction-button">Finish</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table id="queue-table", class="transactions-table">
+            <thead>
+                <tr>
+                    <td class="transaction-header-cell">
+                        <div class="transaction-header-label">Orders In Queue</div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="transaction-cell">
+                        <div class="transaction-name">John Doe</div>
+                        <div class="transaction-order">1 Burger</div>
+                        <div class="transaction-price">$7.00</div>
+                        <div class="transaction-time">12:15 PM</div>
+                        <img src="./venmo.svg">
+                        <button class="transaction-button">Finish</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="transaction-cell">
+                        <div class="transaction-name">John Doe</div>
+                        <div class="transaction-order">1 Burger</div>
+                        <div class="transaction-price">$7.00</div>
+                        <div class="transaction-time">12:15 PM</div>
+                        <img src="./venmo.svg">
+                        <button class="transaction-button">Finish</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>    
+    </div>
+    </body>
 <script src="./index.js"></script>
 </html>
