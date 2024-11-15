@@ -1,19 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Food Gallery</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Gallery</title>
+    <link rel="stylesheet" href="menu.css">
 </head>
 <body>
-    <div class="header">
-        <div class="checkered-strip"></div>
-        <h1>Buff Boy Burgerz Menu</h1>
+    <div class="receipt">
+        <div class="receipt-info">
+            You can change or remove an item on the receipt by tapping it
+        </div>
+        <div class="cart">
+            <table class="receipt-table">
+                <tbody>
+                    <tr>
+                        <td class="receipt-cell">
+                            <div class="item-container">
+                                <img src="./burger.png" alt="Classic Smash Burger" class="food-image">
+                                <div class="item-quantity">Quantity: 1</div>
+                                <button class="edit-button">Edit</button>
+                                <div class="item-name">Classic Smash Burger</div>
+                                <div class="item-price">$8.00</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="receipt-cell">
+                            <div class="item-container">
+                                <img src="./burger.png" alt="Classic Smash Burger" class="food-image">
+                                <div class="item-quantity">Quantity: 1</div>
+                                <button class="edit-button">Edit</button>
+                                <div class="item-name">Classic Smash Burger</div>
+                                <div class="item-price">$8.00</div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="checkout-total">
+            <table class="total-table">
+                <tbody>
+                    <tr>
+                        <td class="total-cell">
+                            <div class="total-label">Subtotal:</div>
+                            <div class="total-amount">$16.00</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="total-cell">
+                            <div class="total-label">Discounts:</div>
+                            <div class="total-amount">-$2.00</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="total-cell">
+                            <div class="total-label">Tip:</div>
+                            <div class="total-amount">$0.00</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="total-cell">
+                            <div class="total-label">Total:</div>
+                            <div class="total-amount">$14.00</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="checkout-buttons">
+            <button class="cancel-button">Cancel Order</button>
+            <button class="pay-button">Pay for Order</button>
+        </div>
     </div>
-    <div id="checkered-strip-2" class="checkered-strip"></div>
-    <div id="checkered-strip-3" class="checkered-strip"></div>
+
     <div class="main-content">
+        <div class="header">
+            <div class="checkered-strip"></div>
+            <h1>Buff Boy Burgerz Menu</h1>
+        </div>
         <div class="food-gallery">
             <div class="food-item">
                 <h2 class="food-name">Combo</h2>
@@ -31,6 +97,13 @@
                 <h2 class="food-name">Chips</h2>
                 <img src="./doritos.png" alt="Chips" class="food-image">
             </div>
+            <div class="food-item">
+                <h2 class="food-name">Follower Discount</h2>
+                <img src="./doritos.png" alt="Chips" class="food-image">
+            </div>
+            <div class="food-item">
+                <h2 class="food-name">Tips</h2>
+                <img src="./doritos.png" alt="Chips" class="food-image">
             </div>
         </div>
     </div>
