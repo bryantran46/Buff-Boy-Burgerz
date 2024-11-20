@@ -1,10 +1,4 @@
 "use strict";
-// interface FoodItem {
-//     name: string;
-//     price: number;
-//     image: string;
-//     quantity: number;
-// }
 const menuItems = {
     combo: { name: "Combo", price: 10, image: "./logo.png", quantity: 0 },
     burger: { name: "Classic Smash Burger", price: 8, image: "./burger.png", quantity: 0 },
@@ -12,14 +6,22 @@ const menuItems = {
     chips: { name: "Chips", price: 1, image: "./doritos.png", quantity: 0 },
 };
 let cart = {};
+let subtotal = 0;
+let discounts = 0;
+let tip = 0;
+let total = 0;
 function add(itemId) {
     if (!cart[itemId]) {
         cart[itemId] = { ...menuItems[itemId], quantity: 0 }; // Prevent unintended mutations
     }
     cart[itemId].quantity++;
+    subtotal += cart[itemId].price;
+    calculateTotal();
     updateOrCreateRow(itemId);
 }
 function updateQuantity(itemId, newQuantity) {
+    let oldQuantity = cart[itemId].quantity;
+    let price = cart[itemId].price;
     if (newQuantity === 0) {
         remove(itemId);
     }
@@ -27,6 +29,8 @@ function updateQuantity(itemId, newQuantity) {
         cart[itemId].quantity = newQuantity;
         updateRow(itemId);
     }
+    subtotal += (newQuantity - oldQuantity) * price;
+    calculateTotal();
 }
 function remove(itemId) {
     delete cart[itemId];
@@ -38,6 +42,8 @@ function clear() {
     cart = {};
     const receiptTableBody = document.getElementById("receipt-table-body");
     receiptTableBody.replaceChildren(); // Clear all rows
+    subtotal = 0;
+    calculateTotal();
 }
 function updateOrCreateRow(itemId) {
     const row = getRowById(itemId);
@@ -84,6 +90,16 @@ function createRow(itemId) {
 }
 function getRowById(itemId) {
     return document.querySelector(`tr[data-id="${itemId}"]`);
+}
+function calculateTotal() {
+    total = subtotal + tip - discounts;
+    renderTotal();
+}
+function renderTotal() {
+    document.getElementById("subtotal-field").innerText = `$${subtotal.toFixed(2)}`;
+    document.getElementById("discounts-field").innerText = `$${discounts.toFixed(2)}`;
+    document.getElementById("tip-field").innerText = `$${tip.toFixed(2)}`;
+    document.getElementById("total-field").innerText = `$${total.toFixed(2)}`;
 }
 // Event listeners for the food items
 document.querySelectorAll(".food-item").forEach((element) => {

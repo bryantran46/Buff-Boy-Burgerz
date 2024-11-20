@@ -13,22 +13,32 @@ const menuItems: Record<string, FoodItem> = {
 };
 
 let cart: Record<string, FoodItem> = {};
+let subtotal = 0;
+let discounts = 0;
+let tip = 0;
+let total = 0;
 
 function add(itemId: string) {
     if (!cart[itemId]) {
         cart[itemId] = { ...menuItems[itemId], quantity: 0 }; // Prevent unintended mutations
     }
     cart[itemId].quantity++;
+    subtotal += cart[itemId].price;
+    calculateTotal();
     updateOrCreateRow(itemId);
 }
 
 function updateQuantity(itemId: string, newQuantity: number) {
+    const oldQuantity = cart[itemId].quantity;
+    const price = cart[itemId].price;
     if (newQuantity === 0) {
         remove(itemId);
     } else {
         cart[itemId].quantity = newQuantity;
         updateRow(itemId);
     }
+    subtotal += (newQuantity - oldQuantity) * price;
+    calculateTotal();
 }
 
 function remove(itemId: string) {
@@ -41,6 +51,8 @@ function clear() {
     cart = {};
     const receiptTableBody = document.getElementById("receipt-table-body")!;
     receiptTableBody.replaceChildren(); // Clear all rows
+    subtotal = 0;
+    calculateTotal();
 }
 
 function updateOrCreateRow(itemId: string) {
@@ -97,6 +109,18 @@ function createRow(itemId: string) {
 
 function getRowById(itemId: string): HTMLElement | null {
     return document.querySelector(`tr[data-id="${itemId}"]`);
+}
+
+function calculateTotal() {
+    total = subtotal + tip - discounts;
+    renderTotal();
+}
+
+function renderTotal() {
+    document.getElementById("subtotal-field")!.innerText = `$${subtotal.toFixed(2)}`;
+    document.getElementById("discounts-field")!.innerText = `$${discounts.toFixed(2)}`;
+    document.getElementById("tip-field")!.innerText = `$${tip.toFixed(2)}`;
+    document.getElementById("total-field")!.innerText = `$${total.toFixed(2)}`;
 }
 
 // Event listeners for the food items
