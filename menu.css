@@ -34,6 +34,7 @@ body {
     justify-content: center;
     align-items: flex-start;
     border-radius: 0 0 20px 20px;
+    overflow-y: auto;
 }
 .receipt-table {
     border-spacing: 0;
@@ -152,6 +153,7 @@ h1 {
     position: absolute;
     width: 62vw;
     height: 16vh;
+    margin: 0;
     align-content: center;
     text-align: center;
     background-color: var(--base-bg-color);
@@ -176,26 +178,30 @@ h1 {
 .food-gallery {
     margin: auto;
     display: grid;
-    grid-template-columns: repeat(3, 16vw); 
-    grid-template-rows: 20vw;
-    row-gap: 7vh;
-    column-gap: 6vw;
+    grid-template-columns: repeat(3, 18vw); 
+    grid-template-rows: 22vw;
+    row-gap: 5vh;
+    column-gap: 3vw;
     background-color: transparent;
 }
-.food-item {
-    width: 16vw;
+.item-card {
+    width: 18vw;
     height: 22vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    grid-template-rows: 6vw 16vw;
+    justify-items: center;
     text-align: center;
-    
     background-color: var(--base-bg-color);
     border: 3px solid var(--primary-color);
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+.food-name {
+    margin: 0;
+    align-self: center;
+}
 img {
     width: 10vw;
+    align-self: center;
 }
