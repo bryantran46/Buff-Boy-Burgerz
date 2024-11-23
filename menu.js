@@ -20,8 +20,8 @@ function add(itemId) {
     updateOrCreateRow(itemId);
 }
 function updateQuantity(itemId, newQuantity) {
-    let oldQuantity = cart[itemId].quantity;
-    let price = cart[itemId].price;
+    const oldQuantity = cart[itemId].quantity;
+    const price = cart[itemId].price;
     if (newQuantity === 0) {
         remove(itemId);
     }
@@ -101,6 +101,34 @@ function renderTotal() {
     document.getElementById("tip-field").innerText = `$${tip.toFixed(2)}`;
     document.getElementById("total-field").innerText = `$${total.toFixed(2)}`;
 }
+// Show the popup and disable main content
+document.getElementById("follower-card")?.addEventListener("click", () => {
+    document.getElementById("follower-popup").classList.remove("hidden");
+    document.querySelector(".main-screen").classList.add("disabled");
+});
+document.getElementById("tip-card")?.addEventListener("click", () => {
+    document.getElementById("tip-popup").classList.remove("hidden");
+    document.querySelector(".main-screen").classList.add("disabled");
+});
+// Hide the popup and re-enable main content
+document.querySelector("#follower-popup button")?.addEventListener("click", () => {
+    document.getElementById("follower-popup").classList.add("hidden");
+    document.querySelector(".main-screen").classList.remove("disabled");
+});
+document.querySelector("#tip-popup button")?.addEventListener("click", () => {
+    document.getElementById("tip-popup").classList.add("hidden");
+    document.querySelector(".main-screen").classList.remove("disabled");
+});
+const slider = document.querySelector(".slider");
+slider.addEventListener("input", (event) => {
+    const sliderValue = document.querySelector(".value");
+    const target = event.target; // Cast target to HTMLInputElement
+    const tempSliderValue = Number(target.value);
+    sliderValue.textContent = `$${tempSliderValue}`;
+    const max = Number(target.max); // Get max value of the slider
+    const progress = (tempSliderValue / max) * 100;
+    slider.style.background = `linear-gradient(to right, #30b1e6 ${progress}%, #ccc ${progress}%)`;
+});
 // Event listeners for the food items
 document.querySelectorAll(".food-item").forEach((element) => {
     element.addEventListener("click", () => {

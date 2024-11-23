@@ -5,7 +5,7 @@
     --tertiary-color: white;
     background-color: rgb(44, 42, 42);
 } 
-body {
+.main-screen {
     margin: 4vh 3vw;
     display: flex;
     justify-content: space-between;
@@ -191,7 +191,7 @@ h1 {
     grid-template-rows: 6vw 16vw;
     justify-items: center;
     text-align: center;
-    background-color: var(--base-bg-color);
+    background-color: #fdf7dc;
     border: 3px solid var(--primary-color);
     border-radius: 20px;
     overflow: hidden;
@@ -201,7 +201,66 @@ h1 {
     margin: 0;
     align-self: center;
 }
-img {
+.item-card img {
     width: 10vw;
     align-self: center;
+}
+.slider {
+    -webkit-appearance: none;
+    appearance: none; 
+    width: 100%;
+    border-radius: 15px;
+    height: 4vh;
+    background: #ccc;
+    margin: 10vh 2vw;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none; 
+    height: 10vh;
+    width: 11vh;
+    background-image: url("./logo.png");
+    background-size: cover;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent grey background */
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+/* Hidden class to toggle visibility */
+.popup-overlay.hidden {
+    display: none;
+}
+
+/* Popup content */
+.popup {
+    position: fixed;
+    background: white;
+    width: 56vw;
+    height: 90vh;
+    top: 4vh;
+    left: 32vw;
+    border-radius: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1vh 4vw;
+}
+
+/* Disable clicks on main content when overlay is active */
+.main-screen.disabled {
+    pointer-events: none; /* Disable interactions */
+    filter: blur(3px);    /* Optional: add a blur effect */
+}
+.popup img {
+    width: 70%;
 }
