@@ -123,6 +123,14 @@ function renderTotal() {
     document.getElementById("total-field")!.innerText = `$${total.toFixed(2)}`;
 }
 
+function saveData() {
+    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("subtotal", JSON.stringify(subtotal));
+    localStorage.setItem("discounts", JSON.stringify(discounts));
+    localStorage.setItem("tip", JSON.stringify(tip));
+    localStorage.setItem("total", JSON.stringify(total));
+}
+
 // Show the popup and disable main content
 document.getElementById("follower-card")?.addEventListener("click", () => {
     document.getElementById("follower-popup")!.classList.remove("hidden");
@@ -170,3 +178,8 @@ document.querySelectorAll(".food-item").forEach((element) => {
 
 // Event listener for the cancel button
 document.querySelector(".cancel-button")!.addEventListener("click", clear);
+
+document.querySelector(".pay-button")!.addEventListener("click", ()=> {
+    saveData();
+    window.location.href = "./pay.html";
+});
