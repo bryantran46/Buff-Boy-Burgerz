@@ -7,72 +7,105 @@
     <link rel="stylesheet" href="pay.css">
 </head>
 <body>
-    <div class="receipt">
-        <div class="receipt-header">
-            <button class="back-button">back</button>
+    <div class="main-screen">
+        <div class="receipt">
+            <div class="receipt-header">
+                <button class="back-button">back</button>
+            </div>
+            <div class="cart">
+                <table class="receipt-table">
+                    <tbody id="receipt-table-body">
+                        <!-- <tr>
+                            <td class="receipt-cell">
+                                <div class="item-container">
+                                    <img src="./burger.png" alt="Classic Smash Burger" class="food-image">
+                                    <div class="item-quantity">Quantity: 1</div>
+                                    <div class="item-name">Classic Smash Burger</div>
+                                    <div class="item-price">$8.00</div>
+                                </div>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="checkout-total">
+                <table class="total-table">
+                    <tbody>
+                        <tr>
+                            <td class="total-cell">
+                                <div class="total-label">Subtotal:</div>
+                                <div class="total-amount" id="subtotal-field">$0.00</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="total-cell">
+                                <div class="total-label">Discounts:</div>
+                                <div class="total-amount" id="discounts-field">$0.00</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="total-cell">
+                                <div class="total-label">Tip:</div>
+                                <div class="total-amount" id="tip-field">$0.00</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="total-cell">
+                                <div class="total-label">Total:</div>
+                                <div class="total-amount" id="total-field">$0.00</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="cart">
-            <table class="receipt-table">
-                <tbody id="receipt-table-body">
-                    <!-- <tr>
-                        <td class="receipt-cell">
-                            <div class="item-container">
-                                <img src="./burger.png" alt="Classic Smash Burger" class="food-image">
-                                <div class="item-quantity">Quantity: 1</div>
-                                <div class="item-name">Classic Smash Burger</div>
-                                <div class="item-price">$8.00</div>
-                            </div>
-                        </td>
-                    </tr> -->
-                </tbody>
-            </table>
-        </div>
-        <div class="checkout-total">
-            <table class="total-table">
-                <tbody>
-                    <tr>
-                        <td class="total-cell">
-                            <div class="total-label">Subtotal:</div>
-                            <div class="total-amount" id="subtotal-field">$0.00</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="total-cell">
-                            <div class="total-label">Discounts:</div>
-                            <div class="total-amount" id="discounts-field">$0.00</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="total-cell">
-                            <div class="total-label">Tip:</div>
-                            <div class="total-amount" id="tip-field">$0.00</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="total-cell">
-                            <div class="total-label">Total:</div>
-                            <div class="total-amount" id="total-field">$0.00</div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <div class="main-content">
+            <div class="payment-gallery">
+                <div id="venmo-card" class="payment-card">
+                    <h2 class="payment-name">Venmo</h2>
+                    <img src="./venmo.svg" alt="Zelle" class="food-image">
+                </div>
+                <div id="zelle-card" class="payment-card">
+                    <h2 class="payment-name">Zelle</h2>
+                    <img src="./zelle.svg" alt="Zelle" class="food-image">
+                </div>
+                <div id="cash-card" class="payment-card centered-item">
+                    <h2 class="payment-name">Cash</h2>
+                    <img src="./cash.svg" alt="Zelle" class="food-image">
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="main-content">
-        <div class="payment-gallery">
-            <div class="payment-card">
-                <h2 class="payment-name">Venmo</h2>
-                <img src="./venmo.svg" alt="Zelle" class="food-image">
-            </div>
-            <div class="payment-card">
-                <h2 class="payment-name">Zelle</h2>
-                <img src="./zelle.svg" alt="Zelle" class="food-image">
-            </div>
-            <div class="payment-card centered-item">
-                <h2 class="payment-name">Cash</h2>
-                <img src="./cash.svg" alt="Zelle" class="food-image">
-            </div>
+    <div id="venmo-popup" class="popup-overlay hidden">
+        <div class="popup">
+            <h2>Venmo</h2>
+            <p>
+                Pay
+            </p>
+            <img>
+            <button>Close</button>
+        </div>
+    </div>
+    <div id="zelle-popup" class="popup-overlay hidden">
+        <div class="popup">
+            <h2>Zelle</h2>
+            <p>
+                Pay
+            </p>
+            <img>
+            <button>Close</button>
+        </div>
+    </div>
+    <div id="cash-popup" class="popup-overlay hidden">
+        <div class="popup">
+            <h2>Cash</h2>
+            <p>
+                Pay
+            </p>
+            <img>
+            <button>Close</button>
         </div>
     </div>
 </body>

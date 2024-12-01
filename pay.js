@@ -5,7 +5,11 @@ data.setSubtotal(getFieldFromStorage("subtotal"));
 data.setDiscounts(getFieldFromStorage("discounts"));
 data.setTip(getFieldFromStorage("tip"));
 data.setTotal(getFieldFromStorage("total"));
-function createPayRow(itemId) {
+for (const foodItem in data.cart) {
+    createRow(foodItem);
+}
+renderTotal();
+function createRow(itemId) {
     const foodItem = data.cart[itemId];
     const receiptTableBody = document.getElementById("receipt-table-body");
     const newRow = document.createElement("tr");
@@ -22,7 +26,7 @@ function createPayRow(itemId) {
     `;
     receiptTableBody.appendChild(newRow);
 }
-function renderPayTotal() {
+function renderTotal() {
     document.getElementById("subtotal-field").innerText = `$${data.getSubtotal().toFixed(2)}`;
     document.getElementById("discounts-field").innerText = `$${data.getDiscounts().toFixed(2)}`;
     document.getElementById("tip-field").innerText = `$${data.getTip().toFixed(2)}`;
@@ -31,7 +35,29 @@ function renderPayTotal() {
 document.querySelector(".back-button").addEventListener("click", () => {
     window.location.href = "./menu.html";
 });
-renderPayTotal();
-for (const foodItem in data.cart) {
-    createPayRow(foodItem);
-}
+// Show the popup and disable main content
+document.getElementById("venmo-card")?.addEventListener("click", () => {
+    document.getElementById("venmo-popup").classList.remove("hidden");
+    document.querySelector(".main-screen").classList.add("disabled");
+});
+document.getElementById("zelle-card")?.addEventListener("click", () => {
+    document.getElementById("zelle-popup").classList.remove("hidden");
+    document.querySelector(".main-screen").classList.add("disabled");
+});
+document.getElementById("cash-card")?.addEventListener("click", () => {
+    document.getElementById("cash-popup").classList.remove("hidden");
+    document.querySelector(".main-screen").classList.add("disabled");
+});
+// Hide the popup and re-enable main content
+document.querySelector("#venmo-popup button")?.addEventListener("click", () => {
+    document.getElementById("venmo-popup").classList.add("hidden");
+    document.querySelector(".main-screen").classList.remove("disabled");
+});
+document.querySelector("#zelle-popup button")?.addEventListener("click", () => {
+    document.getElementById("zelle-popup").classList.add("hidden");
+    document.querySelector(".main-screen").classList.remove("disabled");
+});
+document.querySelector("#cash-popup button")?.addEventListener("click", () => {
+    document.getElementById("cash-popup").classList.add("hidden");
+    document.querySelector(".main-screen").classList.remove("disabled");
+});
