@@ -1,29 +1,24 @@
-interface FoodItem {
-    name: string;
-    price: number;
-    image: string;
-    quantity: number;
+import { saveToStorage, getCartFromStorage, getFieldFromStorage } from "./storage.js";
+import { menuItems, cart } from "./data.js";
+import * as data from './data.js';
+
+data.setCart(getCartFromStorage());
+data.setSubtotal(getFieldFromStorage("subtotal"));
+data.setDiscounts(getFieldFromStorage("discounts"));
+data.setTip(getFieldFromStorage("tip"));
+data.setTotal(getFieldFromStorage("total"));
+
+for (const foodItem in data.cart) {
+    createRow(foodItem);
 }
-
-const menuItems: Record<string, FoodItem> = {
-    combo: { name: "Combo", price: 10, image: "./logo.png", quantity: 0 },
-    burger: { name: "Classic Smash Burger", price: 8, image: "./burger.png", quantity: 0 },
-    cola: { name: "Cola", price: 2, image: "./pepsi.png", quantity: 0 },
-    chips: { name: "Chips", price: 1, image: "./doritos.png", quantity: 0 },
-};
-
-let cart: Record<string, FoodItem> = {};
-let subtotal = 0;
-let discounts = 0;
-let tip = 0;
-let total = 0;
+renderTotal();
 
 function add(itemId: string) {
     if (!cart[itemId]) {
         cart[itemId] = { ...menuItems[itemId], quantity: 0 }; // Prevent unintended mutations
     }
     cart[itemId].quantity++;
-    subtotal += cart[itemId].price;
+    data.addToSubtotal(cart[itemId].price);
     calculateTotal();
     updateOrCreateRow(itemId);
 }
@@ -37,7 +32,7 @@ function updateQuantity(itemId: string, newQuantity: number) {
         cart[itemId].quantity = newQuantity;
         updateRow(itemId);
     }
-    subtotal += (newQuantity - oldQuantity) * price;
+    data.addToSubtotal((newQuantity - oldQuantity) * price);
     calculateTotal();
 }
 
@@ -48,10 +43,10 @@ function remove(itemId: string) {
 }
 
 function clear() {
-    cart = {};
+    data.emptyCart();
     const receiptTableBody = document.getElementById("receipt-table-body")!;
     receiptTableBody.replaceChildren(); // Clear all rows
-    subtotal = 0;
+    data.setSubtotal(0);
     calculateTotal();
 }
 
@@ -112,23 +107,23 @@ function getRowById(itemId: string): HTMLElement | null {
 }
 
 function calculateTotal() {
-    total = subtotal + tip - discounts;
+    data.updateTotal();
     renderTotal();
 }
 
 function renderTotal() {
-    document.getElementById("subtotal-field")!.innerText = `$${subtotal.toFixed(2)}`;
-    document.getElementById("discounts-field")!.innerText = `$${discounts.toFixed(2)}`;
-    document.getElementById("tip-field")!.innerText = `$${tip.toFixed(2)}`;
-    document.getElementById("total-field")!.innerText = `$${total.toFixed(2)}`;
+    document.getElementById("subtotal-field")!.innerText = `$${data.getSubtotal().toFixed(2)}`;
+    document.getElementById("discounts-field")!.innerText = `$${data.getDiscounts().toFixed(2)}`;
+    document.getElementById("tip-field")!.innerText = `$${data.getTip().toFixed(2)}`;
+    document.getElementById("total-field")!.innerText = `$${data.getTotal().toFixed(2)}`;
 }
 
 function saveData() {
-    localStorage.setItem("cart", JSON.stringify(cart));
-    localStorage.setItem("subtotal", JSON.stringify(subtotal));
-    localStorage.setItem("discounts", JSON.stringify(discounts));
-    localStorage.setItem("tip", JSON.stringify(tip));
-    localStorage.setItem("total", JSON.stringify(total));
+    saveToStorage("cart", data.cart);
+    saveToStorage("subtotal", data.getSubtotal());
+    saveToStorage("discounts", data.getDiscounts());
+    saveToStorage("tip", data.getTip());
+    saveToStorage("total", data.getTotal());
 }
 
 // Show the popup and disable main content
