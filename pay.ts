@@ -7,7 +7,12 @@ data.setDiscounts(getFieldFromStorage("discounts"));
 data.setTip(getFieldFromStorage("tip"));
 data.setTotal(getFieldFromStorage("total"));
 
-function createPayRow(itemId: string) {
+for (const foodItem in data.cart) {
+    createRow(foodItem);
+}
+renderTotal();
+
+function createRow(itemId: string) {
     const foodItem = data.cart[itemId];
     const receiptTableBody = document.getElementById("receipt-table-body")!;
 
@@ -26,7 +31,7 @@ function createPayRow(itemId: string) {
     receiptTableBody.appendChild(newRow);
 }
 
-function renderPayTotal() {
+function renderTotal() {
     document.getElementById("subtotal-field")!.innerText = `$${data.getSubtotal().toFixed(2)}`;
     document.getElementById("discounts-field")!.innerText = `$${data.getDiscounts().toFixed(2)}`;
     document.getElementById("tip-field")!.innerText = `$${data.getTip().toFixed(2)}`;
@@ -36,8 +41,3 @@ function renderPayTotal() {
 document.querySelector(".back-button")!.addEventListener("click", ()=> {
     window.location.href = "./menu.html";
 });
-renderPayTotal();
-
-for (const foodItem in data.cart) {
-    createPayRow(foodItem);
-}
