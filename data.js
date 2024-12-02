@@ -1,3 +1,5 @@
+import { renderTotal } from "./receipt";
+import { saveToStorage, getCartFromStorage, getFieldFromStorage } from "./storage";
 export const menuItems = {
     combo: { name: "Combo", price: 10, image: "./logo.png", quantity: 0 },
     burger: { name: "Classic Smash Burger", price: 8, image: "./burger.png", quantity: 0 },
@@ -22,9 +24,11 @@ export function getSubtotal() {
 }
 export function setSubtotal(newSubtotal) {
     subtotal = newSubtotal;
+    updateTotal();
 }
 export function addToSubtotal(amount) {
     subtotal += amount;
+    updateTotal();
 }
 // discounts
 export function getDiscounts() {
@@ -32,6 +36,7 @@ export function getDiscounts() {
 }
 export function setDiscounts(newDiscounts) {
     discounts = newDiscounts;
+    updateTotal();
 }
 // tip
 export function getTip() {
@@ -39,6 +44,7 @@ export function getTip() {
 }
 export function setTip(newTip) {
     tip = newTip;
+    updateTotal();
 }
 // total
 export function getTotal() {
@@ -49,4 +55,19 @@ export function setTotal(newTotal) {
 }
 export function updateTotal() {
     total = subtotal + tip - discounts;
+    renderTotal();
+}
+export function saveData() {
+    saveToStorage("cart", cart);
+    saveToStorage("subtotal", subtotal);
+    saveToStorage("discounts", discounts);
+    saveToStorage("tip", tip);
+    saveToStorage("total", total);
+}
+export function loadData() {
+    cart = getCartFromStorage();
+    subtotal = getFieldFromStorage("subtotal");
+    discounts = getFieldFromStorage("discounts");
+    tip = getFieldFromStorage("tip");
+    total = getFieldFromStorage("total");
 }

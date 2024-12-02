@@ -1,3 +1,6 @@
+import { renderTotal } from "./receipt";
+import { saveToStorage, getCartFromStorage, getFieldFromStorage } from "./storage";
+
 export interface FoodItem {
     name: string;
     price: number;
@@ -34,10 +37,12 @@ export function getSubtotal() {
 
 export function setSubtotal(newSubtotal: number) {
     subtotal = newSubtotal;
+    updateTotal();
 }
 
 export function addToSubtotal(amount: number) {
     subtotal += amount;
+    updateTotal();
 }
 
 // discounts
@@ -47,6 +52,7 @@ export function getDiscounts() {
 
 export function setDiscounts(newDiscounts: number) {
     discounts = newDiscounts;
+    updateTotal();
 }
 
 // tip
@@ -56,6 +62,7 @@ export function getTip() {
 
 export function setTip(newTip: number) {
     tip = newTip;
+    updateTotal();
 }
 
 // total
@@ -69,8 +76,24 @@ export function setTotal(newTotal: number) {
 
 export function updateTotal() {
     total = subtotal + tip - discounts;
+    renderTotal();
 }
 
+export function saveData() {
+    saveToStorage("cart", cart);
+    saveToStorage("subtotal", subtotal);
+    saveToStorage("discounts", discounts);
+    saveToStorage("tip", tip);
+    saveToStorage("total", total);
+}
+
+export function loadData() {
+    cart = getCartFromStorage();
+    subtotal = getFieldFromStorage("subtotal");
+    discounts = getFieldFromStorage("discounts");
+    tip = getFieldFromStorage("tip");
+    total = getFieldFromStorage("total");
+}
 
 
 
