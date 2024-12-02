@@ -7,6 +7,7 @@ export function add(itemId: string) {
     }
     cart[itemId].quantity++;
     data.addToSubtotal(cart[itemId].price);
+    data.saveData();
     updateOrCreateRow(itemId);
 }
 
@@ -20,6 +21,7 @@ function updateQuantity(itemId: string, newQuantity: number) {
         updateRow(itemId);
     }
     data.addToSubtotal((newQuantity - oldQuantity) * price);
+    data.saveData();
 }
 
 function remove(itemId: string) {
@@ -33,6 +35,7 @@ export function clear() {
     const receiptTableBody = document.getElementById("receipt-table-body")!;
     receiptTableBody.replaceChildren(); // Clear all rows
     data.setSubtotal(0);
+    data.saveData();
 }
 
 function updateOrCreateRow(itemId: string) {
