@@ -145,6 +145,10 @@ document.querySelector("#follower-popup button")?.addEventListener("click", () =
 document.querySelector("#tip-popup button")?.addEventListener("click", () => {
     document.getElementById("tip-popup")!.classList.add("hidden");
     document.querySelector(".main-screen")!.classList.remove("disabled");
+    const newTip = parseInt((document.querySelector(".slider") as HTMLInputElement).value);
+    data.setTip(newTip);
+    calculateTotal();
+    renderTotal();
 });
 
 
