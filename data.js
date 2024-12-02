@@ -1,5 +1,5 @@
-import { renderTotal } from "./receipt";
-import { saveToStorage, getCartFromStorage, getFieldFromStorage } from "./storage";
+import { renderTotal } from "./receipt.js";
+import { saveToStorage, getCartFromStorage, getFieldFromStorage } from "./storage.js";
 export const menuItems = {
     combo: { name: "Combo", price: 10, image: "./logo.png", quantity: 0 },
     burger: { name: "Classic Smash Burger", price: 8, image: "./burger.png", quantity: 0 },

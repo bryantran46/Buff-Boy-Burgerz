@@ -1,5 +1,5 @@
-import { renderTotal } from "./receipt";
-import { saveToStorage, getCartFromStorage, getFieldFromStorage } from "./storage";
+import { renderTotal } from "./receipt.js";
+import { saveToStorage, getCartFromStorage, getFieldFromStorage } from "./storage.js";
 
 export interface FoodItem {
     name: string;
