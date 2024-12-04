@@ -258,8 +258,8 @@ h1 {
 
 /* Disable clicks on main content when overlay is active */
 .main-screen.disabled {
-    pointer-events: none; /* Disable interactions */
-    filter: blur(3px);    /* Optional: add a blur effect */
+    pointer-events: none;   /* Disable interactions */
+    /* filter: blur(1px);   /* Optional: add a blur effect */
 }
 .popup img {
     width: 70%;

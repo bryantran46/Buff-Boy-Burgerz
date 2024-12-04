@@ -163,6 +163,16 @@
     height: 18vw;
 }
 
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent grey background */
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
 /* Hidden class to toggle visibility */
 .popup-overlay.hidden {
     display: none;
@@ -187,8 +197,8 @@
 
 /* Disable clicks on main content when overlay is active */
 .main-screen.disabled {
-    pointer-events: none; /* Disable interactions */
-    filter: blur(3px);    /* Optional: add a blur effect */
+    pointer-events: none;   /* Disable interactions */
+    /* filter: blur(1px);   /*Optional: add a blur effect */
 }
 .popup img {
     width: 70%;
