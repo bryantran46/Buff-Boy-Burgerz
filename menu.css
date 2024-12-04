@@ -55,6 +55,13 @@
     grid-column: 1 / 2;
     width: 7vw;
     align-self: center;
+    justify-self: center;
+}
+.receipt-cell img[alt="Cola"] {
+    width: 4.5vw;
+}
+.receipt-cell img[alt="Chips"] {
+    width: 4.5vw;
 }
 .item-quantity {
     grid-row: 1 / 2;
@@ -205,6 +212,18 @@ h1 {
     width: 10vw;
     align-self: center;
 }
+.item-card[data-id="burger"] img {
+    width: 16vw;
+}
+.item-card[data-id="combo"] img {
+    width: 13vw;
+}
+.item-card[data-id="cola"] img {
+    width: 8vw;
+}
+.item-card[data-id="chips"] img {
+    width: 8vw;
+}
 .slider {
     -webkit-appearance: none;
     appearance: none; 
@@ -220,7 +239,7 @@ h1 {
     appearance: none; 
     height: 10vh;
     width: 11vh;
-    background-image: url("./logo.png");
+    background-image: url("./images/logo.webp");
     background-size: cover;
 }
 

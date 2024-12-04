@@ -1,10 +1,10 @@
 import { renderTotal } from "./receipt.js";
 import { saveToStorage, getCartFromStorage, getFieldFromStorage } from "./storage.js";
 export const menuItems = {
-    combo: { name: "Combo", price: 10, image: "./logo.png", quantity: 0 },
-    burger: { name: "Classic Smash Burger", price: 8, image: "./burger.png", quantity: 0 },
-    cola: { name: "Cola", price: 2, image: "./pepsi.png", quantity: 0 },
-    chips: { name: "Chips", price: 1, image: "./doritos.png", quantity: 0 },
+    combo: { name: "Combo", price: 10, image: "./images/combo.webp", quantity: 0 },
+    burger: { name: "Classic Smash Burger", price: 8, image: "./images/burger.webp", quantity: 0 },
+    cola: { name: "Cola", price: 2, image: "./images/pepsi.webp", quantity: 0 },
+    chips: { name: "Chips", price: 1, image: "./images/doritos.webp", quantity: 0 },
 };
 export let cart = {};
 let subtotal = 0;

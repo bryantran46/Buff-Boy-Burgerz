@@ -56,6 +56,13 @@
     grid-column: 1 / 2;
     width: 7vw;
     align-self: center;
+    justify-self: center;
+}
+.receipt-cell img[alt="Cola"] {
+    width: 4.5vw;
+}
+.receipt-cell img[alt="Chips"] {
+    width: 4.5vw;
 }
 .item-quantity {
     grid-row: 1 / 2;
