@@ -1,61 +1,48 @@
-import { loadData, saveData, setTip } from './data.js';
+import { loadData, setTip } from './data.js';
+import { hidePopup, showPopup } from './popup.js';
 import { renderTotal, add, clear, renderReceipt } from "./receipt.js";
+
+const popups = ["follower", "tip"];
 
 loadData();
 renderReceipt();
 renderTotal();
 
 // Show the popup and disable main content
-document.getElementById("follower-card")?.addEventListener("click", () => {
-    document.getElementById("follower-popup")!.classList.remove("hidden");
-    document.querySelector(".main-screen")!.classList.add("disabled");
-});
-
-document.getElementById("tip-card")?.addEventListener("click", () => {
-    document.getElementById("tip-popup")!.classList.remove("hidden");
-    document.querySelector(".main-screen")!.classList.add("disabled");
+popups.forEach((method) => {
+    document.getElementById(`${method}-card`)?.addEventListener("click", () => showPopup(`${method}-popup`));
 });
 
 // Hide the popup and re-enable main content
-document.querySelector("#follower-popup button")?.addEventListener("click", () => {
-    document.getElementById("follower-popup")!.classList.add("hidden");
-    document.querySelector(".main-screen")!.classList.remove("disabled");
-});
-document.querySelector("#tip-popup button")?.addEventListener("click", () => {
-    document.getElementById("tip-popup")!.classList.add("hidden");
-    document.querySelector(".main-screen")!.classList.remove("disabled");
-    const newTip = parseInt((document.querySelector(".slider") as HTMLInputElement).value);
-    setTip(newTip);
-});
+document.querySelector(`#follower-popup button`)?.addEventListener("click", () => hidePopup(`follower-popup`));
+document.querySelector(`#tip-popup button`)?.addEventListener("click", () => 
+    hidePopup(`tip-popup`, () => {
+        const newTip = parseInt((document.querySelector(".slider") as HTMLInputElement).value, 10);
+        setTip(newTip);
+    })
+);
 
-
+// slider logic
 const slider = document.querySelector(".slider")! as HTMLInputElement;
 slider.addEventListener("input", (event) => {
     const sliderValue = document.querySelector(".value")!;
     const target = event.target as HTMLInputElement; // Cast target to HTMLInputElement
     const tempSliderValue = Number(target.value); 
     sliderValue.textContent = `$${tempSliderValue}`; 
-
     const max = Number(target.max); // Get max value of the slider
     const progress = (tempSliderValue / max) * 100;
-
     slider.style.background = `linear-gradient(to right, #30b1e6 ${progress}%, #ccc ${progress}%)`;
 });
 
 // Event listeners for the food items
 document.querySelectorAll(".food-item").forEach((element) => {
-    element.addEventListener("click", () => {
-        const itemId = (element as HTMLElement).dataset.id;
-        if (itemId) {
-            add(itemId);
-        }
-    });
+    element.addEventListener("click", () => add((element as HTMLElement).dataset.id!));
 });
 
 // Event listener for the cancel button
 document.querySelector(".cancel-button")!.addEventListener("click", clear);
 
+// Event listener for the pay button
 document.querySelector(".pay-button")!.addEventListener("click", ()=> {
-    saveData();
     window.location.href = "./pay.html";
 });

@@ -1,28 +1,20 @@
-import { loadData, saveData, setTip } from './data.js';
+import { loadData, setTip } from './data.js';
+import { hidePopup, showPopup } from './popup.js';
 import { renderTotal, add, clear, renderReceipt } from "./receipt.js";
+const popups = ["follower", "tip"];
 loadData();
 renderReceipt();
 renderTotal();
 // Show the popup and disable main content
-document.getElementById("follower-card")?.addEventListener("click", () => {
-    document.getElementById("follower-popup").classList.remove("hidden");
-    document.querySelector(".main-screen").classList.add("disabled");
-});
-document.getElementById("tip-card")?.addEventListener("click", () => {
-    document.getElementById("tip-popup").classList.remove("hidden");
-    document.querySelector(".main-screen").classList.add("disabled");
+popups.forEach((method) => {
+    document.getElementById(`${method}-card`)?.addEventListener("click", () => showPopup(`${method}-popup`));
 });
 // Hide the popup and re-enable main content
-document.querySelector("#follower-popup button")?.addEventListener("click", () => {
-    document.getElementById("follower-popup").classList.add("hidden");
-    document.querySelector(".main-screen").classList.remove("disabled");
-});
-document.querySelector("#tip-popup button")?.addEventListener("click", () => {
-    document.getElementById("tip-popup").classList.add("hidden");
-    document.querySelector(".main-screen").classList.remove("disabled");
-    const newTip = parseInt(document.querySelector(".slider").value);
+document.querySelector(`#follower-popup button`)?.addEventListener("click", () => hidePopup(`follower-popup`));
+document.querySelector(`#tip-popup button`)?.addEventListener("click", () => hidePopup(`tip-popup`, () => {
+    const newTip = parseInt(document.querySelector(".slider").value, 10);
     setTip(newTip);
-});
+}));
 const slider = document.querySelector(".slider");
 slider.addEventListener("input", (event) => {
     const sliderValue = document.querySelector(".value");
@@ -35,16 +27,11 @@ slider.addEventListener("input", (event) => {
 });
 // Event listeners for the food items
 document.querySelectorAll(".food-item").forEach((element) => {
-    element.addEventListener("click", () => {
-        const itemId = element.dataset.id;
-        if (itemId) {
-            add(itemId);
-        }
-    });
+    element.addEventListener("click", () => add(element.dataset.id));
 });
 // Event listener for the cancel button
 document.querySelector(".cancel-button").addEventListener("click", clear);
+// Event listener for the pay button
 document.querySelector(".pay-button").addEventListener("click", () => {
-    saveData();
     window.location.href = "./pay.html";
 });
