@@ -1,4 +1,4 @@
-import { loadData, setTip } from './data.js';
+import { loadData, saveData, setTip } from './data.js';
 import { hidePopup, showPopup } from './popup.js';
 import { renderTotal, add, clear, renderReceipt } from "./receipt.js";
 
@@ -19,6 +19,7 @@ document.querySelector(`#tip-popup button`)?.addEventListener("click", () =>
     hidePopup(`tip-popup`, () => {
         const newTip = parseInt((document.querySelector(".slider") as HTMLInputElement).value, 10);
         setTip(newTip);
+        saveData();
     })
 );
 

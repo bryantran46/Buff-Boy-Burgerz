@@ -1,4 +1,4 @@
-import { loadData, setTip } from './data.js';
+import { loadData, saveData, setTip } from './data.js';
 import { hidePopup, showPopup } from './popup.js';
 import { renderTotal, add, clear, renderReceipt } from "./receipt.js";
 const popups = ["follower", "tip"];
@@ -14,7 +14,9 @@ document.querySelector(`#follower-popup button`)?.addEventListener("click", () =
 document.querySelector(`#tip-popup button`)?.addEventListener("click", () => hidePopup(`tip-popup`, () => {
     const newTip = parseInt(document.querySelector(".slider").value, 10);
     setTip(newTip);
+    saveData();
 }));
+// slider logic
 const slider = document.querySelector(".slider");
 slider.addEventListener("input", (event) => {
     const sliderValue = document.querySelector(".value");
