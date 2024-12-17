@@ -18,6 +18,13 @@ export function emptyCart() {
 export function setCart(newCart) {
     cart = newCart;
 }
+export function getOrder() {
+    const order = {};
+    for (const item in cart) {
+        order[item] = cart[item]['quantity'];
+    }
+    return order;
+}
 // subtotal
 export function getSubtotal() {
     return subtotal;

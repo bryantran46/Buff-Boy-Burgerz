@@ -30,6 +30,14 @@ export function setCart(newCart: Cart) {
     cart = newCart;
 }
 
+export function getOrder() {
+    const order: Record<string, number> = {};
+    for (const item in cart) {
+        order[item] = cart[item]['quantity'];
+    }
+    return order;
+}
+
 // subtotal
 export function getSubtotal() {
     return subtotal;

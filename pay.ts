@@ -1,4 +1,4 @@
-import { loadData } from './data.js';
+import { loadData, getTotal, getOrder } from './data.js';
 import { renderReceipt, renderTotal } from "./receipt.js";
 import { showPopup, hidePopup } from './popup.js';
 
@@ -19,5 +19,26 @@ popups.forEach((method) => {
 
 // Attach event listeners for hiding popups
 popups.forEach((method) => {
-    document.querySelector(`#${method}-popup button`)?.addEventListener("click", () => hidePopup(`${method}-popup`));
+    document.querySelector(`#${method}-popup .close-button`)?.addEventListener("click", () => hidePopup(`${method}-popup`));
 });
+
+document.querySelector(`#venmo-popup .paid-button`)?.addEventListener("click", async () => {
+    alert('Add stuff');
+});
+
+
+
+/*
+
+id
+
+typescript {
+    payment method
+    total
+    cart
+}
+python {
+    name
+    time
+}
+*/

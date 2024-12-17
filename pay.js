@@ -14,5 +14,22 @@ popups.forEach((method) => {
 });
 // Attach event listeners for hiding popups
 popups.forEach((method) => {
-    document.querySelector(`#${method}-popup button`)?.addEventListener("click", () => hidePopup(`${method}-popup`));
+    document.querySelector(`#${method}-popup .close-button`)?.addEventListener("click", () => hidePopup(`${method}-popup`));
 });
+document.querySelector(`#venmo-popup .paid-button`)?.addEventListener("click", async () => {
+    alert();
+});
+/*
+
+id
+
+typescript {
+    payment method
+    total
+    cart
+}
+python {
+    name
+    time
+}
+*/ 
