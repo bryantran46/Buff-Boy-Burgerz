@@ -9,7 +9,7 @@ renderReceipt();
 renderTotal();
 
 document.querySelector(".back-button")!.addEventListener("click", () => {
-    window.location.href = "./menu.html";
+    window.location.href = "./order";
 });
 
 // Attach event listeners for showing popups

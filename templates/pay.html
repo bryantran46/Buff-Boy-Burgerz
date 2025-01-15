@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Gallery</title>
-    <link rel="stylesheet" href="pay.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pay.css') }}">
 </head>
 <body>
     <div class="main-screen">
@@ -64,15 +64,15 @@
             <div class="payment-gallery">
                 <div id="venmo-card" class="payment-card">
                     <h2 class="payment-name">Venmo</h2>
-                    <img src="./images/venmo.svg" alt="Zelle" class="food-image">
+                    <img src="{{ url_for('static', filename='images/venmo.svg') }}" alt="Zelle" class="food-image">
                 </div>
                 <div id="zelle-card" class="payment-card">
                     <h2 class="payment-name">Zelle</h2>
-                    <img src="./images/zelle.svg" alt="Zelle" class="food-image">
+                    <img src="{{ url_for('static', filename='images/zelle.svg') }}" alt="Zelle" class="food-image">
                 </div>
                 <div id="cash-card" class="payment-card centered-item">
                     <h2 class="payment-name">Cash</h2>
-                    <img src="./images/cash.svg" alt="Zelle" class="food-image">
+                    <img src="{{ url_for('static', filename='images/cash.svg') }}" alt="Zelle" class="food-image">
                 </div>
             </div>
         </div>
@@ -85,7 +85,7 @@
             <p>
                 Pay
             </p>
-            <img src="./images/venmo_qr.png">
+            <img src="{{ url_for('static', filename='images/venmo_qr.png') }}">
             <button class="paid-button">I paid!</button>
         </div>
     </div>
@@ -107,13 +107,9 @@
             <p>
                 Pay
             </p>
-            <div>I'm ready!</div>
-            <div>I'm ready!</div>
-            <button>Close</button>
             <div>I'm ready!</div>      
-            <button>Close</button>
         </div>
     </div>
 </body>
-<script type="module" src="./pay.js"></script>
+<script type="module" src="{{ url_for('static', filename='js/pay.js') }}"></script>
 </html>

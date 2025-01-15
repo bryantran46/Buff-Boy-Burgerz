@@ -10,10 +10,10 @@ export interface FoodItem {
 export type Cart = Record<string, FoodItem>;
 
 export const menuItems: Record<string, FoodItem> = {
-    combo: { name: "Combo", price: 10, image: "./images/combo.webp", quantity: 0 },
-    burger: { name: "Classic Smash Burger", price: 8, image: "./images/burger.webp", quantity: 0 },
-    cola: { name: "Cola", price: 2, image: "./images/pepsi.webp", quantity: 0 },
-    chips: { name: "Chips", price: 1, image: "./images/doritos.webp", quantity: 0 },
+    combo: { name: "Combo", price: 10, image: "static/images/combo.webp", quantity: 0 },
+    burger: { name: "Classic Smash Burger", price: 8, image: "static/images/burger.webp", quantity: 0 },
+    cola: { name: "Cola", price: 2, image: "static/images/pepsi.webp", quantity: 0 },
+    chips: { name: "Chips", price: 1, image: "static/images/doritos.webp", quantity: 0 },
 };
 export let cart: Cart = {};
 let subtotal: number = 0;

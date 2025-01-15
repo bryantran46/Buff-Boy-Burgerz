@@ -45,5 +45,5 @@ document.querySelector(".cancel-button")!.addEventListener("click", clear);
 
 // Event listener for the pay button
 document.querySelector(".pay-button")!.addEventListener("click", ()=> {
-    window.location.href = "./pay.html";
+    window.location.href = "./pay";
 });
