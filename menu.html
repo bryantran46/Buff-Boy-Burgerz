@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Gallery</title>
+    <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+    <div class="main-screen">
+        <div class="receipt">
+            <div class="receipt-info">
+                You can change or remove an item on the receipt by tapping it
+            </div>
+            <div class="cart">
+                <table class="receipt-table">
+                    <tbody id="receipt-table-body">
+                        <!-- <tr>
+                            <td class="receipt-cell">
+                                <div class="item-container">
+                                    <img src="./burger.png" alt="Classic Smash Burger" class="food-image">
+                                    <div class="item-quantity">Quantity: 1</div>
+                                    <button class="edit-button">Edit</button>
+                                    <div class="item-name">Classic Smash Burger</div>
+                                    <div class="item-price">$8.00</div>
+                                </div>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="checkout-total">
+                <table class="total-table">
+                    <tbody>
+                        <tr>
+                            <td class="total-cell">
+                                <div class="total-label">Subtotal:</div>
+                                <div class="total-amount" id="subtotal-field">$0.00</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="total-cell">
+                                <div class="total-label">Discounts:</div>
+                                <div class="total-amount" id="discounts-field">$0.00</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="total-cell">
+                                <div class="total-label">Tip:</div>
+                                <div class="total-amount" id="tip-field">$0.00</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="total-cell">
+                                <div class="total-label">Total:</div>
+                                <div class="total-amount" id="total-field">$0.00</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="checkout-buttons">
+                <button class="cancel-button">Cancel Order</button>
+                <button class="pay-button">Pay for Order</button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <div class="checkered-strip"></div>
+                <h1>Buff Boy Burgerz Menu</h1>
+            </div>
+            <div class="food-gallery">
+                <div class="item-card food-item" data-id="combo">
+                    <h2 class="food-name">Combo</h2>
+                    <img src="./images/combo.webp" alt="Combo" class="food-image">
+                </div>
+                <div class="item-card food-item" data-id="burger">
+                    <h2 class="food-name">Classic Smash Burger</h2>
+                    <img src="./images/burger.webp" alt="Classic Smash Burger" class="food-image">
+                </div>
+                <div class="item-card food-item" data-id="cola">
+                    <h2 class="food-name">Cola</h2>
+                    <img src="./images/pepsi.webp" alt="Cola" class="food-image">
+                </div>
+                <div class="item-card food-item" data-id="chips">
+                    <h2 class="food-name">Chips</h2>
+                    <img src="./images/doritos.webp" alt="Chips" class="food-image">
+                </div>
+                <div id="follower-card" class="item-card">
+                    <h2 class="food-name">Follower Discount</h2>
+                    <img src="./images/instagram.svg" alt="Follower Discount" class="food-image">
+                </div>
+                <div id="tip-card" class="item-card">
+                    <h2 class="food-name">Tips</h2>
+                    <img src="./images/tip.webp" alt="Tips" class="food-image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="follower-popup" class="popup-overlay hidden">
+        <div class="popup">
+            <h2>Follower Discount</h2>
+            <p>
+                Follow us on Instagram @buffboyburgerz for $1 off each burger and combo. 
+                You can scan the QR code to find our Instagram. Show us your phone and 
+                we'll apply the discount to your order.
+            </p>
+            <img src="./images/buffboyburgerz_qr.png">
+            <button>Close</button>
+        </div>
+    </div>
+
+    <div id="tip-popup" class="popup-overlay hidden">
+        <div class="popup">
+            <h2>Tip</h2>
+            <p>
+                No obligation to tip us! But if you liked our service, why not show us some love?
+            </p>
+            <div class="value">$0</div>
+            <input class="slider" type="range" value="0" min="0" max="10"/>
+            <button>Confirm</button>
+        </div>
+    </div>
+</body>
+<script type="module" src="./menu.js"></script>
+</html>

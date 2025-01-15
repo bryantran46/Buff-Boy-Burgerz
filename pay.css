@@ -1,0 +1,212 @@
+:root {
+    --base-bg-color: #fafaea;
+    --primary-color: #e98d31;
+    --seconary-color: #30b1e6;
+    --tertiary-color: white;
+    background-color: rgb(44, 42, 42);
+} 
+.main-screen {
+    margin: 4vh 3vw;
+    display: flex;
+    justify-content: space-between;
+}
+.receipt {
+    width: 27vw;
+    height: 92vh;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+}
+.receipt-header {
+    background-color: var(--base-bg-color);
+    height: 8vh;
+    width: 27vw;
+    border-radius: 20px 20px 0 0 ;
+}
+.receipt-header button {
+    margin: 3vh 2vw;
+}
+.cart {
+    background-color: var(--base-bg-color);
+    width: 27vw;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 0 0 20px 20px;
+}
+.receipt-table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+.receipt-cell {
+    border: 1px solid var(--primary-color);
+    border-left: 0;
+    border-right: 0;
+}
+.item-container {
+    display: grid;
+    grid-template-rows: repeat(2, 6vh);
+    grid-template-columns: 8vw 10vw 8vw;
+}
+.receipt-cell img {
+    grid-row: 1 / 3;
+    grid-column: 1 / 2;
+    width: 7vw;
+    align-self: center;
+    justify-self: center;
+}
+.receipt-cell img[alt="Cola"] {
+    width: 4.5vw;
+}
+.receipt-cell img[alt="Chips"] {
+    width: 4.5vw;
+}
+.item-quantity {
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+    align-self: flex-end;
+}
+.edit-button {
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+    align-self: flex-start;
+    height: 2.5vh;
+    width: 4vw;
+    border-radius: 10px;
+}
+.item-name {
+    grid-row: 1 / 2;
+    grid-column: 3 / 4;
+    justify-self: flex-end;
+    align-self: flex-end;
+    text-align: end;
+}
+.item-price {
+    grid-row: 2 / 3;
+    grid-column: 3 / 4;
+    justify-self: flex-end;
+    font-weight: bold;
+}
+.checkout-total {
+    width: 27vw;
+    height: 20vh;
+    display: flex;
+}
+.total-table {
+    align-self: flex-end;
+    margin: auto;
+    margin-top: 1vh;
+    height: 18vh;
+    width: 27vw;
+    background-color: white;
+    border-radius: 10px;
+    border-collapse: collapse;
+}
+.total-cell {
+    display: grid;
+    grid-template-rows: 4vh;
+    grid-template-columns: 3vw 12vw 5vw;
+    align-items: center;
+}
+.total-cell div{
+    font-size: 1.5em;
+}
+.total-label {
+    grid-column: 2 / 3;
+}
+.total-amount {
+    justify-self: flex-end;
+}
+.main-content {
+    width: 64vw;
+    height: 92vh;
+    background-color: var(--base-bg-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.payment-gallery {
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 28vw); 
+    grid-template-rows: 35vh;
+    row-gap: 4vh;
+    column-gap: 3vw;
+    background-color: transparent;
+}
+.payment-card {
+    width: 28vw;
+    height: 35vh;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; */
+    display: grid;
+    grid-template-rows: 8vh 27vh;
+    justify-items: center;
+    text-align: center;
+    background-color: #fdf7dc;
+    border: 3px solid var(--primary-color);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.centered-item {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 59vw;
+}
+.payment-name {
+    font-size: 2em;
+    margin: 0;
+    align-self: center;
+}
+.payment-card img {
+    height: 18vw;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent grey background */
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+/* Hidden class to toggle visibility */
+.popup-overlay.hidden {
+    display: none;
+}
+
+/* Popup content */
+.popup {
+    position: fixed;
+    background: white;
+    width: 56vw;
+    height: 90vh;
+    top: 4vh;
+    left: 32vw;
+    border-radius: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1vh 4vw;
+}
+
+/* Disable clicks on main content when overlay is active */
+.main-screen.disabled {
+    pointer-events: none;   /* Disable interactions */
+    /* filter: blur(1px);   /*Optional: add a blur effect */
+}
+.popup img {
+    width: 70%;
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Gallery</title>
+    <link rel="stylesheet" href="pay.css">
+</head>
+<body>
+    <div class="main-screen">
+        <div class="receipt">
+            <div class="receipt-header">
+                <button class="back-button">back</button>
+            </div>
+            <div class="cart">
+                <table class="receipt-table">
+                    <tbody id="receipt-table-body">
+                        <!-- <tr>
+                            <td class="receipt-cell">
+                                <div class="item-container">
+                                    <img src="./burger.png" alt="Classic Smash Burger" class="food-image">
+                                    <div class="item-quantity">Quantity: 1</div>
+                                    <div class="item-name">Classic Smash Burger</div>
+                                    <div class="item-price">$8.00</div>
+                                </div>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="checkout-total">
+                <table class="total-table">
+                    <tbody>
+                        <tr>
+                            <td class="total-cell">
+                                <div class="total-label">Subtotal:</div>
+                                <div class="total-amount" id="subtotal-field">$0.00</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="total-cell">
+                                <div class="total-label">Discounts:</div>
+                                <div class="total-amount" id="discounts-field">$0.00</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="total-cell">
+                                <div class="total-label">Tip:</div>
+                                <div class="total-amount" id="tip-field">$0.00</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="total-cell">
+                                <div class="total-label">Total:</div>
+                                <div class="total-amount" id="total-field">$0.00</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="payment-gallery">
+                <div id="venmo-card" class="payment-card">
+                    <h2 class="payment-name">Venmo</h2>
+                    <img src="./images/venmo.svg" alt="Zelle" class="food-image">
+                </div>
+                <div id="zelle-card" class="payment-card">
+                    <h2 class="payment-name">Zelle</h2>
+                    <img src="./images/zelle.svg" alt="Zelle" class="food-image">
+                </div>
+                <div id="cash-card" class="payment-card centered-item">
+                    <h2 class="payment-name">Cash</h2>
+                    <img src="./images/cash.svg" alt="Zelle" class="food-image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="venmo-popup" class="popup-overlay hidden">
+        <div class="popup">
+            <button class="close-button">Close</button>
+            <h2>Venmo</h2>
+            <p>
+                Pay
+            </p>
+            <img src="./images/venmo_qr.png">
+            <button class="paid-button">I paid!</button>
+        </div>
+    </div>
+    <div id="zelle-popup" class="popup-overlay hidden">
+        <div class="popup">
+            <button class="close-button">Close</button>
+            <h2>Zelle</h2>
+            <p>
+                Pay
+            </p>
+            <div>bryantran0214@gmail.com</div>
+            <button class="paid-button">I paid!</button>
+        </div>
+    </div>
+    <div id="cash-popup" class="popup-overlay hidden">
+        <div class="popup">
+            <button class="close-button">Close</button>
+            <h2>Cash</h2>
+            <p>
+                Pay
+            </p>
+            <div>I'm ready!</div>
+            <div>I'm ready!</div>
+            <button>Close</button>
+            <div>I'm ready!</div>      
+            <button>Close</button>
+        </div>
+    </div>
+</body>
+<script type="module" src="./pay.js"></script>
+</html>
