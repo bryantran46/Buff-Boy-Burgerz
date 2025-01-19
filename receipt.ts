@@ -41,13 +41,9 @@ function remove(itemId: string) {
 }
 
 export function clear() {
-    data.emptyCart();
+    data.resetData();
     const receiptTableBody = document.getElementById("receipt-table-body")!;
     receiptTableBody.replaceChildren(); // Clear all rows
-    data.setNumBurgers(0);
-    data.setApplyDiscounts(false);
-    data.setSubtotal(0);
-    data.saveData();
 }
 
 function updateOrCreateRow(itemId: string) {

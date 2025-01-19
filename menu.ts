@@ -1,6 +1,7 @@
-import { loadData, saveData, setTip, setApplyDiscounts } from './data.js';
+import { loadData, saveData, setTip, setApplyDiscounts, getTip } from './data.js';
 import { hidePopup, showPopup } from './popup.js';
 import { renderTotal, add, clear, renderReceipt } from "./receipt.js";
+import { initializeSlider, reloadSlider } from './slider.js';
 
 const popups = ["follower", "tip"];
 
@@ -16,10 +17,7 @@ popups.forEach((method) => {
 // Hide the popup and re-enable main content
 document.querySelector(`#follower-popup button`)?.addEventListener("click", () => hidePopup(`follower-popup`));
 document.querySelector(`#tip-popup button`)?.addEventListener("click", () => 
-    hidePopup(`tip-popup`, () => {
-        
-    })
-);
+    hidePopup(`tip-popup`, () => reloadSlider()));
 
 // Set follower discount
 document.querySelector(`#follower-popup .follow-button`)?.addEventListener("click", () => 
@@ -39,16 +37,7 @@ document.querySelector(`#tip-popup .tip-button`)?.addEventListener("click", () =
 );
 
 // slider logic
-const slider = document.querySelector(".slider")! as HTMLInputElement;
-slider.addEventListener("input", (event) => {
-    const sliderValue = document.querySelector(".value")!;
-    const target = event.target as HTMLInputElement; // Cast target to HTMLInputElement
-    const tempSliderValue = Number(target.value); 
-    sliderValue.textContent = `$${tempSliderValue}`; 
-    const max = Number(target.max); // Get max value of the slider
-    const progress = (tempSliderValue / max) * 100;
-    slider.style.background = `linear-gradient(to right, #30b1e6 ${progress}%, #ccc ${progress}%)`;
-});
+initializeSlider();
 
 // Event listeners for the food items
 document.querySelectorAll(".food-item").forEach((element) => {

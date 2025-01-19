@@ -67,7 +67,7 @@ export function setDiscounts(newDiscounts) {
 }
 export function updateDiscounts() {
     if (applyDiscounts) {
-        discounts = numBurgers;
+        discounts = -numBurgers;
         updateTotal();
     }
 }
@@ -87,7 +87,18 @@ export function setTotal(newTotal) {
     total = newTotal;
 }
 export function updateTotal() {
-    total = subtotal + tip - discounts;
+    total = subtotal + tip + discounts;
+    renderTotal();
+}
+export function resetData() {
+    emptyCart();
+    numBurgers = 0;
+    subtotal = 0;
+    applyDiscounts = false;
+    discounts = 0;
+    tip = 0;
+    total = 0;
+    saveData();
     renderTotal();
 }
 export function saveData() {

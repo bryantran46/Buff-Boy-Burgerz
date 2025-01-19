@@ -38,13 +38,9 @@ function remove(itemId) {
     data.saveData();
 }
 export function clear() {
-    data.setNumBurgers(0);
-    data.setApplyDiscounts(false);
-    data.emptyCart();
+    data.resetData();
     const receiptTableBody = document.getElementById("receipt-table-body");
     receiptTableBody.replaceChildren(); // Clear all rows
-    data.setSubtotal(0);
-    data.saveData();
 }
 function updateOrCreateRow(itemId) {
     const row = getRowById(itemId);
