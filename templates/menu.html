@@ -101,6 +101,7 @@
 
     <div id="follower-popup" class="popup-overlay hidden">
         <div class="popup">
+            <button>Close</button>
             <h2>Follower Discount</h2>
             <p>
                 Follow us on Instagram @buffboyburgerz for $1 off each burger and combo. 
@@ -108,19 +109,20 @@
                 we'll apply the discount to your order.
             </p>
             <img src="{{ url_for('static', filename='images/buffboyburgerz_qr.png') }}">
-            <button>Close</button>
+            <button class="follow-button">I followed!</button>
         </div>
     </div>
 
     <div id="tip-popup" class="popup-overlay hidden">
         <div class="popup">
+            <button>Close</button>
             <h2>Tip</h2>
             <p>
                 No obligation to tip us! But if you liked our service, why not show us some love?
             </p>
             <div class="value">$0</div>
             <input class="slider" type="range" value="0" min="0" max="10"/>
-            <button>Confirm</button>
+            <button class="tip-button">Confirm</button>
         </div>
     </div>
 </body>

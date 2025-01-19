@@ -1,5 +1,5 @@
 import { renderTotal } from "./receipt.js";
-import { saveToStorage, getCartFromStorage, getFieldFromStorage } from "./storage.js";
+import { saveToStorage, getCartFromStorage, getNumFromStorage, getBoolFromStorage } from "./storage.js";
 
 export interface FoodItem {
     name: string;
@@ -16,7 +16,9 @@ export const menuItems: Record<string, FoodItem> = {
     chips: { name: "Chips", price: 1, image: "static/images/doritos.webp", quantity: 0 },
 };
 export let cart: Cart = {};
+let numBurgers: number = 0;
 let subtotal: number = 0;
+let applyDiscounts: boolean = false;
 let discounts: number = 0;
 let tip: number = 0;
 let total: number = 0;
@@ -38,6 +40,20 @@ export function getOrder() {
     return order;
 }
 
+export function getNumBurgers() {
+    return numBurgers;
+}
+
+export function setNumBurgers(newNumBurgers: number) {
+    numBurgers = newNumBurgers;
+    updateDiscounts();
+}
+
+export function addNumBurgers(quantity: number) {
+    numBurgers += quantity;
+    updateDiscounts();
+}
+
 // subtotal
 export function getSubtotal() {
     return subtotal;
@@ -53,6 +69,15 @@ export function addToSubtotal(amount: number) {
     updateTotal();
 }
 
+export function getApplyDiscounts() {
+    return applyDiscounts;
+}
+
+export function setApplyDiscounts(newApplyDiscounts: boolean) {
+    applyDiscounts = newApplyDiscounts;
+    updateDiscounts();
+}
+
 // discounts
 export function getDiscounts() {
     return discounts;
@@ -61,6 +86,13 @@ export function getDiscounts() {
 export function setDiscounts(newDiscounts: number) {
     discounts = newDiscounts;
     updateTotal();
+}
+
+export function updateDiscounts() {
+    if (applyDiscounts) {
+        discounts = numBurgers;
+        updateTotal();
+    }
 }
 
 // tip
@@ -89,6 +121,8 @@ export function updateTotal() {
 
 export function saveData() {
     saveToStorage("cart", cart);
+    saveToStorage("numBurgers", numBurgers);
+    saveToStorage("applyDiscounts", applyDiscounts);
     saveToStorage("subtotal", subtotal);
     saveToStorage("discounts", discounts);
     saveToStorage("tip", tip);
@@ -97,10 +131,12 @@ export function saveData() {
 
 export function loadData() {
     cart = getCartFromStorage();
-    subtotal = getFieldFromStorage("subtotal");
-    discounts = getFieldFromStorage("discounts");
-    tip = getFieldFromStorage("tip");
-    total = getFieldFromStorage("total");
+    numBurgers = getNumFromStorage("numBurgers");
+    applyDiscounts = getBoolFromStorage("applyDiscounts");
+    subtotal = getNumFromStorage("subtotal");
+    discounts = getNumFromStorage("discounts");
+    tip = getNumFromStorage("tip");
+    total = getNumFromStorage("total");
 }
 
 

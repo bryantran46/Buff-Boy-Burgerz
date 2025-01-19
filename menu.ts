@@ -1,4 +1,4 @@
-import { loadData, saveData, setTip } from './data.js';
+import { loadData, saveData, setTip, setApplyDiscounts } from './data.js';
 import { hidePopup, showPopup } from './popup.js';
 import { renderTotal, add, clear, renderReceipt } from "./receipt.js";
 
@@ -16,6 +16,21 @@ popups.forEach((method) => {
 // Hide the popup and re-enable main content
 document.querySelector(`#follower-popup button`)?.addEventListener("click", () => hidePopup(`follower-popup`));
 document.querySelector(`#tip-popup button`)?.addEventListener("click", () => 
+    hidePopup(`tip-popup`, () => {
+        
+    })
+);
+
+// Set follower discount
+document.querySelector(`#follower-popup .follow-button`)?.addEventListener("click", () => 
+    hidePopup(`follower-popup`, () => {
+        setApplyDiscounts(true);
+        saveData();
+    })
+);
+
+// Set tip amount
+document.querySelector(`#tip-popup .tip-button`)?.addEventListener("click", () => 
     hidePopup(`tip-popup`, () => {
         const newTip = parseInt((document.querySelector(".slider") as HTMLInputElement).value, 10);
         setTip(newTip);

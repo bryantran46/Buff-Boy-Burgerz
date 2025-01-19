@@ -7,7 +7,12 @@ export function getCartFromStorage<Cart>(): Cart {
     return item ? JSON.parse(item) : {};
 }
 
-export function getFieldFromStorage(key: string): number {
+export function getNumFromStorage(key: string): number {
     const item = localStorage.getItem(key);
     return item ? JSON.parse(item) : 0;
+}
+
+export function getBoolFromStorage(key: string): boolean {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : false;
 }
