@@ -1,7 +1,10 @@
+import csv
 from flask import Flask, render_template, jsonify, request
 from google_apis import create_service
 from config import CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES, VENMO, ZELLE 
 from email_utils import process_transaction_emails
+from db_schema import ORDERS_COLUMNS, ORDERS_SCHEMA
+from db_table import db_table
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 service = create_service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
@@ -24,10 +27,11 @@ def check_payment():
     data = request.json
     payment_type = data.get('paymentType')
     total = data.get('total')
-    order = data.get('order')
-    print(f"Payment Type: {payment_type}")
-    print(f"Total: {total}")
-    print(f"Order: {order}")
+    subtotal = data.get('subtotal')
+    tip = data.get('tip')
+    discount = data.get('discount')
+    cart = data.get('cart')
+    cartDescription = ", ".join(f"{value} {key}" for key, value in cart.items())
 
     # get transactions based on type
     transactions = []
@@ -39,16 +43,22 @@ def check_payment():
     # Check if user paid
     result = ''
     if len(transactions) > 0:
-        sort_key, name, amount, date = transactions[0]
+        id, name, amount, date = transactions[0]
         if float(amount) >= float(total):
+            orders_db = db_table('Orders', ORDERS_SCHEMA)
             result = 'Successful payment'
+            order_data = [id, name, date, payment_type, total, subtotal, tip, discount, False, cartDescription]
+            # Add order info to db entry
+            entry = dict(zip(ORDERS_COLUMNS, order_data)) | cart
+            # Add entry to database
+            orders_db.insert(entry)
+            orders_db.close()
         else:
             missing_payment = float(total) - float(amount)
             result = 'Underpaid by ' + f'{missing_payment:.2f}'
     else:
         result = 'No payment processed. Try again.'
 
-    print("Python script executed")
     return jsonify({"status": "success", "message": result})
 
 if __name__ == '__main__':
