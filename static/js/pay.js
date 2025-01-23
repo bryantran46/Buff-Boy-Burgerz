@@ -1,4 +1,4 @@
-import { loadData, getTotal, getOrder, getSubtotal, getTip, getDiscounts } from './data.js';
+import { loadData, getTotal, getOrder, getSubtotal, getTip, getDiscounts, getNumBurgers } from './data.js';
 import { renderReceipt, renderTotal } from "./receipt.js";
 import { showPopup, hidePopup } from './popup.js';
 const popups = ["venmo", "zelle", "cash"];
@@ -26,6 +26,7 @@ electronicTransactions.forEach((method) => {
             "tip": getTip(),
             "discount": getDiscounts(),
             "cart": getOrder(),
+            "numBurgers": getNumBurgers(),
         };
         try {
             const response = await fetch("/check-payment", {
