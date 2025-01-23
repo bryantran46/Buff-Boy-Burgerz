@@ -22,9 +22,9 @@ electronicTransactions.forEach((method) => {
         const orderInfo = {
             "paymentType": method,
             "total": getTotal(),
-            'subtotal': getSubtotal(),
-            'tip': getTip(),
-            'discount': getDiscounts(),
+            "subtotal": getSubtotal(),
+            "tip": getTip(),
+            "discount": getDiscounts(),
             "cart": getOrder(),
         };
         try {

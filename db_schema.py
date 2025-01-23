@@ -4,15 +4,15 @@
 # Session table holds all session details excluding speakers
 # Speaker table holds name
 #
-ORDERS_COLUMNS = ['id', 'customer_name', 'order_time', 'payment_method', 
+ORDERS_COLUMNS = ['id', 'name', 'time', 'paymentType', 
                   'total', 'subtotal', 'tip', 'discount', 'completed', 'cart', 
                   'combo', 'burger', 'soda', 'chips']
 
 ORDERS_SCHEMA = {
     'id' : 'integer primary key',
-    'customer_name' : 'text',
-    'order_time' : 'date',
-    'payment_method' : 'text',
+    'name' : 'text',
+    'time' : 'date',
+    'paymentType' : 'text',
     'total' : 'integer',
     'subtotal' : 'integer',
     'tip' : 'integer',
@@ -24,4 +24,3 @@ ORDERS_SCHEMA = {
     'soda' : 'integer default 0',
     'chips' : 'integer default 0'
 }
-
