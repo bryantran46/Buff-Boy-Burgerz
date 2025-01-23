@@ -1,26 +1,56 @@
 # 
 # Database schema
-# Agenda table that holds associated session ids and speaker ids
-# Session table holds all session details excluding speakers
-# Speaker table holds name
 #
-ORDERS_COLUMNS = ['id', 'name', 'time', 'paymentType', 
-                  'total', 'subtotal', 'tip', 'discount', 'completed', 'cart', 
-                  'combo', 'burger', 'soda', 'chips']
 
+ORDERS_DB_NAME = 'orders'
+TEST_DB_NAME = 'test'
+DB_NAME = TEST_DB_NAME
+
+ORDERS_COLUMNS = [
+    # Customer Information
+    'name',
+
+    # Order Time and Status
+    'time',
+    'internalTime',  # Keep related time information together
+    'completed',
+
+    # Payment Details
+    'paymentType',
+    'total',
+    'subtotal',
+    'tip',
+    'discount',
+
+    # Order Summary
+    'cartSummary',
+    'numBurgers',
+
+    # Item Breakdown
+    'combo',
+    'burger',
+    'soda',
+    'chips'
+]
+
+# schema for the orders table
 ORDERS_SCHEMA = {
-    'id' : 'integer primary key',
-    'name' : 'text',
-    'time' : 'date',
-    'paymentType' : 'text',
-    'total' : 'integer',
-    'subtotal' : 'integer',
-    'tip' : 'integer',
-    'discount' : 'integer',
-    'completed' : 'boolean',
-    'cart' : 'text',
+    'id': 'integer primary key autoincrement',
+    'name': 'text',
+    'time': 'text',
+    'internalTime': 'integer',
+    'completed': 'boolean',
+    'paymentType': 'text',
+    'total': 'integer',
+    'subtotal': 'integer',
+    'tip': 'integer',
+    'discount': 'integer',
+    'cartSummary': 'text',
+    'numBurgers': 'integer',
     'combo' : 'integer default 0',
     'burger' : 'integer default 0',
     'soda' : 'integer default 0',
-    'chips' : 'integer default 0'
+    'chips' : 'integer default 0',
 }
+
+DASHBOARD_COLUMNS = ['name', 'cartSummary', 'total', 'time', 'paymentType', 'numBurgers']

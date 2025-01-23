@@ -13,7 +13,6 @@ import sqlite3
 class db_table:
 
     # SQLite database filename
-    DB_NAME = "orders.db"
 
     #
     # model initialization
@@ -36,7 +35,7 @@ class db_table:
         self.name    = name
         self.schema  = schema
         self.constraints = constraints
-        self.db_conn = sqlite3.connect(self.DB_NAME)
+        self.db_conn = sqlite3.connect(self.name + '.db')
         
         # ensure the table is created
         self.create_table()
@@ -76,7 +75,7 @@ class db_table:
     #         table.select()
     #         table.select(where={ "name": "John" })
     #
-    def select(self, columns = [], where = {}):
+    def select(self, columns = [], where = {}, order_by = {}):
         # by default, query all columns
         if not columns:
             columns = [ k for k in self.schema ]
@@ -89,6 +88,10 @@ class db_table:
             where_query_string = [ "%s = '%s'" % (k,v) for k,v in where.items() ]
             query             += " WHERE " + ' AND '.join(where_query_string)
         
+        if order_by:
+            order_by_query_string = [ "%s %s" % (k,v) for k,v in order_by.items() ]
+            query += " ORDER BY " + ' '.join(order_by_query_string)
+
         result = []
         # SELECT id, name FROM users [ WHERE id=42 AND name=John ]
         #

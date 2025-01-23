@@ -1,9 +1,9 @@
 from flask import Flask, render_template, jsonify, request
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 from google_apis import create_service
 from config import CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES, VENMO, ZELLE 
 from email_utils import process_transaction_emails
-from db_schema import ORDERS_COLUMNS, ORDERS_SCHEMA
+from db_schema import DASHBOARD_COLUMNS, DB_NAME, ORDERS_COLUMNS, ORDERS_SCHEMA
 from db_table import db_table
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
@@ -33,6 +33,7 @@ def check_payment():
     discount = data.get('discount')
     cart = data.get('cart')
     cartSummary = ", ".join(f"{value} {key}" for key, value in cart.items())
+    numBurgers = data.get('numBurgers')
 
     # get transactions based on type
     transactions = []
@@ -44,20 +45,20 @@ def check_payment():
     # Check if user paid
     result = ''
     if len(transactions) > 0:
-        id, name, amount, time = transactions[0]
+        internalTime, name, amount, time = transactions[0]
         if float(amount) >= float(total):
             result = 'Successful payment'
 
             # Add order to database
-            orders_db = db_table('Orders', ORDERS_SCHEMA)
-            order_data = [id, name, time, paymentType, total, subtotal, tip, discount, False, cartSummary]
+            orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
+            order_data = [name, time, internalTime, False, paymentType, total, subtotal, tip, discount, cartSummary, numBurgers]
             db_entry = dict(zip(ORDERS_COLUMNS, order_data)) | cart
             #orders_db.insert(entry)
             orders_db.close()
 
             # Send data to dashboard
             socketio.emit('newOrder', 
-                {"name": name, "cartSummary": cartSummary, "total": total, "time": time, "paymentType": paymentType}
+                dict(zip(DASHBOARD_COLUMNS, [name, cartSummary, total, time, paymentType, numBurgers])),
             )
         else:
             missing_payment = float(total) - float(amount)
@@ -71,6 +72,14 @@ def check_payment():
 @socketio.on('connect')
 def handle_connect():
     print('Client connected')
+
+    orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
+    where = { "completed": "False" }
+    order_by = { "id": "ASC" }
+    orders = orders_db.select(DASHBOARD_COLUMNS, where, order_by)
+    orders_db.close()
+
+    socketio.emit('refresh', orders)
 
 # WebSocket event handler for disconnection
 @socketio.on('disconnect')
