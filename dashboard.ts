@@ -1,74 +1,119 @@
-export interface Order {
-    name: string; 
-    cartSummary: string; 
-    total: number; 
-    time: string; 
-    paymentType: string;
-    numBurgers: number;
-};
+import { Order, MAXBURGERS } from "./dashboard_config.js";
+import { DashboardDisplay } from "./dashboard_display.js";
 
-export function splitOrders(orders: Order[]): { firstList: Order[]; secondList: Order[] } {
-    const firstList: Order[] = [];
-    const secondList: Order[] = [];
-    const maxBurgers = 4;
-    let totalBurgersInFirst = 0;
-    let breakIndex = -1; // Track where the loop stops
+export class Dashboard {
+    progressOrders: Map<number, Order>;
+    queueOrders: Map<number, Order>;
+    totalBurgersInFirst: number;
 
-    for (let i = 0; i < orders.length; i++) {
-        const order = orders[i];
+    dashboardDisplay: DashboardDisplay;
+
+    constructor(socket: SocketIOClient.Socket, uncompletedOrders: Order[]) {
+        this.progressOrders = new Map();
+        this.queueOrders = new Map();
+        this.totalBurgersInFirst = 0;
+        this.dashboardDisplay = new DashboardDisplay(this, socket);
+        this.addOrders(uncompletedOrders);
+    }
+
+    private addProgressOrders(id: number, order: Order): void {
+        this.progressOrders.set(id, order);
+        this.dashboardDisplay.addOrderToProgressTable(id, order);
+    }
+
+    private addQueueOrders(id: number, order: Order): void {
+        this.queueOrders.set(id, order);
+        this.dashboardDisplay.addOrderToQueueTable(id, order);
+    }
+
+    private removeQueueOrders(id: number): void {
+        this.queueOrders.delete(id);
+        this.dashboardDisplay.removeOrderFromTable(id);
+    }
+
+    private removeProgressOrders(id: number): void {
+        this.progressOrders.delete(id);
+        this.dashboardDisplay.removeOrderFromTable(id);
+    }
+
+    addOrders(orders: Order[]): void {
+        let breakIndex = -1;
+        for (let i = 0; i < orders.length; i++) {
+            const order = orders[i];
+            const burgers = order.numBurgers;
+
+            if (this.totalBurgersInFirst === 0 && burgers > MAXBURGERS) {
+                this.progressOrders.set(order.id, order);
+                this.totalBurgersInFirst += burgers;
+                breakIndex = i + 1;
+                break;
+            }
+
+            if (this.totalBurgersInFirst + burgers < MAXBURGERS) {
+                this.progressOrders.set(order.id, order);
+                this.totalBurgersInFirst += burgers;
+            } else if (this.totalBurgersInFirst + burgers === MAXBURGERS) {
+                this.progressOrders.set(order.id, order);
+                this.totalBurgersInFirst += burgers;
+                breakIndex = i + 1;
+                break;
+            } else {
+                this.queueOrders.set(order.id, order);
+            }
+        }
+
+        if (breakIndex !== -1) {
+            orders.slice(breakIndex).forEach(order => this.queueOrders.set(order.id, order));
+        }
+        this.dashboardDisplay.displayOrders(this.progressOrders, this.queueOrders);
+    }
+
+    addOrder(id: number, order: Order) {
         const burgers = order.numBurgers;
 
-        // Caveat 1: If the first order exceeds the max, it must go in the first list
-        if (firstList.length === 0 && burgers > maxBurgers) {
-            firstList.push(order);
-            totalBurgersInFirst += burgers;
-            breakIndex = i + 1;
-            break;
-        }
-
-        // Add order to firstList if it doesn't exceed the max
-        if (totalBurgersInFirst + burgers < maxBurgers) {
-            firstList.push(order);
-            totalBurgersInFirst += burgers;
-        }
-        // Stop the loop early if the max is reached
-        else if (totalBurgersInFirst + burgers === maxBurgers) {
-            firstList.push(order);
-            totalBurgersInFirst += burgers;
-            breakIndex = i + 1;
-            break;
-        } 
-        else {
-            // Add the order to secondList if it exceeds the max
-            secondList.push(order);
+        if (this.totalBurgersInFirst === 0 && burgers > MAXBURGERS) {
+            this.totalBurgersInFirst += burgers;
+            this.addProgressOrders(id, order);
+        } else if (this.totalBurgersInFirst + burgers <= MAXBURGERS) {
+            this.totalBurgersInFirst += burgers;
+            this.addProgressOrders(id, order);
+        } else {
+            this.addQueueOrders(id, order);
         }
     }
 
-    // Append the remaining orders to secondList if the loop breaks early
-    if (breakIndex !== -1) {
-        secondList.push(...orders.slice(breakIndex));
+    updateInProgressOrders() {
+        for (const [id, order] of structuredClone(this.queueOrders)) {
+            const burgers = order.numBurgers;
+
+            if (this.totalBurgersInFirst === 0 && burgers > MAXBURGERS) {
+                this.removeQueueOrders(id);
+                this.addProgressOrders(id, order);
+                this.totalBurgersInFirst += burgers;
+                break;
+            }
+
+            if (this.totalBurgersInFirst + burgers < MAXBURGERS) {
+                this.removeQueueOrders(id);
+                this.addProgressOrders(id, order);
+                this.totalBurgersInFirst += burgers;
+            } else if (this.totalBurgersInFirst + burgers === MAXBURGERS) {
+                this.removeQueueOrders(id);
+                this.addProgressOrders(id, order);
+                this.totalBurgersInFirst += burgers;                
+                break;
+            } 
+        }
     }
 
-    return { firstList, secondList };
-  }
-
-export function addToTable(table: Element | null, orders: Order[]) {
-    const rows = orders.map( order => `
-        <tr>
-            <td class="transaction-cell">
-                <div class="transaction-name">${order.name}</div>
-                <div class="transaction-order">${order.cartSummary}</div>
-                <div class="transaction-price">$${order.total.toFixed(2)}</div>
-                <div class="transaction-time">${order.time}</div>
-                <img src="/static/images/${order.paymentType}.svg">
-                <button class="transaction-button">Finish</button>
-            </td>
-        </tr>
-    `).join('');
-
-    if (table) {
-        table.innerHTML = rows;
-    } else {
-        console.error('Table body not found');
+    removeOrder(id: number) {
+        if (this.progressOrders.has(id)) {
+            let numBurgers = this.progressOrders.get(id)?.numBurgers;
+            this.totalBurgersInFirst -= numBurgers!;
+            this.removeProgressOrders(id);
+            this.updateInProgressOrders();
+        } else if (this.queueOrders.has(id)) {
+            this.removeQueueOrders(id);
+        }
     }
 }

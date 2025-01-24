@@ -53,12 +53,13 @@ def check_payment():
             orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
             order_data = [name, time, internalTime, False, paymentType, total, subtotal, tip, discount, cartSummary, numBurgers]
             db_entry = dict(zip(ORDERS_COLUMNS, order_data)) | cart
-            #orders_db.insert(entry)
+            orders_db.insert(db_entry)
+            id = orders_db.select(columns=['id'], order_by={ "id": "DESC" })[0]['id']
             orders_db.close()
 
             # Send data to dashboard
             socketio.emit('newOrder', 
-                dict(zip(DASHBOARD_COLUMNS, [name, cartSummary, total, time, paymentType, numBurgers])),
+                dict(zip(DASHBOARD_COLUMNS, [id, name, cartSummary, total, time, paymentType, numBurgers])),
             )
         else:
             missing_payment = float(total) - float(amount)

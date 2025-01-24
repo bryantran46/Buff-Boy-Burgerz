@@ -53,4 +53,4 @@ ORDERS_SCHEMA = {
     'chips' : 'integer default 0',
 }
 
-DASHBOARD_COLUMNS = ['name', 'cartSummary', 'total', 'time', 'paymentType', 'numBurgers']
+DASHBOARD_COLUMNS = ['id', 'name', 'cartSummary', 'total', 'time', 'paymentType', 'numBurgers']

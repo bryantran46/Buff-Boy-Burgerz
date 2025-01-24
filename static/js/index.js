@@ -1,20 +1,9 @@
-import { splitOrders, addToTable } from "./dashboard.js";
+import { Dashboard } from './dashboard.js';
 // Connect to the WebSocket server
 const socket = io();
-let uncompletedOrders;
-let inProgressOrders = [];
-let inQueueOrders = [];
+let dashboard;
 socket.on('refresh', (orders) => {
-    console.log('Data received:', orders);
-    uncompletedOrders = splitOrders(orders);
-    inProgressOrders = uncompletedOrders.firstList;
-    inQueueOrders = uncompletedOrders.secondList;
-    // Dynamically add a new row to the in progress table
-    const inProgressTable = document.querySelector(`#in-progress-table tbody`);
-    addToTable(inProgressTable, inProgressOrders);
-    // Dynamically add a new row to the in queue table
-    const queueTable = document.querySelector(`#queue-table tbody`);
-    addToTable(queueTable, inQueueOrders);
+    dashboard = new Dashboard(socket, orders);
 });
 // // Listen for 'new' events from the server
 socket.on('newOrder', (order) => {

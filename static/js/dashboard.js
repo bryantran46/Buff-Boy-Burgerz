@@ -1,60 +1,108 @@
-;
-export function splitOrders(orders) {
-    const firstList = [];
-    const secondList = [];
-    const maxBurgers = 4;
-    let totalBurgersInFirst = 0;
-    let breakIndex = -1; // Track where the loop stops
-    for (let i = 0; i < orders.length; i++) {
-        const order = orders[i];
+import { MAXBURGERS } from "./dashboard_config.js";
+import { DashboardDisplay } from "./dashboard_display.js";
+export class Dashboard {
+    progressOrders;
+    queueOrders;
+    totalBurgersInFirst;
+    dashboardDisplay;
+    constructor(socket, uncompletedOrders) {
+        this.progressOrders = new Map();
+        this.queueOrders = new Map();
+        this.totalBurgersInFirst = 0;
+        this.dashboardDisplay = new DashboardDisplay(this, socket);
+        this.addOrders(uncompletedOrders);
+    }
+    addProgressOrders(id, order) {
+        this.progressOrders.set(id, order);
+        this.dashboardDisplay.addOrderToProgressTable(id, order);
+    }
+    addQueueOrders(id, order) {
+        this.queueOrders.set(id, order);
+        this.dashboardDisplay.addOrderToQueueTable(id, order);
+    }
+    removeQueueOrders(id) {
+        this.queueOrders.delete(id);
+        this.dashboardDisplay.removeOrderFromTable(id);
+    }
+    removeProgressOrders(id) {
+        this.progressOrders.delete(id);
+        this.dashboardDisplay.removeOrderFromTable(id);
+    }
+    addOrders(orders) {
+        let breakIndex = -1;
+        for (let i = 0; i < orders.length; i++) {
+            const order = orders[i];
+            const burgers = order.numBurgers;
+            if (this.totalBurgersInFirst === 0 && burgers > MAXBURGERS) {
+                this.progressOrders.set(order.id, order);
+                this.totalBurgersInFirst += burgers;
+                breakIndex = i + 1;
+                break;
+            }
+            if (this.totalBurgersInFirst + burgers < MAXBURGERS) {
+                this.progressOrders.set(order.id, order);
+                this.totalBurgersInFirst += burgers;
+            }
+            else if (this.totalBurgersInFirst + burgers === MAXBURGERS) {
+                this.progressOrders.set(order.id, order);
+                this.totalBurgersInFirst += burgers;
+                breakIndex = i + 1;
+                break;
+            }
+            else {
+                this.queueOrders.set(order.id, order);
+            }
+        }
+        if (breakIndex !== -1) {
+            orders.slice(breakIndex).forEach(order => this.queueOrders.set(order.id, order));
+        }
+        this.dashboardDisplay.displayOrders(this.progressOrders, this.queueOrders);
+    }
+    addOrder(id, order) {
         const burgers = order.numBurgers;
-        // Caveat 1: If the first order exceeds the max, it must go in the first list
-        if (firstList.length === 0 && burgers > maxBurgers) {
-            firstList.push(order);
-            totalBurgersInFirst += burgers;
-            breakIndex = i + 1;
-            break;
+        if (this.totalBurgersInFirst === 0 && burgers > MAXBURGERS) {
+            this.totalBurgersInFirst += burgers;
+            this.addProgressOrders(id, order);
         }
-        // Add order to firstList if it doesn't exceed the max
-        if (totalBurgersInFirst + burgers < maxBurgers) {
-            firstList.push(order);
-            totalBurgersInFirst += burgers;
-        }
-        // Stop the loop early if the max is reached
-        else if (totalBurgersInFirst + burgers === maxBurgers) {
-            firstList.push(order);
-            totalBurgersInFirst += burgers;
-            breakIndex = i + 1;
-            break;
+        else if (this.totalBurgersInFirst + burgers <= MAXBURGERS) {
+            this.totalBurgersInFirst += burgers;
+            this.addProgressOrders(id, order);
         }
         else {
-            // Add the order to secondList if it exceeds the max
-            secondList.push(order);
+            this.addQueueOrders(id, order);
         }
     }
-    // Append the remaining orders to secondList if the loop breaks early
-    if (breakIndex !== -1) {
-        secondList.push(...orders.slice(breakIndex));
+    updateInProgressOrders() {
+        for (const [id, order] of structuredClone(this.queueOrders)) {
+            const burgers = order.numBurgers;
+            if (this.totalBurgersInFirst === 0 && burgers > MAXBURGERS) {
+                this.removeQueueOrders(id);
+                this.addProgressOrders(id, order);
+                this.totalBurgersInFirst += burgers;
+                break;
+            }
+            if (this.totalBurgersInFirst + burgers < MAXBURGERS) {
+                this.removeQueueOrders(id);
+                this.addProgressOrders(id, order);
+                this.totalBurgersInFirst += burgers;
+            }
+            else if (this.totalBurgersInFirst + burgers === MAXBURGERS) {
+                this.removeQueueOrders(id);
+                this.addProgressOrders(id, order);
+                this.totalBurgersInFirst += burgers;
+                break;
+            }
+        }
     }
-    return { firstList, secondList };
-}
-export function addToTable(table, orders) {
-    const rows = orders.map(order => `
-        <tr>
-            <td class="transaction-cell">
-                <div class="transaction-name">${order.name}</div>
-                <div class="transaction-order">${order.cartSummary}</div>
-                <div class="transaction-price">$${order.total.toFixed(2)}</div>
-                <div class="transaction-time">${order.time}</div>
-                <img src="/static/images/${order.paymentType}.svg">
-                <button class="transaction-button">Finish</button>
-            </td>
-        </tr>
-    `).join('');
-    if (table) {
-        table.innerHTML = rows;
-    }
-    else {
-        console.error('Table body not found');
+    removeOrder(id) {
+        if (this.progressOrders.has(id)) {
+            let numBurgers = this.progressOrders.get(id)?.numBurgers;
+            this.totalBurgersInFirst -= numBurgers;
+            this.removeProgressOrders(id);
+            this.updateInProgressOrders();
+        }
+        else if (this.queueOrders.has(id)) {
+            this.removeQueueOrders(id);
+        }
     }
 }
