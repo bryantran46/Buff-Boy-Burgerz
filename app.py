@@ -87,5 +87,27 @@ def handle_connect():
 def handle_disconnect():
     print('Client disconnected')
 
+@socketio.on('completeOrder')
+def handle_complete_order(orderID):
+    print('Order completed:', orderID)
+
+    orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
+    values = { 'completed' : True }
+    where = { 'id' : orderID }
+    orders_db.update(values, where)
+    orders_db.close()
+
+@socketio.on('completeOrders')
+def handle_complete_order(orderIDs):
+    print('Orders completed:', orderIDs)
+
+    orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
+    values = { 'completed' : True }
+    for orderID in orderIDs:
+        where = { 'id' : orderID }
+        orders_db.update(values, where)
+    orders_db.close()
+
+
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0', port=5000)

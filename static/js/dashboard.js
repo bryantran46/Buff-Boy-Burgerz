@@ -99,9 +99,11 @@ export class Dashboard {
     }
     clearProgressOrders() {
         this.totalBurgersInProgress = 0;
+        let progressOrderIds = Array.from(this.progressOrders.keys());
         this.progressOrders.clear();
-        this.dashboardDisplay.clearProgressTable(this.progressOrders.keys());
+        this.dashboardDisplay.clearProgressTable(progressOrderIds);
         this.updateInProgressOrders();
+        return progressOrderIds;
     }
     removeOrder(id) {
         if (this.progressOrders.has(id)) {

@@ -15,7 +15,8 @@ export class DashboardDisplay {
     }
     initializeProgressTableFinishButton() {
         document.querySelector("#in-progress-table .transaction-header-cell button").addEventListener("click", () => {
-            this.dashboard.clearProgressOrders();
+            let completeOrders = this.dashboard.clearProgressOrders();
+            this.socket.emit("completeOrders", completeOrders);
         });
     }
     updateNumBurgersSold(totalBurgersSold) {
@@ -61,7 +62,7 @@ export class DashboardDisplay {
             table.removeChild(row);
             this.idToRow.delete(id);
             this.dashboard.removeOrder(id);
-            this.socket.emit("orderComplete", id);
+            this.socket.emit("completeOrder", id);
         });
         table.appendChild(row);
     }

@@ -149,8 +149,8 @@ class db_table:
     #
     def update(self, values, where):
         # build set & where queries
-        set_query   = ", ".join(["%s = '%s'" % (k,v) for k,v in values.iteritems()])
-        where_query = " AND ".join(["%s = '%s'" % (k,v) for k,v in where.iteritems()])
+        set_query   = ", ".join(["%s = '%s'" % (k,v) for k,v in values.items()])
+        where_query = " AND ".join(["%s = '%s'" % (k,v) for k,v in where.items()])
 
         # UPDATE users SET name = Simon WHERE id = 42
         #
