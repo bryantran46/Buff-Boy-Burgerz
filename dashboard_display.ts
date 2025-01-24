@@ -1,5 +1,5 @@
 import { Dashboard } from "./dashboard.js";
-import { Order } from "./dashboard_config.js";
+import { Order, TOTALBURGERS } from "./dashboard_config.js";
 
 export class DashboardDisplay {
     idToRow: Map<number, Element>;
@@ -25,9 +25,15 @@ export class DashboardDisplay {
         });
     }
 
-    displayOrders(progressOrders: Map<number, Order>, queueOrders: Map<number, Order>) {
+    updateNumBurgersSold(totalBurgersSold: number) {
+        document.querySelector("#total-burgers-sold")!.textContent = totalBurgersSold.toString();
+        document.querySelector("#total-burgers-left")!.textContent = (TOTALBURGERS - totalBurgersSold).toString();
+    }
+
+    display(progressOrders: Map<number, Order>, queueOrders: Map<number, Order>, totalBurgersSold: number) {
         this.addOrdersToTable(this.progressTable, progressOrders);
         this.addOrdersToTable(this.queueTable, queueOrders);
+        this.updateNumBurgersSold(totalBurgersSold);
     }
 
     addOrdersToTable(table: Element | null, orders: Map<number, Order>) {

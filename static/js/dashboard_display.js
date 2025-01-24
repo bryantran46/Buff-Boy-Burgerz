@@ -1,3 +1,4 @@
+import { TOTALBURGERS } from "./dashboard_config.js";
 export class DashboardDisplay {
     idToRow;
     progressTable;
@@ -17,9 +18,14 @@ export class DashboardDisplay {
             this.dashboard.clearProgressOrders();
         });
     }
-    displayOrders(progressOrders, queueOrders) {
+    updateNumBurgersSold(totalBurgersSold) {
+        document.querySelector("#total-burgers-sold").textContent = totalBurgersSold.toString();
+        document.querySelector("#total-burgers-left").textContent = (TOTALBURGERS - totalBurgersSold).toString();
+    }
+    display(progressOrders, queueOrders, totalBurgersSold) {
         this.addOrdersToTable(this.progressTable, progressOrders);
         this.addOrdersToTable(this.queueTable, queueOrders);
+        this.updateNumBurgersSold(totalBurgersSold);
     }
     addOrdersToTable(table, orders) {
         if (table !== null) {

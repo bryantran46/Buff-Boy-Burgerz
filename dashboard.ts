@@ -1,10 +1,12 @@
 import { Order, MAXBURGERS } from "./dashboard_config.js";
 import { DashboardDisplay } from "./dashboard_display.js";
+import { saveToStorage, getNumFromStorage } from "./storage.js";
 
 export class Dashboard {
     progressOrders: Map<number, Order>;
     queueOrders: Map<number, Order>;
     totalBurgersInProgress: number;
+    totalBurgersSold: number;
 
     dashboardDisplay: DashboardDisplay;
 
@@ -12,6 +14,7 @@ export class Dashboard {
         this.progressOrders = new Map();
         this.queueOrders = new Map();
         this.totalBurgersInProgress = 0;
+        this.totalBurgersSold = getNumFromStorage("totalBurgersSold");
         this.dashboardDisplay = new DashboardDisplay(this, socket);
         this.addOrders(uncompletedOrders);
     }
@@ -69,11 +72,14 @@ export class Dashboard {
         if (breakIndex !== -1) {
             orders.slice(breakIndex).forEach(order => this.queueOrders.set(order.id, order));
         }
-        this.dashboardDisplay.displayOrders(this.progressOrders, this.queueOrders);
+        this.dashboardDisplay.display(this.progressOrders, this.queueOrders, this.totalBurgersSold);
     }
 
     addOrder(id: number, order: Order) {
         const burgers = order.numBurgers;
+        this.totalBurgersSold += burgers;
+        saveToStorage("totalBurgersSold", this.totalBurgersSold);
+        this.dashboardDisplay.updateNumBurgersSold(this.totalBurgersSold);
 
         if (this.totalBurgersInProgress === 0 && burgers > MAXBURGERS) {
             this.addProgressOrders(id, order, burgers);
