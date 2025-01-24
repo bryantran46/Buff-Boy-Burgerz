@@ -4,21 +4,28 @@ import { DashboardDisplay } from "./dashboard_display.js";
 export class Dashboard {
     progressOrders: Map<number, Order>;
     queueOrders: Map<number, Order>;
-    totalBurgersInFirst: number;
+    totalBurgersInProgress: number;
 
     dashboardDisplay: DashboardDisplay;
 
     constructor(socket: SocketIOClient.Socket, uncompletedOrders: Order[]) {
         this.progressOrders = new Map();
         this.queueOrders = new Map();
-        this.totalBurgersInFirst = 0;
+        this.totalBurgersInProgress = 0;
         this.dashboardDisplay = new DashboardDisplay(this, socket);
         this.addOrders(uncompletedOrders);
     }
 
-    private addProgressOrders(id: number, order: Order): void {
+    private addProgressOrders(id: number, order: Order, burgers: number): void {
         this.progressOrders.set(id, order);
+        this.totalBurgersInProgress += burgers;
         this.dashboardDisplay.addOrderToProgressTable(id, order);
+    }
+
+    private removeProgressOrders(id: number, burgers: number): void {
+        this.progressOrders.delete(id);
+        this.totalBurgersInProgress -= burgers;
+        this.dashboardDisplay.removeOrderFromTable(id);
     }
 
     private addQueueOrders(id: number, order: Order): void {
@@ -31,33 +38,30 @@ export class Dashboard {
         this.dashboardDisplay.removeOrderFromTable(id);
     }
 
-    private removeProgressOrders(id: number): void {
-        this.progressOrders.delete(id);
-        this.dashboardDisplay.removeOrderFromTable(id);
-    }
-
     addOrders(orders: Order[]): void {
         let breakIndex = -1;
         for (let i = 0; i < orders.length; i++) {
             const order = orders[i];
             const burgers = order.numBurgers;
 
-            if (this.totalBurgersInFirst === 0 && burgers > MAXBURGERS) {
+            if (this.totalBurgersInProgress === 0 && burgers > MAXBURGERS) {
                 this.progressOrders.set(order.id, order);
-                this.totalBurgersInFirst += burgers;
+                this.totalBurgersInProgress += burgers;
                 breakIndex = i + 1;
                 break;
             }
 
-            if (this.totalBurgersInFirst + burgers < MAXBURGERS) {
+            if (this.totalBurgersInProgress + burgers < MAXBURGERS) {
                 this.progressOrders.set(order.id, order);
-                this.totalBurgersInFirst += burgers;
-            } else if (this.totalBurgersInFirst + burgers === MAXBURGERS) {
+                this.totalBurgersInProgress += burgers;
+            } 
+            else if (this.totalBurgersInProgress + burgers === MAXBURGERS) {
                 this.progressOrders.set(order.id, order);
-                this.totalBurgersInFirst += burgers;
+                this.totalBurgersInProgress += burgers;
                 breakIndex = i + 1;
                 break;
-            } else {
+            } 
+            else {
                 this.queueOrders.set(order.id, order);
             }
         }
@@ -71,13 +75,13 @@ export class Dashboard {
     addOrder(id: number, order: Order) {
         const burgers = order.numBurgers;
 
-        if (this.totalBurgersInFirst === 0 && burgers > MAXBURGERS) {
-            this.totalBurgersInFirst += burgers;
-            this.addProgressOrders(id, order);
-        } else if (this.totalBurgersInFirst + burgers <= MAXBURGERS) {
-            this.totalBurgersInFirst += burgers;
-            this.addProgressOrders(id, order);
-        } else {
+        if (this.totalBurgersInProgress === 0 && burgers > MAXBURGERS) {
+            this.addProgressOrders(id, order, burgers);
+        } 
+        else if (this.totalBurgersInProgress + burgers <= MAXBURGERS) {
+            this.addProgressOrders(id, order, burgers);
+        } 
+        else {
             this.addQueueOrders(id, order);
         }
     }
@@ -86,31 +90,35 @@ export class Dashboard {
         for (const [id, order] of structuredClone(this.queueOrders)) {
             const burgers = order.numBurgers;
 
-            if (this.totalBurgersInFirst === 0 && burgers > MAXBURGERS) {
+            if (this.totalBurgersInProgress === 0 && burgers > MAXBURGERS) {
                 this.removeQueueOrders(id);
-                this.addProgressOrders(id, order);
-                this.totalBurgersInFirst += burgers;
+                this.addProgressOrders(id, order, burgers);
                 break;
             }
 
-            if (this.totalBurgersInFirst + burgers < MAXBURGERS) {
+            if (this.totalBurgersInProgress + burgers < MAXBURGERS) {
                 this.removeQueueOrders(id);
-                this.addProgressOrders(id, order);
-                this.totalBurgersInFirst += burgers;
-            } else if (this.totalBurgersInFirst + burgers === MAXBURGERS) {
+                this.addProgressOrders(id, order, burgers);
+            } 
+            else if (this.totalBurgersInProgress + burgers === MAXBURGERS) {
                 this.removeQueueOrders(id);
-                this.addProgressOrders(id, order);
-                this.totalBurgersInFirst += burgers;                
+                this.addProgressOrders(id, order, burgers);               
                 break;
             } 
         }
     }
 
+    clearProgressOrders() {
+        this.totalBurgersInProgress = 0;
+        this.progressOrders.clear();
+        this.dashboardDisplay.clearProgressTable(this.progressOrders.keys());
+        this.updateInProgressOrders();
+    }
+
     removeOrder(id: number) {
         if (this.progressOrders.has(id)) {
-            let numBurgers = this.progressOrders.get(id)?.numBurgers;
-            this.totalBurgersInFirst -= numBurgers!;
-            this.removeProgressOrders(id);
+            let numBurgers = this.progressOrders.get(id)?.numBurgers ?? 0;
+            this.removeProgressOrders(id, numBurgers);
             this.updateInProgressOrders();
         } else if (this.queueOrders.has(id)) {
             this.removeQueueOrders(id);

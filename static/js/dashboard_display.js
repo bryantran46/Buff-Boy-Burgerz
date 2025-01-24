@@ -8,8 +8,14 @@ export class DashboardDisplay {
         this.idToRow = new Map();
         this.progressTable = document.querySelector(`#in-progress-table tbody`);
         this.queueTable = document.querySelector(`#queue-table tbody`);
+        this.initializeProgressTableFinishButton();
         this.dashboard = dashboard;
         this.socket = socket;
+    }
+    initializeProgressTableFinishButton() {
+        document.querySelector("#in-progress-table .transaction-header-cell button").addEventListener("click", () => {
+            this.dashboard.clearProgressOrders();
+        });
     }
     displayOrders(progressOrders, queueOrders) {
         this.addOrdersToTable(this.progressTable, progressOrders);
@@ -52,6 +58,12 @@ export class DashboardDisplay {
             this.socket.emit("orderComplete", id);
         });
         table.appendChild(row);
+    }
+    clearProgressTable(ids) {
+        this.progressTable.innerHTML = "";
+        for (const id of ids) {
+            this.idToRow.delete(id);
+        }
     }
     removeOrderFromTable(id) {
         const row = this.idToRow.get(id);
