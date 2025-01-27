@@ -1,12 +1,13 @@
 import { Order, MAXBURGERS } from "./dashboard_config.js";
 import { DashboardDisplay } from "./dashboard_display.js";
-import { saveToStorage, getNumFromStorage } from "./storage.js";
+import { saveToStorage, getNumFromStorage, getCashOrderFromStorage, removeCashOrderPrompt } from "./storage.js";
 
 export class Dashboard {
     progressOrders: Map<number, Order>;
     queueOrders: Map<number, Order>;
     totalBurgersInProgress: number;
     totalBurgersSold: number;
+    cashOrder: any;
 
     dashboardDisplay: DashboardDisplay;
 
@@ -15,8 +16,10 @@ export class Dashboard {
         this.queueOrders = new Map();
         this.totalBurgersInProgress = 0;
         this.totalBurgersSold = getNumFromStorage("totalBurgersSold");
+        this.cashOrder = getCashOrderFromStorage();
         this.dashboardDisplay = new DashboardDisplay(this, socket);
         this.addOrders(uncompletedOrders);
+        this.cashOrderPrompt(this.cashOrder);
     }
 
     private addProgressOrders(id: number, order: Order, burgers: number): void {
@@ -76,7 +79,14 @@ export class Dashboard {
     }
 
     cashOrderPrompt(order: any) {
-        this.dashboardDisplay.cashOrderPrompt(order);
+        if (order !== null) {
+            saveToStorage('cashOrder', order);
+            this.dashboardDisplay.cashOrderPrompt(order);
+        }
+    }
+
+    deleteCashOrderPrompt() {
+        removeCashOrderPrompt();
     }
 
     addOrder(id: number, order: Order) {

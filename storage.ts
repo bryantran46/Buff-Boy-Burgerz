@@ -7,6 +7,15 @@ export function getCartFromStorage<Cart>(): Cart {
     return item ? JSON.parse(item) : {};
 }
 
+export function getCashOrderFromStorage(): any {
+    const item = localStorage.getItem("cashOrder");
+    return item ? JSON.parse(item) : null;
+}
+
+export function removeCashOrderPrompt(): void {
+    localStorage.removeItem("cashOrder");
+}
+
 export function getNumFromStorage(key: string): number {
     const item = localStorage.getItem(key);
     return item ? JSON.parse(item) : 0;

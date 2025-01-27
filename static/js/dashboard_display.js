@@ -85,6 +85,7 @@ export class DashboardDisplay {
         const transactionButton = row.querySelector(".transaction-button");
         transactionButton.addEventListener("click", () => {
             this.socket.emit('accept-cash-order', order);
+            this.dashboard.deleteCashOrderPrompt();
             row.remove();
         });
         table.appendChild(row);

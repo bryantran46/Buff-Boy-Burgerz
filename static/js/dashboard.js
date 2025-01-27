@@ -1,19 +1,22 @@
 import { MAXBURGERS } from "./dashboard_config.js";
 import { DashboardDisplay } from "./dashboard_display.js";
-import { saveToStorage, getNumFromStorage } from "./storage.js";
+import { saveToStorage, getNumFromStorage, getCashOrderFromStorage, removeCashOrderPrompt } from "./storage.js";
 export class Dashboard {
     progressOrders;
     queueOrders;
     totalBurgersInProgress;
     totalBurgersSold;
+    cashOrder;
     dashboardDisplay;
     constructor(socket, uncompletedOrders) {
         this.progressOrders = new Map();
         this.queueOrders = new Map();
         this.totalBurgersInProgress = 0;
         this.totalBurgersSold = getNumFromStorage("totalBurgersSold");
+        this.cashOrder = getCashOrderFromStorage();
         this.dashboardDisplay = new DashboardDisplay(this, socket);
         this.addOrders(uncompletedOrders);
+        this.cashOrderPrompt(this.cashOrder);
     }
     addProgressOrders(id, order, burgers) {
         this.progressOrders.set(id, order);
@@ -64,7 +67,15 @@ export class Dashboard {
         this.dashboardDisplay.display(this.progressOrders, this.queueOrders, this.totalBurgersSold);
     }
     cashOrderPrompt(order) {
-        this.dashboardDisplay.cashOrderPrompt(order);
+        if (order !== null) {
+            saveToStorage('cashOrder', order);
+            console.log(typeof order);
+            console.log(order);
+            this.dashboardDisplay.cashOrderPrompt(order);
+        }
+    }
+    deleteCashOrderPrompt() {
+        removeCashOrderPrompt();
     }
     addOrder(id, order) {
         const burgers = order.numBurgers;
