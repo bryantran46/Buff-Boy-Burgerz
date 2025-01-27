@@ -1,27 +1,22 @@
-export function saveToStorage(key: string, value: any): void {
+export function saveToStorage(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
 }
-
-export function getCartFromStorage<Cart>(): Cart {
+export function getCartFromStorage() {
     const item = localStorage.getItem("cart");
     return item ? JSON.parse(item) : {};
 }
-
-export function getCashOrderFromStorage(): any {
+export function getCashOrderFromStorage() {
     const item = localStorage.getItem("cashOrder");
     return item ? JSON.parse(item) : null;
 }
-
-export function removeCashOrderPrompt(): void {
+export function removeCashOrderPrompt() {
     localStorage.removeItem("cashOrder");
 }
-
-export function getNumFromStorage(key: string): number {
+export function getNumFromStorage(key) {
     const item = localStorage.getItem(key);
     return item ? JSON.parse(item) : 0;
 }
-
-export function getBoolFromStorage(key: string): boolean {
+export function getBoolFromStorage(key) {
     const item = localStorage.getItem(key);
     return item ? JSON.parse(item) : false;
 }

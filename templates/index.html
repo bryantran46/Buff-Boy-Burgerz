@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <title>Buff Boy Burgerz</title>
 </head>
 <body>
@@ -14,9 +14,9 @@
     <div class="header-scroll-block"></div>
 
     <div class="sidebar">
-        <a href="./index.html">Transaction Dashboard</a>
+        <a href="/">Transaction Dashboard</a>
         <a href="#">Finished Orders</a>
-        <a href="./menu.html">Kiosk</a>
+        <a href="{{ url_for('order') }}">Kiosk</a>
     </div>
 
     <div class="main-content-background"></div>
@@ -26,13 +26,17 @@
         <div class="transaction-summary">
             <div class="transaction-detail">
                 <h3>Total Burgers Sold</h3>
-                <p>30</p>
+                <p id="total-burgers-sold"></p>
             </div>
             <div class="transaction-detail">
                 <h3>Total Burgers Left</h3>
-                <p>10</p>
+                <p id="total-burgers-left"></p>
             </div>
         </div>
+
+        <table id="prompt-table">
+            <tbody></tbody>
+        </table>
 
         <table id="in-progress-table" class="transactions-table">
             <thead>
@@ -44,33 +48,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <!-- <tr>
                     <td class="transaction-cell">
                         <div class="transaction-name">Orgil Tsetsendelger</div>
                         <div class="transaction-order">1 Burger</div>
                         <div class="transaction-price">$7.00</div>
                         <div class="transaction-time">12:15 PM</div>
-                        <img src="./images/venmo.svg">
-                        <button class="transaction-button">Finish</button>
-                    </td>
-                </tr>
-                <!-- <tr>
-                    <td class="transaction-cell">
-                        <div class="transaction-name">John Doe</div>
-                        <div class="transaction-order">1 Burger</div>
-                        <div class="transaction-price">$7.00</div>
-                        <div class="transaction-time">12:15 PM</div>
-                        <img src="./images/venmo.svg">
-                        <button class="transaction-button">Finish</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="transaction-cell">
-                        <div class="transaction-name">John Doe</div>
-                        <div class="transaction-order">1 Burger</div>
-                        <div class="transaction-price">$7.00</div>
-                        <div class="transaction-time">12:15 PM</div>
-                        <img src="./images/venmo.svg">
+                        <img src="{{ url_for('static', filename='images/venmo.svg') }}">
                         <button class="transaction-button">Finish</button>
                     </td>
                 </tr> -->
@@ -94,20 +78,11 @@
                         <img src="./images/venmo.svg">
                         <button class="transaction-button">Finish</button>
                     </td>
-                </tr>
-                <tr>
-                    <td class="transaction-cell">
-                        <div class="transaction-name">John Doe</div>
-                        <div class="transaction-order">1 Burger</div>
-                        <div class="transaction-price">$7.00</div>
-                        <div class="transaction-time">12:15 PM</div>
-                        <img src="./images/venmo.svg">
-                        <button class="transaction-button">Finish</button>
-                    </td>
                 </tr> -->
             </tbody>
         </table>    
     </div>
     </body>
-<!-- <script src="./index.js"></script> -->
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+<script type="module" src="{{ url_for('static', filename='js/index.js') }}"></script>
 </html>

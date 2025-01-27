@@ -239,7 +239,7 @@ h1 {
     appearance: none; 
     height: 10vh;
     width: 11vh;
-    background-image: url("./images/logo.webp");
+    background-image: url("../images/logo.webp");
     background-size: cover;
 }
 

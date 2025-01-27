@@ -52,7 +52,7 @@ def parse_email(messages, pattern):
             continue
         # Extract date
         sort_key = int(message['internalDate']) // 1000
-        date = datetime.fromtimestamp(sort_key).strftime('%m/%d/%Y, %I:%M:%S %p')
+        date = datetime.fromtimestamp(sort_key).strftime('%-I:%M %p')
         # Add name, amount, and date to transactions list
         transactions.append((sort_key, name, amount, date))
     return transactions

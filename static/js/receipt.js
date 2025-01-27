@@ -1,10 +1,16 @@
 import { menuItems, cart } from "./data.js";
 import * as data from './data.js';
+function addNumBurgers(itemId, quantity) {
+    if (itemId == 'burger' || itemId == 'combo') {
+        data.addNumBurgers(quantity);
+    }
+}
 export function add(itemId) {
     if (!cart[itemId]) {
         cart[itemId] = { ...menuItems[itemId], quantity: 0 }; // Prevent unintended mutations
     }
     cart[itemId].quantity++;
+    addNumBurgers(itemId, 1);
     data.addToSubtotal(cart[itemId].price);
     data.saveData();
     updateOrCreateRow(itemId);
@@ -17,23 +23,24 @@ function updateQuantity(itemId, newQuantity) {
     }
     else {
         cart[itemId].quantity = newQuantity;
+        addNumBurgers(itemId, newQuantity - oldQuantity);
         updateRow(itemId);
     }
     data.addToSubtotal((newQuantity - oldQuantity) * price);
     data.saveData();
 }
 function remove(itemId) {
+    addNumBurgers(itemId, -cart[itemId].quantity);
     delete cart[itemId];
     const row = getRowById(itemId);
     if (row)
         row.remove();
+    data.saveData();
 }
 export function clear() {
-    data.emptyCart();
+    data.resetData();
     const receiptTableBody = document.getElementById("receipt-table-body");
     receiptTableBody.replaceChildren(); // Clear all rows
-    data.setSubtotal(0);
-    data.saveData();
 }
 function updateOrCreateRow(itemId) {
     const row = getRowById(itemId);
