@@ -9,6 +9,11 @@ socket.on('refresh', (orders: Order[] ) => {
     dashboard = new Dashboard(socket, orders);
 });
 
+socket.on('cashOrder', (order: any ) => {
+    console.log('cashOrder: ', order)
+    dashboard.cashOrderPrompt(order);
+})
+
 // // Listen for 'new' events from the server
 socket.on('newOrder', (order: Order ) => {
     console.log('New data received:', order);

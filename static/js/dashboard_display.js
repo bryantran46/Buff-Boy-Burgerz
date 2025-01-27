@@ -66,6 +66,29 @@ export class DashboardDisplay {
         });
         table.appendChild(row);
     }
+    cashOrderPrompt(order) {
+        let table = document.querySelector(`#prompt-table tbody`);
+        if (table === null) {
+            console.error("Table body not found");
+            return;
+        }
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td class="transaction-cell">
+                <div class="transaction-name">${order.name}</div>
+                <div class="transaction-order">${order.cartSummary}</div>
+                <div class="transaction-price">$${order.total.toFixed(2)}</div>
+                <img src="/static/images/${order.paymentType}.svg">
+                <button class="transaction-button">Accept</button>
+            </td>
+        `;
+        const transactionButton = row.querySelector(".transaction-button");
+        transactionButton.addEventListener("click", () => {
+            this.socket.emit('accept-cash-order', order);
+            row.remove();
+        });
+        table.appendChild(row);
+    }
     clearProgressTable(ids) {
         this.progressTable.innerHTML = "";
         for (const id of ids) {

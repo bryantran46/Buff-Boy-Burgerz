@@ -106,12 +106,12 @@
         <div class="popup">
             <button class="close-button">Close</button>
             <h2>Cash</h2>
-            <p>
-                Pay
-            </p>
-            <div>I'm ready!</div>      
+            <input type="text" class="name-field"></input>
+            <button class="paid-button">I'm ready!</button>
+            <p class="response-message"></p>
         </div>
     </div>
 </body>
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
 <script type="module" src="{{ url_for('static', filename='js/pay.js') }}"></script>
 </html>

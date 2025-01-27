@@ -29,7 +29,7 @@ electronicTransactions.forEach((method) => {
             "numBurgers": getNumBurgers(),
         };
         try {
-            const response = await fetch("/check-payment", {
+            const response = await fetch("/check-e-payment", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -53,4 +53,41 @@ electronicTransactions.forEach((method) => {
             }
         }
     });
+});
+document.querySelector(`#cash-popup .paid-button`)?.addEventListener("click", async () => {
+    const name = document.querySelector('.name-field').value;
+    const orderInfo = {
+        'name': name,
+        'paymentType': 'cash',
+        'total': getTotal(),
+        'subtotal': getSubtotal(),
+        'tip': getTip(),
+        'discount': getDiscounts(),
+        'cart': getOrder(),
+        'numBurgers': getNumBurgers(),
+    };
+    try {
+        const response = await fetch("/check-cash-payment", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(orderInfo),
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const result = await response.json();
+        const responseMessageElement = document.querySelector(`#cash-popup .response-message`);
+        if (responseMessageElement) {
+            responseMessageElement.textContent = result.message;
+        }
+    }
+    catch (error) {
+        console.error("Error:", error);
+        const responseMessageElement = document.querySelector(`#cash-popup .response-message`);
+        if (responseMessageElement) {
+            responseMessageElement.textContent = "Failed to check payment";
+        }
+    }
 });

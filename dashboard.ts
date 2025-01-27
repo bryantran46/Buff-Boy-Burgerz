@@ -75,6 +75,10 @@ export class Dashboard {
         this.dashboardDisplay.display(this.progressOrders, this.queueOrders, this.totalBurgersSold);
     }
 
+    cashOrderPrompt(order: any) {
+        this.dashboardDisplay.cashOrderPrompt(order);
+    }
+
     addOrder(id: number, order: Order) {
         const burgers = order.numBurgers;
         this.totalBurgersSold += burgers;

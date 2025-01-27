@@ -54,3 +54,4 @@ ORDERS_SCHEMA = {
 }
 
 DASHBOARD_COLUMNS = ['id', 'name', 'cartSummary', 'total', 'time', 'paymentType', 'numBurgers']
+CASH_COLUMNS = ['name', 'paymentType', 'total', 'subtotal', 'tip', 'discount', 'cartSummary', 'numBurgers', 'cart']
