@@ -202,6 +202,25 @@
     padding: 1vh 4vw;
 }
 
+.slider {
+    -webkit-appearance: none;
+    appearance: none; 
+    width: 100%;
+    border-radius: 15px;
+    height: 4vh;
+    background: #ccc;
+    margin: 10vh 2vw;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none; 
+    height: 10vh;
+    width: 11vh;
+    background-image: url("../images/logo.webp");
+    background-size: cover;
+}
+
 /* Disable clicks on main content when overlay is active */
 .main-screen.disabled {
     pointer-events: none;   /* Disable interactions */

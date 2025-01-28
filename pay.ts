@@ -1,6 +1,7 @@
-import { loadData, getTotal, getOrder, getSubtotal, getTip, getDiscounts, getNumBurgers } from './data.js';
+import { loadData, getTotal, getOrder, getSubtotal, getTip, getDiscounts, getNumBurgers, saveData, setTip } from './data.js';
 import { renderReceipt, renderTotal } from "./receipt.js";
 import { showPopup, hidePopup } from './popup.js';
+import { initializeSlider, reloadSlider } from './slider.js';
 
 const popups = ["venmo", "zelle", "cash"];
 const electronicTransactions = ["venmo", "zelle"]
@@ -12,6 +13,19 @@ renderTotal();
 document.querySelector(".back-button")!.addEventListener("click", () => {
     window.location.href = "./order";
 });
+
+// tip/slider logic
+initializeSlider();
+document.getElementById(`tip-card`)?.addEventListener("click", () => showPopup(`tip-popup`));
+document.querySelector(`#tip-popup .tip-button`)?.addEventListener("click", () => 
+    hidePopup(`tip-popup`, () => {
+        const newTip = parseInt((document.querySelector(".slider") as HTMLInputElement).value, 10);
+        setTip(newTip);
+        saveData();
+    })
+);
+document.querySelector(`#tip-popup .close-button`)?.addEventListener("click", () => 
+    hidePopup(`tip-popup`, () => reloadSlider()));
 
 // Attach event listeners for showing popups
 popups.forEach((method) => {
