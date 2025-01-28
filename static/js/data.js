@@ -20,6 +20,9 @@ export function emptyCart() {
 export function setCart(newCart) {
     cart = newCart;
 }
+export function cartSize() {
+    return Object.keys(cart).length;
+}
 export function getOrder() {
     const order = {};
     for (const item in cart) {

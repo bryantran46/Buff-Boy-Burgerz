@@ -32,6 +32,10 @@ export function setCart(newCart: Cart) {
     cart = newCart;
 }
 
+export function cartSize() {
+    return Object.keys(cart).length;
+}
+
 export function getOrder() {
     const order: Record<string, number> = {};
     for (const item in cart) {

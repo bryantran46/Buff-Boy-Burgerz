@@ -1,4 +1,4 @@
-import { loadData, saveData, setTip, setApplyDiscounts, getTip } from './data.js';
+import { loadData, saveData, setTip, setApplyDiscounts, cart, cartSize } from './data.js';
 import { hidePopup, showPopup } from './popup.js';
 import { renderTotal, add, clear, renderReceipt } from "./receipt.js";
 import { initializeSlider, reloadSlider } from './slider.js';
@@ -49,5 +49,10 @@ document.querySelector(".cancel-button")!.addEventListener("click", clear);
 
 // Event listener for the pay button
 document.querySelector(".pay-button")!.addEventListener("click", ()=> {
-    window.location.href = "./pay";
+    if (cartSize() === 0) {
+        alert('Please add items to order');
+    } 
+    else {
+        window.location.href = "./pay";
+    }
 });

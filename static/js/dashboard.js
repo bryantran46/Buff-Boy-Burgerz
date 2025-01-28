@@ -69,8 +69,6 @@ export class Dashboard {
     cashOrderPrompt(order) {
         if (order !== null) {
             saveToStorage('cashOrder', order);
-            console.log(typeof order);
-            console.log(order);
             this.dashboardDisplay.cashOrderPrompt(order);
         }
     }
