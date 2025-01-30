@@ -15,6 +15,10 @@ socketio = SocketIO(app)
 def home():
     return render_template('index.html')
 
+@app.route('/start')
+def start():
+    return render_template('start.html')
+
 @app.route('/order')
 def order():
     return render_template('menu.html')
