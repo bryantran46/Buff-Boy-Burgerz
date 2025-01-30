@@ -91,9 +91,9 @@
                     <h2 class="food-name">Follower Discount</h2>
                     <img src="{{ url_for('static', filename='images/instagram.svg') }}" alt="Follower Discount" class="food-image">
                 </div>
-                <div id="tip-card" class="item-card">
-                    <h2 class="food-name">Tips</h2>
-                    <img src="{{ url_for('static', filename='images/tip.webp') }}" alt="Tips" class="food-image">
+                <div id="toppings-card" class="item-card">
+                    <h2 class="food-name">Remove Toppings</h2>
+                    <!-- <img src="{{ url_for('static', filename='images/tip.webp') }}" alt="Tips" class="food-image"> -->
                 </div>
             </div>
         </div>
@@ -112,17 +112,14 @@
             <button class="follow-button">I followed!</button>
         </div>
     </div>
-
-    <div id="tip-popup" class="popup-overlay hidden">
+    
+    <div id="toppings-popup" class="popup-overlay hidden">
         <div class="popup">
-            <button>Close</button>
-            <h2>Tip</h2>
-            <p>
-                No obligation to tip us! But if you liked our service, why not show us some love?
-            </p>
-            <div class="value">$0</div>
-            <input class="slider" type="range" value="0" min="0" max="10"/>
-            <button class="tip-button">Confirm</button>
+            <button class="close-button">Close</button>
+            <h2>Toppings</h2>
+            <div id="burger-forms"></div>
+            <button id="submit">Confirm</button>
+            <p id="result"></p>
         </div>
     </div>
 </body>

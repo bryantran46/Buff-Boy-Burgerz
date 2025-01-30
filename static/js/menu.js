@@ -1,31 +1,20 @@
-import { loadData, saveData, setTip, setApplyDiscounts, cartSize } from './data.js';
+import { loadData, saveData, setApplyDiscounts, cartSize } from './data.js';
 import { hidePopup, showPopup } from './popup.js';
 import { renderTotal, add, clear, renderReceipt } from "./receipt.js";
-import { initializeSlider, reloadSlider } from './slider.js';
-const popups = ["follower", "tip"];
+import { initializeToppingsPopup } from './toppings.js';
 loadData();
 renderReceipt();
 renderTotal();
+initializeToppingsPopup();
 // Show the popup and disable main content
-popups.forEach((method) => {
-    document.getElementById(`${method}-card`)?.addEventListener("click", () => showPopup(`${method}-popup`));
-});
+document.getElementById(`follower-card`)?.addEventListener("click", () => showPopup(`follower-popup`));
 // Hide the popup and re-enable main content
-document.querySelector(`#follower-popup button`)?.addEventListener("click", () => hidePopup(`follower-popup`));
-document.querySelector(`#tip-popup button`)?.addEventListener("click", () => hidePopup(`tip-popup`, () => reloadSlider()));
+document.querySelector(`#follower-popup .close-button`)?.addEventListener("click", () => hidePopup(`follower-popup`));
 // Set follower discount
 document.querySelector(`#follower-popup .follow-button`)?.addEventListener("click", () => hidePopup(`follower-popup`, () => {
     setApplyDiscounts(true);
     saveData();
 }));
-// Set tip amount
-document.querySelector(`#tip-popup .tip-button`)?.addEventListener("click", () => hidePopup(`tip-popup`, () => {
-    const newTip = parseInt(document.querySelector(".slider").value, 10);
-    setTip(newTip);
-    saveData();
-}));
-// slider logic
-initializeSlider();
 // Event listeners for the food items
 document.querySelectorAll(".food-item").forEach((element) => {
     element.addEventListener("click", () => add(element.dataset.id));
