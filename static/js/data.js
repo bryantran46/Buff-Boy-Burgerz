@@ -1,5 +1,6 @@
 import { renderTotal } from "./receipt.js";
 import { saveToStorage, getCartFromStorage, getNumFromStorage, getBoolFromStorage } from "./storage.js";
+import { updateCheckboxState } from "./toppings.js";
 export const menuItems = {
     combo: { name: "Combo", price: 10, image: "static/images/combo.webp", quantity: 0 },
     burger: { name: "Classic Smash Burger", price: 8, image: "static/images/burger.webp", quantity: 0 },
@@ -35,10 +36,12 @@ export function getNumBurgers() {
 }
 export function setNumBurgers(newNumBurgers) {
     numBurgers = newNumBurgers;
+    updateCheckboxState(numBurgers);
     updateDiscounts();
 }
 export function addNumBurgers(quantity) {
     numBurgers += quantity;
+    updateCheckboxState(numBurgers);
     updateDiscounts();
 }
 // subtotal
@@ -101,6 +104,7 @@ export function resetData() {
     discounts = 0;
     tip = 0;
     total = 0;
+    updateCheckboxState(numBurgers);
     saveData();
     renderTotal();
 }

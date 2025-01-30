@@ -1,5 +1,6 @@
 import { renderTotal } from "./receipt.js";
 import { saveToStorage, getCartFromStorage, getNumFromStorage, getBoolFromStorage } from "./storage.js";
+import { updateCheckboxState } from "./toppings.js";
 
 export interface FoodItem {
     name: string;
@@ -50,11 +51,13 @@ export function getNumBurgers() {
 
 export function setNumBurgers(newNumBurgers: number) {
     numBurgers = newNumBurgers;
+    updateCheckboxState(numBurgers);
     updateDiscounts();
 }
 
 export function addNumBurgers(quantity: number) {
     numBurgers += quantity;
+    updateCheckboxState(numBurgers);
     updateDiscounts();
 }
 
@@ -131,6 +134,7 @@ export function resetData() {
     discounts = 0;
     tip = 0;
     total = 0;
+    updateCheckboxState(numBurgers);
     saveData();
     renderTotal();
 }

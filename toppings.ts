@@ -1,12 +1,13 @@
 import { getNumBurgers } from "./data.js";
 import { hidePopup, showPopup } from "./popup.js";
-import { saveToStorage, loadFromStorage } from "./storage.js";
+import { saveToStorage, loadFromStorage, removeFromStorage } from "./storage.js";
 
 const toppingCard = document.getElementById("toppings-card");
 const toppingsPopup = document.getElementById("toppings-popup");
 const burgerFormsContainer = document.getElementById("burger-forms");
 const resultDisplay = toppingsPopup?.querySelector("#result");
 const submitButton = toppingsPopup?.querySelector("#submit");
+let states: { [key: string]: { [key: string]: boolean } } = {};
 
 const toppings = [
     "Everything",
@@ -29,22 +30,42 @@ export function initializeToppingsPopup() {
  */
 function loadCheckboxState() {
     const states = loadFromStorage("checkboxState") || {};
-    Object.entries(states).forEach(([id, checked]) => {
-        const checkbox = document.getElementById(id) as HTMLInputElement;
-        if (checkbox) checkbox.checked = checked as boolean;
-    });
+    for (let burgerFormId in states) {
+        let checkboxes = states[burgerFormId]
+        for (let id in checkboxes) {
+            const checkbox = document.getElementById(id) as HTMLInputElement;
+            if (checkbox) checkbox.checked = checkboxes[id] as boolean;
+        }
+    };
 }
 
 /**
  * Saves all checkbox states to storage.
  */
 function saveCheckboxState() {
-    const states: { [key: string]: boolean } = {};
-    const checkboxes = document.querySelectorAll(".topping");
-    checkboxes.forEach(cb => {
-        states[cb.id] = (cb as HTMLInputElement).checked;
-    });
+    const burgerForms = document.querySelectorAll(".burger-form");
+    burgerForms.forEach( burgerForm => {
+        const burgerFormId = burgerForm.id;
+        const checkboxes = burgerForm.querySelectorAll(".topping");
+        const state: { [key: string]: boolean } = {};
+        checkboxes.forEach(cb => {
+            state[cb.id] = (cb as HTMLInputElement).checked;
+        });
+        states[burgerFormId] = state;
+    })
     saveToStorage("checkboxState", states);
+}
+
+export function updateCheckboxState(numBurgers: number) {
+    const statesLength = Object.keys(states).length + 1;
+    for (let i = numBurgers + 1; i < statesLength; i++) {
+        delete states[`burger-${i}`];
+    }
+    saveToStorage("checkboxState", states);
+}
+
+export function delCheckboxState() {
+    removeFromStorage("checkboxState");
 }
 
 /**
@@ -57,6 +78,7 @@ function displayForms() {
     for (let i = 1; i <= numBurgers; i++) {
         const form = document.createElement("form");
         form.id = `burger-${i}`;
+        form.className = `burger-form`
         form.innerHTML = `<h3>Burger ${i}</h3>`;
         toppings.forEach((topping, index) => {
             form.innerHTML += `

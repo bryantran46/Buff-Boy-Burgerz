@@ -7,6 +7,10 @@ export function loadFromStorage(key: string) {
     return data ? JSON.parse(data) : null;
 }
 
+export function removeFromStorage(key: string): void {
+    localStorage.removeItem(key);
+}
+
 export function getCartFromStorage<Cart>(): Cart {
     const item = localStorage.getItem("cart");
     return item ? JSON.parse(item) : {};
