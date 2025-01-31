@@ -23,6 +23,10 @@ def start():
 def order():
     return render_template('menu.html')
 
+@app.route('/tip')
+def tip():
+    return render_template('tip.html')
+
 @app.route('/pay')
 def pay():
     return render_template('pay.html')

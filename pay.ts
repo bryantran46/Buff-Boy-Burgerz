@@ -11,21 +11,21 @@ renderReceipt();
 renderTotal();
 
 document.querySelector(".back-button")!.addEventListener("click", () => {
-    window.location.href = "./order";
+    window.location.href = "./tip";
 });
 
 // tip/slider logic
-initializeSlider();
-document.getElementById(`tip-card`)?.addEventListener("click", () => showPopup(`tip-popup`));
-document.querySelector(`#tip-popup .tip-button`)?.addEventListener("click", () => 
-    hidePopup(`tip-popup`, () => {
-        const newTip = parseInt((document.querySelector(".slider") as HTMLInputElement).value, 10);
-        setTip(newTip);
-        saveData();
-    })
-);
-document.querySelector(`#tip-popup .close-button`)?.addEventListener("click", () => 
-    hidePopup(`tip-popup`, () => reloadSlider()));
+// initializeSlider();
+// document.getElementById(`tip-card`)?.addEventListener("click", () => showPopup(`tip-popup`));
+// document.querySelector(`#tip-popup .tip-button`)?.addEventListener("click", () => 
+//     hidePopup(`tip-popup`, () => {
+//         const newTip = parseInt((document.querySelector(".slider") as HTMLInputElement).value, 10);
+//         setTip(newTip);
+//         saveData();
+//     })
+// );
+// document.querySelector(`#tip-popup .close-button`)?.addEventListener("click", () => 
+//     hidePopup(`tip-popup`, () => reloadSlider()));
 
 // Attach event listeners for showing popups
 popups.forEach((method) => {

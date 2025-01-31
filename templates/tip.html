@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Gallery</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/pay.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tip.css') }}">
+    <title>Buff Boy Burgerz</title>
 </head>
 <body>
     <div class="main-screen">
@@ -61,73 +61,15 @@
         </div>
 
         <div class="main-content">
-            <div class="payment-gallery">
-                <div id="venmo-card" class="payment-card">
-                    <h2 class="payment-name">Venmo</h2>
-                    <img src="{{ url_for('static', filename='images/venmo.svg') }}" alt="Zelle" class="food-image">
-                </div>
-                <div id="zelle-card" class="payment-card">
-                    <h2 class="payment-name">Zelle</h2>
-                    <img src="{{ url_for('static', filename='images/zelle.svg') }}" alt="Zelle" class="food-image">
-                </div>
-                <div id="cash-card" class="payment-card centered-item">
-                    <h2 class="payment-name">Cash</h2>
-                    <img src="{{ url_for('static', filename='images/cash.svg') }}" alt="Zelle" class="food-image">
-                </div>
-                <!-- <div id="tip-card" class="payment-card">
-                    <h2 class="payment-name">Tip</h2>
-                    <img src="{{ url_for('static', filename='images/tip.webp') }}" alt="Tip" class="food-image">
-                </div> -->
-            </div>
-        </div>
-    </div>
-
-    <div id="venmo-popup" class="popup-overlay hidden">
-        <div class="popup">
-            <button class="close-button">Close</button>
-            <h2>Venmo</h2>
-            <p>
-                Pay
-            </p>
-            <img src="{{ url_for('static', filename='images/venmo_qr.png') }}">
-            <button class="paid-button">I paid!</button>
-            <p class="response-message"></p>
-        </div>
-    </div>
-    <div id="zelle-popup" class="popup-overlay hidden">
-        <div class="popup">
-            <button class="close-button">Close</button>
-            <h2>Zelle</h2>
-            <p>
-                Pay
-            </p>
-            <div>bryantran0214@gmail.com</div>
-            <button class="paid-button">I paid!</button>
-            <p class="response-message"></p>
-        </div>
-    </div>
-    <div id="cash-popup" class="popup-overlay hidden">
-        <div class="popup">
-            <button class="close-button">Close</button>
-            <h2>Cash</h2>
-            <input type="text" class="name-field"></input>
-            <button class="paid-button">I'm ready!</button>
-            <p class="response-message"></p>
-        </div>
-    </div>
-    <!-- <div id="tip-popup" class="popup-overlay hidden">
-        <div class="popup">
-            <button class="close-button">Close</button>
+            <button class="back-button">Back</button>
             <h2>Tip</h2>
             <p>
                 No obligation to tip us! But if you liked our service, why not show us some love?
             </p>
             <div class="value">$0</div>
             <input class="slider" type="range" value="0" min="0" max="10"/>
-            <button class="tip-button">Confirm</button>
+            <button class="confirm-button">Confirm</button>
         </div>
-    </div> -->
+    </div>
 </body>
-<script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
-<script type="module" src="{{ url_for('static', filename='js/pay.js') }}"></script>
-</html>
+<script type="module" src="{{ url_for('static', filename='js/tip.js') }}"></script>

@@ -1,11 +1,9 @@
 import { loadData, saveData, setApplyDiscounts, cartSize } from './data.js';
 import { hidePopup, showPopup } from './popup.js';
 import { renderTotal, add, clear, renderReceipt } from "./receipt.js";
-import { initializeToppingsPopup } from './toppings.js';
 loadData();
 renderReceipt();
 renderTotal();
-initializeToppingsPopup();
 // Show the popup and disable main content
 document.getElementById(`follower-card`)?.addEventListener("click", () => showPopup(`follower-popup`));
 // Hide the popup and re-enable main content
@@ -27,6 +25,6 @@ document.querySelector(".pay-button").addEventListener("click", () => {
         alert('Please add items to order');
     }
     else {
-        window.location.href = "./pay";
+        window.location.href = "./tip";
     }
 });
