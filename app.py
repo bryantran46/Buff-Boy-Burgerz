@@ -31,6 +31,10 @@ def tip():
 def pay():
     return render_template('pay.html')
 
+@app.route('/end')
+def end():
+    return render_template('end.html')
+
 @app.route('/check-e-payment', methods=['POST'])
 def check_e_payment():
     # data sent by kiosk order
