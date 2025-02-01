@@ -1,3 +1,5 @@
+from enum import Enum
+
 CLIENT_SECRET_FILE = 'credentials.json'
 API_NAME = 'gmail'
 API_VERSION = 'v1'
@@ -14,3 +16,9 @@ ZELLE = {
     'query': 'label:unread from:(customerservice@ealerts.bankofamerica.com) subject:("sent you")',
     'pattern': r'([A-Za-z]+\s[A-Za-z]+)\s+sent\s+you\s+\$([\d]+\.\d{2})'
 }
+
+class PaymentStatusCode(int, Enum):
+    ACCEPTED = 1
+    UNDERPAID = 2
+    NONE_DETECTED = 3
+    AWAITING_CASH = 4

@@ -229,3 +229,42 @@
 .popup img {
     width: 70%;
 }
+#loading-screen.disabled {
+    display: none;
+}
+#loading-screen {
+    width: 94vw;
+    height: 92vh;
+    position: absolute;
+    z-index: 1000;
+    left: 3vw;
+    top: 4vh;
+    background-color: white;
+    border-radius: 10px;
+}
+#loader.disabled {
+    display: none;
+}
+#loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 120px;
+    height: 120px;
+    margin: -76px 0 0 -76px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+  
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

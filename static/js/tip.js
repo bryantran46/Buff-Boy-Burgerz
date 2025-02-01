@@ -13,6 +13,5 @@ document.querySelector(`.confirm-button`)?.addEventListener("click", () => {
     const newTip = parseInt(document.querySelector(".slider").value, 10);
     setTip(newTip);
     saveData();
-    console.log('test');
     window.location.href = './pay';
 });

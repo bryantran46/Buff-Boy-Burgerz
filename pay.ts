@@ -2,6 +2,7 @@ import { loadData, getTotal, getOrder, getSubtotal, getTip, getDiscounts, getNum
 import { renderReceipt, renderTotal } from "./receipt.js";
 import { showPopup, hidePopup } from './popup.js';
 import { initializeSlider, reloadSlider } from './slider.js';
+import { displayLoadingScreen, displayResponse, displayResult } from './loader.js';
 
 const popups = ["venmo", "zelle", "cash"];
 const electronicTransactions = ["venmo", "zelle"]
@@ -39,6 +40,7 @@ popups.forEach((method) => {
 
 electronicTransactions.forEach((method) => {
     document.querySelector(`#${method}-popup .paid-button`)?.addEventListener("click", async () => {
+        displayLoadingScreen();
         const orderInfo = {
             "paymentType": method, 
             "total": getTotal(), 
@@ -61,23 +63,18 @@ electronicTransactions.forEach((method) => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
     
-            const result = await response.json();
-            const responseMessageElement = document.querySelector(`#${method}-popup .response-message`);
-            if (responseMessageElement) {
-                responseMessageElement.textContent = result.message;
-            }
+            const status = await response.json();
+            displayResult(status, method);
         } catch (error) {
             console.error("Error:", error);
-            const responseMessageElement = document.querySelector(`#${method}-popup .response-message`);
-            if (responseMessageElement) {
-                responseMessageElement.textContent = "Failed to check payment";
-            }
+            displayResponse('Failed to check payment.', `#${method}-popup`);
         }
     })
 });
 
 
 document.querySelector(`#cash-popup .paid-button`)?.addEventListener("click", async () => {
+    displayLoadingScreen();
     const name = (document.querySelector('.name-field') as HTMLInputElement).value;
     const orderInfo = {
         'name': name,
@@ -101,17 +98,10 @@ document.querySelector(`#cash-popup .paid-button`)?.addEventListener("click", as
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const result = await response.json();
-        const responseMessageElement = document.querySelector(`#cash-popup .response-message`);
-        if (responseMessageElement) {
-            responseMessageElement.textContent = result.message;
-        }
+        const status = await response.json();
+        displayResult(status, 'cash');
     } catch (error) {
         console.error("Error:", error);
-        const responseMessageElement = document.querySelector(`#cash-popup .response-message`);
-        if (responseMessageElement) {
-            responseMessageElement.textContent = "Failed to check payment";
-        }
+        displayResponse('Failed to check payment.', `#cash-popup`);
     }
-
 });

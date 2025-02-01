@@ -1,7 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO
 from google_apis import create_service
-from config import CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES, VENMO, ZELLE 
+from config import CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES, VENMO, ZELLE, PaymentStatusCode 
 from email_utils import process_transaction_emails
 from db_schema import CASH_COLUMNS, DASHBOARD_COLUMNS, DB_NAME, ORDERS_COLUMNS, ORDERS_SCHEMA
 from db_table import db_table
@@ -57,12 +57,11 @@ def check_e_payment():
 
     # Check if user paid
     result = ''
+    missing_payment = '0'
     if len(transactions) > 0:
         internalDate, name, amount, time = transactions[0]
         print('Time:', internalDate)
         if float(amount) >= float(total):
-            result = 'Successful payment'
-
             # Add order to database
             orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
             order_data = [name, time, internalDate, False, paymentType, total, subtotal, tip, discount, cartSummary, numBurgers]
@@ -75,13 +74,15 @@ def check_e_payment():
             socketio.emit('newOrder', 
                 dict(zip(DASHBOARD_COLUMNS, [id, name, cartSummary, total, time, paymentType, numBurgers])),
             )
+            result = PaymentStatusCode.ACCEPTED
         else:
             missing_payment = float(total) - float(amount)
-            result = 'Underpaid by ' + f'{missing_payment:.2f}'
+            result = PaymentStatusCode.UNDERPAID
+            missing_payment = f'{missing_payment:.2f}'
     else:
-        result = 'No payment processed. Try again.'
+        result = PaymentStatusCode.NONE_DETECTED
 
-    return jsonify({"status": "success", "message": result})
+    return jsonify({"result": result, "missingPayment": missing_payment})
 
 @app.route('/check-cash-payment', methods=['POST'])
 def check_cash_payment():
@@ -100,7 +101,7 @@ def check_cash_payment():
     order_data = [name, paymentType, total, subtotal, tip, discount, cartSummary, numBurgers, cart]
     socketio.emit('cashOrder', dict(zip(CASH_COLUMNS, order_data)))
 
-    return jsonify({"status": "success", "message": "Awaiting accept of order"})
+    return jsonify({"result": PaymentStatusCode.AWAITING_CASH})
 
 
 # WebSocket event handler for connection
