@@ -1,8 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+@font-face {
+    font-family: 'Cup Head';
+    src: url('../fonts/cuphead.ttf');
+}
+@font-face {
+    font-family: 'Bold Marker';
+    src: url('../fonts/bold-marker.ttf');
+}
 
 :root {
     --bottom: calc(100vh - 6vw);
-    font-family: 'Fredoka One', cursive;
+    font-family: 'Bold Marker';
 }
 body {
     background-color: #f2c245;
@@ -45,8 +52,8 @@ button {
     top: 35vh;
     left: 65vw;
     border-radius: 40px;
-    font-family: 'Fredoka One', cursive;
     font-size: 5vh;
+    font-family: 'Bold Marker';
 }
 
 .ground {
