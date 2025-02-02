@@ -291,7 +291,7 @@ h1 {
     width: 64vw;
     height: 92vh;
     top: 4vh;
-    left: 32vw;
+    right: 3vw;
     border-radius: 20px;
     text-align: center;
     display: flex;
@@ -316,8 +316,17 @@ h1 {
     font-size: 4em;
     color: black;
 }
+.confirm-button {
+    border-radius: 15px;
+    padding: 4vh 3vw;
+    line-height: 0;
+    font-size: 2em;
+    color: black;
+    font-weight: 700;
+}
 
 /* Follower Popup */
 #follower-popup p {
     width: 56vw;
 }
+
