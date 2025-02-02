@@ -1,6 +1,7 @@
 import { loadData, saveData, setApplyDiscounts, cartSize } from './data.js';
 import { hidePopup, showPopup } from './popup.js';
 import { renderTotal, add, clear, renderReceipt } from "./receipt.js";
+import { initializeToppingsPopup } from './toppings.js';
 
 loadData();
 renderReceipt();
@@ -17,6 +18,8 @@ document.querySelector(`#follower-popup .follow-button`)?.addEventListener("clic
         saveData();
     })
 );
+
+initializeToppingsPopup();
 
 // Event listeners for the food items
 document.querySelectorAll(".food-item").forEach((element) => {
