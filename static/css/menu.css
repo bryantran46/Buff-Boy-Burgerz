@@ -277,28 +277,46 @@ h1 {
     display: none;
 }
 
+/* Disable clicks on main content when overlay is active */
+.main-screen.disabled {
+    pointer-events: none;
+    overflow: hidden;
+}
+
 /* Popup content */
 .popup {
     position: fixed;
     background: white;
-    width: 56vw;
-    height: 90vh;
+    width: 64vw;
+    height: 92vh;
     top: 4vh;
     left: 32vw;
     border-radius: 20px;
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 1vh 4vw;
+    /* padding: 1vh 4vw; */
 }
 
-/* Disable clicks on main content when overlay is active */
-.main-screen.disabled {
-    pointer-events: none;   /* Disable interactions */
-    /* filter: blur(1px);   /* Optional: add a blur effect */
-}
 .popup img {
-    width: 70%;
+    height: 50%;
+}
+.close-button {
+    background-color: transparent;
+    width: 5vw;
+    height: 5vw;
+    border: none;
+    align-self: flex-start;
+    margin: 1vh;
+    padding: 0;
+    line-height: 0;
+    text-align: center;
+    font-size: 4em;
+    color: black;
+}
+
+/* Follower Popup */
+#follower-popup p {
+    width: 56vw;
 }
