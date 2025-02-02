@@ -11,13 +11,11 @@
     --tertiary-color: white;
     background-color: rgb(44, 42, 42);
 } 
-.main-screen {
-    margin: 4vh 3vw;
-    display: flex;
-    justify-content: space-between;
-}
 /* Receipt Styling */
 .receipt {
+    position: fixed;
+    left: 3vw;
+    top: 4vh;
     width: 27vw;
     height: 92vh;
     background-color: transparent;
@@ -151,6 +149,9 @@
 }
 /* Main Content Styling */
 .main-content {
+    position: fixed;
+    right: 3vw;
+    top: 4vh;
     width: 64vw;
     height: 92vh;
     background-color: var(--base-bg-color);
