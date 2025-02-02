@@ -304,19 +304,25 @@ h1 {
     height: 50%;
 }
 .close-button {
+    position: fixed;
+    left: 34vw;
+    top: calc(4vh + 1vw);
     background-color: transparent;
     width: 5vw;
     height: 5vw;
     border: none;
     align-self: flex-start;
-    margin: 1vh;
     padding: 0;
     line-height: 0;
     text-align: center;
     font-size: 4em;
     color: black;
 }
+.popup h2 {
+    margin-top: 10vh;
+}
 .confirm-button {
+    margin-top: 5vh;
     border-radius: 15px;
     padding: 4vh 3vw;
     line-height: 0;
@@ -328,5 +334,25 @@ h1 {
 /* Follower Popup */
 #follower-popup p {
     width: 56vw;
+}
+/* Toppings Popup */
+#toppings-popup .popup {
+    overflow-y: scroll;
+}
+#burger-forms {
+    display: grid;
+    grid-template-columns: repeat(2, 28vw);
+    grid-template-rows: repeat();
+}
+#burger-forms form {
+    display: flex;
+    flex-direction: column;
+    width: 17vw;
+    justify-self: center;
+    align-self: center;
+    align-items: flex-start;
+}
+#burger-forms h3 {
+    align-self: center;
 }
 

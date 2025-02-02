@@ -13,7 +13,7 @@ export function displayResult(status, paymentType) {
     }
     else if (status['result'] === PaymentStatusCode.UNDERPAID) {
         loadingScreen?.classList.add('disabled');
-        displayResponse(`Missing payment: Pay an additional ${status['missingPayment']}.`, `#${paymentType}-popup`);
+        displayResponse(`Missing payment: Pay an additional $${status['missingPayment']}.`, `#${paymentType}-popup`);
     }
     else if (status['result'] === PaymentStatusCode.AWAITING_CASH) {
         displayResponse(`Please give cash to cook.`, `#loading-screen`);

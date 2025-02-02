@@ -75,8 +75,11 @@ function displayForms() {
         form.innerHTML = `<h3>Burger ${i}</h3>`;
         toppings.forEach((topping, index) => {
             form.innerHTML += `
-                <input type="checkbox" id="burger-${i}-topping-${index + 1}" class="topping" data-burger="${i}" data-topping="${topping}" checked>
-                <label for="burger-${i}-topping-${index + 1}">${topping}</label><br>
+                <label for="burger-${i}-topping-${index + 1}">
+                    <input type="checkbox" id="burger-${i}-topping-${index + 1}" class="topping" data-burger="${i}" data-topping="${topping}" checked>
+                    ${topping}
+                </label>
+                <br>
             `;
         });
         burgerFormsContainer.appendChild(form);
