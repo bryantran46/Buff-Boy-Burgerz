@@ -84,34 +84,42 @@
 
     <div id="venmo-popup" class="popup-overlay hidden">
         <div class="popup">
-            <button class="close-button">Close</button>
+            <button class="close-button">&times;</button>
             <h2>Venmo</h2>
             <p>
-                Pay
+                Send to this venmo please! Click the "I paid" button once you've finished the transaction!
             </p>
             <img src="{{ url_for('static', filename='images/venmo_qr.png') }}">
-            <button class="paid-button">I paid!</button>
+            <button class="confirm-button">I paid!</button>
             <p class="response-message"></p>
         </div>
     </div>
     <div id="zelle-popup" class="popup-overlay hidden">
         <div class="popup">
-            <button class="close-button">Close</button>
+            <button class="close-button">&times;</button>
             <h2>Zelle</h2>
             <p>
-                Pay
+                Send to this email please! Click the "I paid" button once you've finished the transaction!
             </p>
-            <div>bryantran0214@gmail.com</div>
-            <button class="paid-button">I paid!</button>
+            <div class="email">bryantran0214@gmail.com</div>
+            <button class="confirm-button">I paid!</button>
             <p class="response-message"></p>
         </div>
     </div>
-    <div id="cash-popup" class="popup-overlay hidden">
+    <div id="cash-popup" class="popup-overlay">
         <div class="popup">
-            <button class="close-button">Close</button>
+            <button class="close-button">&times;</button>
             <h2>Cash</h2>
-            <input type="text" class="name-field"></input>
-            <button class="paid-button">I'm ready!</button>
+            <p>
+                Please enter your name! Click the "I'm ready" button once you have the money ready!
+            </p>
+            <form>
+                <label class="name-label">
+                    Name 
+                    <input type="text" class="name-field"></input>
+                </label>
+            </form>
+            <button class="confirm-button">I'm ready!</button>
             <p class="response-message"></p>
         </div>
     </div>

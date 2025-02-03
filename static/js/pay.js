@@ -31,7 +31,7 @@ popups.forEach((method) => {
     document.querySelector(`#${method}-popup .close-button`)?.addEventListener("click", () => hidePopup(`${method}-popup`));
 });
 electronicTransactions.forEach((method) => {
-    document.querySelector(`#${method}-popup .paid-button`)?.addEventListener("click", async () => {
+    document.querySelector(`#${method}-popup .confirm-button`)?.addEventListener("click", async () => {
         displayLoadingScreen();
         const orderInfo = {
             "paymentType": method,
@@ -62,7 +62,7 @@ electronicTransactions.forEach((method) => {
         }
     });
 });
-document.querySelector(`#cash-popup .paid-button`)?.addEventListener("click", async () => {
+document.querySelector(`#cash-popup .confirm-button`)?.addEventListener("click", async () => {
     displayLoadingScreen();
     const name = document.querySelector('.name-field').value;
     const orderInfo = {
@@ -92,5 +92,12 @@ document.querySelector(`#cash-popup .paid-button`)?.addEventListener("click", as
     catch (error) {
         console.error("Error:", error);
         displayResponse('Failed to check payment.', `#cash-popup`);
+    }
+});
+document.addEventListener('click', function (event) {
+    if (event.target && !event.target.closest('input, textarea')) {
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
     }
 });
