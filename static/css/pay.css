@@ -212,28 +212,18 @@
     display: grid;
     text-align: center;
     place-items: center;
+    grid-template-rows: 15vh 5vh 45vh 15vh 12vh;
+    grid-template-columns: 64vw;
 }
 .popup h2 {
     align-self: baseline;
     font-size: 3em;
 }
-#venmo-popup .popup {
-    grid-template-rows: 15vh 5vh 50vh 20vh;
-    grid-template-columns: 64vw;
-}
 .popup img {
     height: 90%;
 }
-#zelle-popup .popup {
-    grid-template-rows: 15vh 5vh 50vh 20vh;
-    grid-template-columns: 64vw;
-}
 .email {
     font-size: 3.5em;
-}
-#cash-popup .popup {
-    grid-template-rows: 15vh 5vh 50vh 20vh;
-    grid-template-columns: 64vw;
 }
 .name-label {
     font-size: 3em;
@@ -260,13 +250,15 @@
     color: black;
 }
 .confirm-button {
-    margin-top: 5vh;
     border-radius: 15px;
     padding: 4vh 3vw;
     line-height: 0;
     font-size: 2em;
     color: black;
     font-weight: 700;
+}
+.response-message {
+    font-size: 2em;
 }
 /* Loading Screen Styling */
 #loading-screen.disabled {
