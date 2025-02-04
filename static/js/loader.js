@@ -20,7 +20,6 @@ export function displayResult(status, paymentType) {
         displayResponse(`Please give cash to cook!`, `#loading-screen`);
     }
     else if (status['result'] === PaymentStatusCode.DECLINE_CASH) {
-        console.log('hit');
         loadingScreen?.classList.add('disabled');
         displayResponse(`Cash declined, try again!`, `#${paymentType}-popup`);
     }
