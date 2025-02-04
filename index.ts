@@ -2,7 +2,7 @@ import { Order } from './dashboard_config.js';
 import { Dashboard } from './dashboard.js';
 
 // Connect to the WebSocket server
-const socket = io();
+const socket = io('/dashboard');
 let dashboard: Dashboard;
 
 socket.on('refresh', (orders: Order[] ) => {

@@ -1,6 +1,6 @@
 import { Dashboard } from './dashboard.js';
 // Connect to the WebSocket server
-const socket = io();
+const socket = io('/dashboard');
 let dashboard;
 socket.on('refresh', (orders) => {
     dashboard = new Dashboard(socket, orders);

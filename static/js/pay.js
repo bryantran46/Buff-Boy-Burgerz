@@ -4,24 +4,14 @@ import { showPopup, hidePopup } from './popup.js';
 import { displayLoadingScreen, displayResponse, displayResult } from './loader.js';
 const popups = ["venmo", "zelle", "cash"];
 const electronicTransactions = ["venmo", "zelle"];
+// Connect to the WebSocket server
+const socket = io('/kiosk');
 loadData();
 renderReceipt();
 renderTotal();
 document.querySelector(".back-button").addEventListener("click", () => {
     window.location.href = "./tip";
 });
-// tip/slider logic
-// initializeSlider();
-// document.getElementById(`tip-card`)?.addEventListener("click", () => showPopup(`tip-popup`));
-// document.querySelector(`#tip-popup .tip-button`)?.addEventListener("click", () => 
-//     hidePopup(`tip-popup`, () => {
-//         const newTip = parseInt((document.querySelector(".slider") as HTMLInputElement).value, 10);
-//         setTip(newTip);
-//         saveData();
-//     })
-// );
-// document.querySelector(`#tip-popup .close-button`)?.addEventListener("click", () => 
-//     hidePopup(`tip-popup`, () => reloadSlider()));
 // Attach event listeners for showing popups
 popups.forEach((method) => {
     document.getElementById(`${method}-card`)?.addEventListener("click", () => showPopup(`${method}-popup`));
@@ -100,4 +90,15 @@ document.addEventListener('click', function (event) {
             document.activeElement.blur();
         }
     }
+});
+// Debug connection events
+socket.on('connect', () => {
+    console.log('Connected to WebSocket server');
+});
+socket.on('disconnect', () => {
+    console.log('Disconnected from WebSocket server');
+});
+socket.on('order-finished', () => {
+    console.log('Order finished');
+    window.location.href = '/end';
 });

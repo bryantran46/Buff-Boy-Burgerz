@@ -71,8 +71,10 @@ def check_e_payment():
             orders_db.close()
 
             # Send data to dashboard
-            socketio.emit('newOrder', 
+            socketio.emit(
+                'newOrder', 
                 dict(zip(DASHBOARD_COLUMNS, [id, name, cartSummary, total, time, paymentType, numBurgers])),
+                namespace='/dashboard'
             )
             result = PaymentStatusCode.ACCEPTED
         else:
@@ -99,13 +101,13 @@ def check_cash_payment():
     numBurgers = data.get('numBurgers')
 
     order_data = [name, paymentType, total, subtotal, tip, discount, cartSummary, numBurgers, cart]
-    socketio.emit('cashOrder', dict(zip(CASH_COLUMNS, order_data)))
+    socketio.emit('cashOrder', dict(zip(CASH_COLUMNS, order_data)), namespace='/dashboard')
 
     return jsonify({"result": PaymentStatusCode.AWAITING_CASH})
 
 
 # WebSocket event handler for connection
-@socketio.on('connect')
+@socketio.on('connect', namespace='/dashboard')
 def handle_connect():
     print('Client connected')
 
@@ -115,14 +117,14 @@ def handle_connect():
     orders = orders_db.select(DASHBOARD_COLUMNS, where, order_by)
     orders_db.close()
 
-    socketio.emit('refresh', orders)
+    socketio.emit('refresh', orders, namespace='/dashboard')
 
 # WebSocket event handler for disconnection
-@socketio.on('disconnect')
+@socketio.on('disconnect', namespace='/dashboard')
 def handle_disconnect():
     print('Client disconnected')
 
-@socketio.on('completeOrder')
+@socketio.on('completeOrder', namespace='/dashboard')
 def handle_complete_order(orderID):
     print('Order completed:', orderID)
 
@@ -132,7 +134,7 @@ def handle_complete_order(orderID):
     orders_db.update(values, where)
     orders_db.close()
 
-@socketio.on('completeOrders')
+@socketio.on('completeOrders', namespace='/dashboard')
 def handle_complete_order(orderIDs):
     print('Orders completed:', orderIDs)
 
@@ -143,7 +145,7 @@ def handle_complete_order(orderIDs):
         orders_db.update(values, where)
     orders_db.close()
 
-@socketio.on('accept-cash-order')
+@socketio.on('accept-cash-order', namespace='/dashboard')
 def accept_cash_order(order):
     internalDate = int(datetime.now().timestamp())
     time = datetime.fromtimestamp(internalDate).strftime('%-I:%M %p')
@@ -166,12 +168,25 @@ def accept_cash_order(order):
     orders_db.close()
 
     # Add to Dashboard object and display
-    socketio.emit('newOrder', 
+    socketio.emit(
+        'newOrder', 
         dict(zip(DASHBOARD_COLUMNS, [id, name, cartSummary, total, time, paymentType, numBurgers])),
+        namespace='/dashboard'
     )
 
     # Move from pay screen to finish screen
-    socketio.emit('order-finished')
+    socketio.emit('order-finished', namespace='/kiosk')
+
+# WebSocket event handler for connection
+@socketio.on('connect', namespace='/kiosk')
+def handle_connect():
+    print('Client connected')
+
+# WebSocket event handler for disconnection
+@socketio.on('disconnect', namespace='/kiosk')
+def handle_disconnect():
+    print('Client disconnected')
+
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0', port=5000)
