@@ -10,11 +10,11 @@ SCOPES = [
 ]
 VENMO = {
     'query': 'label:unread from:(venmo@venmo.com) subject:("paid you")',
-    'pattern': r'([A-Za-z]+\s[A-Za-z]+)\s+paid\s+you\s+\$([\d]+\.\d{2})'
+    'pattern': r'^(.*?)\s+paid\s+you\s+\$([\d]+\.\d{2})'
 }
 ZELLE = {
     'query': 'label:unread from:(customerservice@ealerts.bankofamerica.com) subject:("sent you")',
-    'pattern': r'([A-Za-z]+\s[A-Za-z]+)\s+sent\s+you\s+\$([\d]+\.\d{2})'
+    'pattern': r'^(.*?)\s+sent\s+you\s+\$([\d]+\.\d{2})'
 }
 
 class PaymentStatusCode(int, Enum):
