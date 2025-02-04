@@ -25,6 +25,7 @@ ORDERS_COLUMNS = [
     # Order Summary
     'cartSummary',
     'numBurgers',
+    'specialInstructions',
 
     # Item Breakdown
     'combo',
@@ -47,11 +48,12 @@ ORDERS_SCHEMA = {
     'discount': 'integer',
     'cartSummary': 'text',
     'numBurgers': 'integer',
+    'specialInstructions': 'text',
     'combo' : 'integer default 0',
     'burger' : 'integer default 0',
     'soda' : 'integer default 0',
     'chips' : 'integer default 0',
 }
 
-DASHBOARD_COLUMNS = ['id', 'name', 'cartSummary', 'total', 'time', 'paymentType', 'numBurgers']
-CASH_COLUMNS = ['name', 'paymentType', 'total', 'subtotal', 'tip', 'discount', 'cartSummary', 'numBurgers', 'cart']
+DASHBOARD_COLUMNS = ['id', 'name', 'cartSummary', 'total', 'time', 'paymentType', 'numBurgers', 'specialInstructions']
+CASH_COLUMNS = ['name', 'paymentType', 'total', 'subtotal', 'tip', 'discount', 'cartSummary', 'numBurgers', 'specialInstructions', 'cart']

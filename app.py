@@ -47,6 +47,7 @@ def check_e_payment():
     cart = data.get('cart')
     cartSummary = ", ".join(f"{value} {key}" for key, value in cart.items())
     numBurgers = data.get('numBurgers')
+    specialInstructions = data.get('specialInstructions')
 
     # get transactions based on type
     transactions = []
@@ -64,7 +65,7 @@ def check_e_payment():
         if float(amount) >= float(total):
             # Add order to database
             orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
-            order_data = [name, time, internalDate, False, paymentType, total, subtotal, tip, discount, cartSummary, numBurgers]
+            order_data = [name, time, internalDate, False, paymentType, total, subtotal, tip, discount, cartSummary, numBurgers, specialInstructions]
             db_entry = dict(zip(ORDERS_COLUMNS, order_data)) | cart
             orders_db.insert(db_entry)
             id = orders_db.select(columns=['id'], order_by={ "id": "DESC" })[0]['id']
@@ -73,7 +74,7 @@ def check_e_payment():
             # Send data to dashboard
             socketio.emit(
                 'newOrder', 
-                dict(zip(DASHBOARD_COLUMNS, [id, name, cartSummary, total, time, paymentType, numBurgers])),
+                dict(zip(DASHBOARD_COLUMNS, [id, name, cartSummary, total, time, paymentType, numBurgers, specialInstructions])),
                 namespace='/dashboard'
             )
             result = PaymentStatusCode.ACCEPTED
@@ -99,8 +100,9 @@ def check_cash_payment():
     cart = data.get('cart')
     cartSummary = ", ".join(f"{value} {key}" for key, value in cart.items())
     numBurgers = data.get('numBurgers')
+    specialInstructions = data.get('specialInstructions')
 
-    order_data = [name, paymentType, total, subtotal, tip, discount, cartSummary, numBurgers, cart]
+    order_data = [name, paymentType, total, subtotal, tip, discount, cartSummary, numBurgers, specialInstructions, cart]
     socketio.emit('cashOrder', dict(zip(CASH_COLUMNS, order_data)), namespace='/dashboard')
 
     return jsonify({"result": PaymentStatusCode.AWAITING_CASH})
@@ -158,10 +160,11 @@ def accept_cash_order(order):
     cart = order['cart']
     cartSummary = order['cartSummary']
     numBurgers = order['numBurgers']
+    specialInstructions = order['specialInstructions']
 
     # Add to database
     orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
-    order_data = [name, time, internalDate, False, paymentType, total, subtotal, tip, discount, cartSummary, numBurgers]
+    order_data = [name, time, internalDate, False, paymentType, total, subtotal, tip, discount, cartSummary, numBurgers, specialInstructions]
     db_entry = dict(zip(ORDERS_COLUMNS, order_data)) | cart
     orders_db.insert(db_entry)
     id = orders_db.select(columns=['id'], order_by={ "id": "DESC" })[0]['id']
@@ -170,7 +173,7 @@ def accept_cash_order(order):
     # Add to Dashboard object and display
     socketio.emit(
         'newOrder', 
-        dict(zip(DASHBOARD_COLUMNS, [id, name, cartSummary, total, time, paymentType, numBurgers])),
+        dict(zip(DASHBOARD_COLUMNS, [id, name, cartSummary, total, time, paymentType, numBurgers, specialInstructions])),
         namespace='/dashboard'
     )
 

@@ -1,4 +1,4 @@
-import { loadData, getTotal, getOrder, getSubtotal, getTip, getDiscounts, getNumBurgers, saveData, setTip } from './data.js';
+import { loadData, getTotal, getOrder, getSubtotal, getTip, getDiscounts, getNumBurgers, saveData, setTip, getSpecialInstructions } from './data.js';
 import { renderReceipt, renderTotal } from "./receipt.js";
 import { showPopup, hidePopup } from './popup.js';
 import { initializeSlider, reloadSlider } from './slider.js';
@@ -38,6 +38,7 @@ electronicTransactions.forEach((method) => {
             "discount" : getDiscounts(),
             "cart": getOrder(),
             "numBurgers": getNumBurgers(),
+            "specialInstructions": getSpecialInstructions(),
         };
         try {
             const response = await fetch("/check-e-payment", {
@@ -74,6 +75,7 @@ document.querySelector(`#cash-popup .confirm-button`)?.addEventListener("click",
         'discount': getDiscounts(),
         'cart': getOrder(),
         'numBurgers': getNumBurgers(),
+        "specialInstructions": getSpecialInstructions(),
     };
     try {
         const response = await fetch("/check-cash-payment", {

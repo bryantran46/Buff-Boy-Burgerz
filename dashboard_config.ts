@@ -6,6 +6,7 @@ export interface Order {
     time: string; 
     paymentType: string;
     numBurgers: number;
+    specialInstructions: string
 };
 
 export const MAXBURGERS = 4;

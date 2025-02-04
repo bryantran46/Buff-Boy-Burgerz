@@ -51,6 +51,7 @@ export class DashboardDisplay {
             <td class="transaction-cell">
                 <div class="transaction-name">${order.name}</div>
                 <div class="transaction-order">${order.cartSummary}</div>
+                <div class="transaction-special-instructions">${order.specialInstructions}</div>
                 <div class="transaction-price">$${order.total.toFixed(2)}</div>
                 <div class="transaction-time">${order.time}</div>
                 <img src="/static/images/${order.paymentType}.svg">
@@ -77,6 +78,7 @@ export class DashboardDisplay {
             <td class="transaction-cell">
                 <div class="transaction-name">${order.name}</div>
                 <div class="transaction-order">${order.cartSummary}</div>
+                <div class="transaction-special-instructions">${order.specialInstructions}</div>
                 <div class="transaction-price">$${order.total.toFixed(2)}</div>
                 <img src="/static/images/${order.paymentType}.svg">
                 <button class="transaction-button">Accept</button>

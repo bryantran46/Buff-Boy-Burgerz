@@ -158,12 +158,13 @@ function submit() {
         if (!everythingChecked) {
             const uncheckedToppings = getUncheckedToppings(checkboxes);
             if (uncheckedToppings.length > 0) {
-                result += `Burger ${i}: no ${uncheckedToppings.join(", ")}\n`;
+                result += `Burger ${i}: no ${uncheckedToppings.join(", ")}; `;
             }
         }
     }
 
     resultDisplay!.textContent = result || "All burgers have all toppings selected.";
     saveCheckboxState();
+    saveToStorage('specialInstructions', result);
     hidePopup("toppings-popup");
 }

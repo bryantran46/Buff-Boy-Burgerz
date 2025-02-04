@@ -1,5 +1,5 @@
 import { renderTotal } from "./receipt.js";
-import { saveToStorage, getCartFromStorage, getNumFromStorage, getBoolFromStorage } from "./storage.js";
+import { saveToStorage, getCartFromStorage, getNumFromStorage, getBoolFromStorage, loadFromStorage } from "./storage.js";
 import { updateCheckboxState } from "./toppings.js";
 export const menuItems = {
     combo: { name: "Combo", price: 10, image: "static/images/combo.webp", quantity: 0 },
@@ -14,6 +14,7 @@ let applyDiscounts = false;
 let discounts = 0;
 let tip = 0;
 let total = 0;
+let specialInstructions = '';
 // cart
 export function emptyCart() {
     cart = {};
@@ -96,6 +97,13 @@ export function updateTotal() {
     total = subtotal + tip + discounts;
     renderTotal();
 }
+// special instructions
+export function getSpecialInstructions() {
+    return specialInstructions;
+}
+export function setSpecialInstructions(newInstructions) {
+    specialInstructions = newInstructions;
+}
 export function resetData() {
     emptyCart();
     numBurgers = 0;
@@ -104,6 +112,7 @@ export function resetData() {
     discounts = 0;
     tip = 0;
     total = 0;
+    specialInstructions = '';
     updateCheckboxState(numBurgers);
     saveData();
     renderTotal();
@@ -116,6 +125,7 @@ export function saveData() {
     saveToStorage("discounts", discounts);
     saveToStorage("tip", tip);
     saveToStorage("total", total);
+    saveToStorage("specialInstructions", specialInstructions);
 }
 export function loadData() {
     cart = getCartFromStorage();
@@ -125,4 +135,5 @@ export function loadData() {
     discounts = getNumFromStorage("discounts");
     tip = getNumFromStorage("tip");
     total = getNumFromStorage("total");
+    specialInstructions = loadFromStorage("specialInstructions");
 }
