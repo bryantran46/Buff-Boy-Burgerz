@@ -86,6 +86,14 @@ document.querySelector(`#cash-popup .confirm-button`)?.addEventListener("click",
         displayResponse('Failed to check payment.', `#cash-popup`);
     }
 });
+window.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+        if (e.target && e.target.nodeName == 'INPUT' && e.target.type == 'text') {
+            e.preventDefault();
+            return false;
+        }
+    }
+}, true);
 document.addEventListener('click', function (event) {
     if (event.target && !event.target.closest('input, textarea')) {
         if (document.activeElement) {

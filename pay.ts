@@ -97,6 +97,16 @@ document.querySelector(`#cash-popup .confirm-button`)?.addEventListener("click",
     }
 });
 
+window.addEventListener('keydown',function(e) {
+    if (e.key === 'Enter') {
+        if (e.target && (e.target as Element).nodeName == 'INPUT' && (e.target as HTMLInputElement).type == 'text') {
+            e.preventDefault();
+
+            return false;
+        }
+    }
+}, true);
+
 document.addEventListener('click', function (event) {
     if (event.target && !(event.target as Element).closest('input, textarea')) {
         if (document.activeElement) {
@@ -117,7 +127,6 @@ socket.on('disconnect', () => {
 socket.on('order-finished', () => {
     console.log('Order finished');
     window.location.href = '/end';
-    
 });
 
 socket.on('decline-cash-order', (status: any) => {
