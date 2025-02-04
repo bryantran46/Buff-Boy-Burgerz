@@ -89,6 +89,22 @@ table {
     width: 5vw;
     justify-self: center;
 }
+.accept-button {
+    color: #555;
+    grid-row: 2 / 3;
+    grid-column: 4 / 5;
+    height: 3vh;
+    width: 5vw;
+    justify-self: center;
+}
+.decline-button {
+    color: #555;
+    grid-row: 3 / 4;
+    grid-column: 4 / 5;
+    height: 3vh;
+    width: 5vw;
+    justify-self: center;
+}
 /* Reset margin and padding for the body */
 body {
     margin: 0;

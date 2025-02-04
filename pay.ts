@@ -119,3 +119,7 @@ socket.on('order-finished', () => {
     window.location.href = '/end';
     
 });
+
+socket.on('decline-cash-order', (status: any) => {
+    displayResult(status, 'cash');
+});

@@ -97,13 +97,20 @@ export class DashboardDisplay {
                 <div class="transaction-special-instructions">${order.specialInstructions}</div>
                 <div class="transaction-price">$${order.total.toFixed(2)}</div>
                 <img src="/static/images/${order.paymentType}.svg">
-                <button class="transaction-button">Accept</button>
+                <button class="accept-button">Accept</button>
+                <button class="decline-button">Decline</button>
             </td>
         `;
 
-        const transactionButton = row.querySelector(".transaction-button")!;
-        transactionButton.addEventListener("click", () => {
+        const acceptButton = row.querySelector(".accept-button")!;
+        acceptButton.addEventListener("click", () => {
             this.socket.emit('accept-cash-order', order)
+            this.dashboard.deleteCashOrderPrompt();
+            row.remove();
+        });
+        const declineButton = row.querySelector(".decline-button")!;
+        declineButton.addEventListener("click", () => {
+            this.socket.emit('decline-cash-order')
             this.dashboard.deleteCashOrderPrompt();
             row.remove();
         });

@@ -104,3 +104,6 @@ socket.on('order-finished', () => {
     console.log('Order finished');
     window.location.href = '/end';
 });
+socket.on('decline-cash-order', (status) => {
+    displayResult(status, 'cash');
+});

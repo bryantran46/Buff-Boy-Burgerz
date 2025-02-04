@@ -4,6 +4,7 @@ export function displayLoadingScreen() {
     loadingScreen?.classList.remove("disabled");
 }
 export function displayResult(status, paymentType) {
+    console.log(status['result']);
     if (status['result'] === PaymentStatusCode.ACCEPTED) {
         window.location.href = '/end';
     }
@@ -17,6 +18,11 @@ export function displayResult(status, paymentType) {
     }
     else if (status['result'] === PaymentStatusCode.AWAITING_CASH) {
         displayResponse(`Please give cash to cook!`, `#loading-screen`);
+    }
+    else if (status['result'] === PaymentStatusCode.DECLINE_CASH) {
+        console.log('hit');
+        loadingScreen?.classList.add('disabled');
+        displayResponse(`Cash declined, try again!`, `#${paymentType}-popup`);
     }
 }
 export function displayResponse(response, element) {

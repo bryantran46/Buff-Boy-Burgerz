@@ -4,4 +4,5 @@ export var PaymentStatusCode;
     PaymentStatusCode[PaymentStatusCode["UNDERPAID"] = 2] = "UNDERPAID";
     PaymentStatusCode[PaymentStatusCode["NONE_DETECTED"] = 3] = "NONE_DETECTED";
     PaymentStatusCode[PaymentStatusCode["AWAITING_CASH"] = 4] = "AWAITING_CASH";
+    PaymentStatusCode[PaymentStatusCode["DECLINE_CASH"] = 5] = "DECLINE_CASH";
 })(PaymentStatusCode || (PaymentStatusCode = {}));

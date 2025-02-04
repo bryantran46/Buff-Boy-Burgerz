@@ -180,6 +180,10 @@ def accept_cash_order(order):
     # Move from pay screen to finish screen
     socketio.emit('order-finished', namespace='/kiosk')
 
+@socketio.on('decline-cash-order', namespace='/dashboard')
+def decline_cash_order():
+    socketio.emit('decline-cash-order', {"result": PaymentStatusCode.DECLINE_CASH}, namespace='/kiosk')
+
 # WebSocket event handler for connection
 @socketio.on('connect', namespace='/kiosk')
 def handle_connect():
