@@ -11,14 +11,14 @@ export function displayResult(status: any, paymentType: string) {
     }
     else if (status['result'] === PaymentStatusCode.NONE_DETECTED) {
         loadingScreen?.classList.add('disabled');
-        displayResponse('No payment found, try again.', `#${paymentType}-popup`);
+        displayResponse('No payment found, try again!', `#${paymentType}-popup`);
     }
     else if (status['result'] === PaymentStatusCode.UNDERPAID) {
         loadingScreen?.classList.add('disabled');
-        displayResponse(`Missing payment: Pay an additional $${status['missingPayment']}.`, `#${paymentType}-popup`);
+        displayResponse(`Missing payment: Pay an additional $${status['missingPayment']}!`, `#${paymentType}-popup`);
     }
     else if (status['result'] === PaymentStatusCode.AWAITING_CASH) {
-        displayResponse(`Please give cash to cook.`, `#loading-screen`);
+        displayResponse(`Please give cash to cook!`, `#loading-screen`);
     }
 }
 export function displayResponse(response: string,  element: string) {

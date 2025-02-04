@@ -274,6 +274,11 @@
     background-color: white;
     border-radius: 10px;
 }
+#loading-screen .response-message {
+    margin-top: 10vh;
+    text-align: center;
+    font-size: 4em;
+}
 #loader.disabled {
     display: none;
 }
@@ -289,8 +294,7 @@
     border-top: 16px solid #3498db;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
-  }
-  
+}
 @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
