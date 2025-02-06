@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Food Gallery</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pay.css') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
 </head>
 <body>
     <div class="main-screen">
@@ -116,7 +119,7 @@
             <form>
                 <label class="name-label">
                     Name 
-                    <input type="text" class="name-field" maxlength="20"></input>
+                    <input type="text" class="name-field" maxlength="20" ontouchstart="this.removeAttribute('readonly');"></input>
                 </label>
             </form>
             <button class="confirm-button">I'm ready!</button>
