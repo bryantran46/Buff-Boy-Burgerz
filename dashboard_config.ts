@@ -3,7 +3,7 @@ export interface Order {
     name: string; 
     cartSummary: string; 
     total: number; 
-    time: string; 
+    displayTime: string; 
     paymentType: string;
     numBurgers: number;
     specialInstructions: string

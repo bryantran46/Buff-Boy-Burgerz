@@ -9,25 +9,17 @@ DB_NAME = TEST_DB_NAME
 ORDERS_COLUMNS = [
     # Customer Information
     'name',
-
-    # Order Time and Status
-    'time',
-    'internalTime',  # Keep related time information together
+    'displayTime',
+    'receivedTime',
     'completed',
-
-    # Payment Details
     'paymentType',
     'total',
     'subtotal',
     'tip',
     'discount',
-
-    # Order Summary
     'cartSummary',
     'numBurgers',
     'specialInstructions',
-
-    # Item Breakdown
     'combo',
     'burger',
     'soda',
@@ -36,16 +28,25 @@ ORDERS_COLUMNS = [
 
 # schema for the orders table
 ORDERS_SCHEMA = {
+    # Customer Information
     'id': 'integer primary key autoincrement',
     'name': 'text',
-    'time': 'text',
-    'internalTime': 'integer',
+
+    # Order Time and Status
+    'displayTime': 'text',
+    'receivedTime': 'integer',
+    'startTime': 'integer default 0',
+    'completedTime': 'integer default 0',
     'completed': 'boolean',
+
+    # Payment Details
     'paymentType': 'text',
     'total': 'integer',
     'subtotal': 'integer',
     'tip': 'integer',
     'discount': 'integer',
+
+    # Item Breakdown
     'cartSummary': 'text',
     'numBurgers': 'integer',
     'specialInstructions': 'text',
@@ -55,5 +56,5 @@ ORDERS_SCHEMA = {
     'chips' : 'integer default 0',
 }
 
-DASHBOARD_COLUMNS = ['id', 'name', 'cartSummary', 'total', 'time', 'paymentType', 'numBurgers', 'specialInstructions']
+DASHBOARD_COLUMNS = ['id', 'name', 'cartSummary', 'total', 'displayTime', 'paymentType', 'numBurgers', 'specialInstructions']
 CASH_COLUMNS = ['name', 'paymentType', 'total', 'subtotal', 'tip', 'discount', 'cartSummary', 'numBurgers', 'specialInstructions', 'cart']

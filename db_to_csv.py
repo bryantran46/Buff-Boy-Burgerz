@@ -7,7 +7,7 @@ def db_to_csv():
     with open('output.csv', 'w', newline='') as f:
         csvWriter = csv.writer(f)
         rows = orders_db.fetchall()
-        csvWriter.writerow(ORDERS_COLUMNS)
+        csvWriter.writerow(ORDERS_SCHEMA.keys())
         csvWriter.writerows(rows)
     orders_db.close()
 
@@ -21,4 +21,4 @@ def csv_to_db():
     orders_db.close()
 
 if __name__ == '__main__':
-    csv_to_db()
+    db_to_csv()

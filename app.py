@@ -60,12 +60,11 @@ def check_e_payment():
     result = ''
     missing_payment = '0'
     if len(transactions) > 0:
-        internalDate, name, amount, time = transactions[0]
-        print('Time:', internalDate)
+        receivedTime, name, amount, displayTime = transactions[0]
         if float(amount) >= float(total):
             # Add order to database
             orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
-            order_data = [name, time, internalDate, False, paymentType, total, subtotal, tip, discount, cartSummary, numBurgers, specialInstructions]
+            order_data = [name, displayTime, receivedTime, False, paymentType, total, subtotal, tip, discount, cartSummary, numBurgers, specialInstructions]
             db_entry = dict(zip(ORDERS_COLUMNS, order_data)) | cart
             orders_db.insert(db_entry)
             id = orders_db.select(columns=['id'], order_by={ "id": "DESC" })[0]['id']
@@ -74,7 +73,7 @@ def check_e_payment():
             # Send data to dashboard
             socketio.emit(
                 'newOrder', 
-                dict(zip(DASHBOARD_COLUMNS, [id, name, cartSummary, total, time, paymentType, numBurgers, specialInstructions])),
+                dict(zip(DASHBOARD_COLUMNS, [id, name, cartSummary, total, displayTime, paymentType, numBurgers, specialInstructions])),
                 namespace='/dashboard'
             )
             result = PaymentStatusCode.ACCEPTED
@@ -126,6 +125,17 @@ def handle_connect():
 def handle_disconnect():
     print('Client disconnected')
 
+@socketio.on('add-start-time', namespace='/dashboard')
+def add_start_time(orderID):
+    startTime = int(datetime.now().timestamp())
+    print('Start time:', datetime.fromtimestamp(startTime).strftime('%-I:%M %p'))
+    
+    orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
+    values = { 'startTime' : startTime }
+    where = { 'id' : orderID }
+    orders_db.update(values, where)
+    orders_db.close()
+
 @socketio.on('completeOrder', namespace='/dashboard')
 def handle_complete_order(orderID):
     print('Order completed:', orderID)
@@ -149,8 +159,8 @@ def handle_complete_order(orderIDs):
 
 @socketio.on('accept-cash-order', namespace='/dashboard')
 def accept_cash_order(order):
-    internalDate = int(datetime.now().timestamp())
-    time = datetime.fromtimestamp(internalDate).strftime('%-I:%M %p')
+    receivedTime = int(datetime.now().timestamp())
+    displayTime = datetime.fromtimestamp(receivedTime).strftime('%-I:%M %p')
     name = order['name']
     paymentType = order['paymentType']
     total = order['total']
@@ -164,7 +174,7 @@ def accept_cash_order(order):
 
     # Add to database
     orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
-    order_data = [name, time, internalDate, False, paymentType, total, subtotal, tip, discount, cartSummary, numBurgers, specialInstructions]
+    order_data = [name, displayTime, receivedTime, False, paymentType, total, subtotal, tip, discount, cartSummary, numBurgers, specialInstructions]
     db_entry = dict(zip(ORDERS_COLUMNS, order_data)) | cart
     orders_db.insert(db_entry)
     id = orders_db.select(columns=['id'], order_by={ "id": "DESC" })[0]['id']
@@ -173,7 +183,7 @@ def accept_cash_order(order):
     # Add to Dashboard object and display
     socketio.emit(
         'newOrder', 
-        dict(zip(DASHBOARD_COLUMNS, [id, name, cartSummary, total, time, paymentType, numBurgers, specialInstructions])),
+        dict(zip(DASHBOARD_COLUMNS, [id, name, cartSummary, total, displayTime, paymentType, numBurgers, specialInstructions])),
         namespace='/dashboard'
     )
 

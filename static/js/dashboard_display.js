@@ -53,7 +53,7 @@ export class DashboardDisplay {
                 <div class="transaction-order">${order.cartSummary}</div>
                 <div class="transaction-special-instructions">${order.specialInstructions || ''}</div>
                 <div class="transaction-price">$${order.total.toFixed(2)}</div>
-                <div class="transaction-time">${order.time}</div>
+                <div class="transaction-time">${order.displayTime}</div>
                 <img src="/static/images/${order.paymentType}.svg">
                 <button class="transaction-button">Finish</button>
             </td>

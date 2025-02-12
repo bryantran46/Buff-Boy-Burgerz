@@ -1,7 +1,7 @@
 # sqlite db communication
 import sqlite3
 
-from db_schema import ORDERS_COLUMNS
+from db_schema import ORDERS_SCHEMA
 
 #
 # Very basic SQLite wrapper
@@ -164,7 +164,7 @@ class db_table:
         return cursor.rowcount
     
     def fetchall(self):
-        columns_query_string = ", ".join(ORDERS_COLUMNS)
+        columns_query_string = ", ".join(ORDERS_SCHEMA.keys())
         cursor = self.db_conn.cursor()
         cursor.execute("SELECT %s FROM %s" % (columns_query_string, self.name))
         rows = cursor.fetchall()

@@ -9,6 +9,7 @@ export class Dashboard {
     totalBurgersSold: number;
     cashOrder: any;
 
+    socket: SocketIOClient.Socket;
     dashboardDisplay: DashboardDisplay;
 
     constructor(socket: SocketIOClient.Socket, uncompletedOrders: Order[]) {
@@ -17,6 +18,7 @@ export class Dashboard {
         this.totalBurgersInProgress = 0;
         this.totalBurgersSold = getNumFromStorage("totalBurgersSold");
         this.cashOrder = getCashOrderFromStorage();
+        this.socket = socket;
         this.dashboardDisplay = new DashboardDisplay(this, socket);
         this.addOrders(uncompletedOrders);
         this.cashOrderPrompt(this.cashOrder);
@@ -97,9 +99,11 @@ export class Dashboard {
 
         if (this.totalBurgersInProgress === 0 && burgers > MAXBURGERS) {
             this.addProgressOrders(id, order, burgers);
+            this.socket.emit("add-start-time", id);
         } 
         else if (this.totalBurgersInProgress + burgers <= MAXBURGERS) {
             this.addProgressOrders(id, order, burgers);
+            this.socket.emit("add-start-time", id);
         } 
         else {
             this.addQueueOrders(id, order);
@@ -113,16 +117,19 @@ export class Dashboard {
             if (this.totalBurgersInProgress === 0 && burgers > MAXBURGERS) {
                 this.removeQueueOrders(id);
                 this.addProgressOrders(id, order, burgers);
+                this.socket.emit("add-start-time", id);
                 break;
             }
 
             if (this.totalBurgersInProgress + burgers < MAXBURGERS) {
                 this.removeQueueOrders(id);
                 this.addProgressOrders(id, order, burgers);
+                this.socket.emit("add-start-time", id);
             } 
             else if (this.totalBurgersInProgress + burgers === MAXBURGERS) {
                 this.removeQueueOrders(id);
-                this.addProgressOrders(id, order, burgers);               
+                this.addProgressOrders(id, order, burgers);
+                this.socket.emit("add-start-time", id);
                 break;
             } 
         }
