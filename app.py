@@ -60,7 +60,9 @@ def check_e_payment():
     result = ''
     missing_payment = '0'
     if len(transactions) > 0:
-        receivedTime, name, amount, displayTime = transactions[0]
+        name, amount = transactions[0]
+        receivedTime = int(datetime.now().timestamp())
+        displayTime = datetime.fromtimestamp(receivedTime).strftime('%-I:%M %p')
         if float(amount) >= float(total):
             # Add order to database
             orders_db = db_table(DB_NAME, ORDERS_SCHEMA)

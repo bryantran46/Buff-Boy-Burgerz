@@ -42,7 +42,6 @@ def parse_email(messages, pattern):
     for message in messages:
         name = None
         amount = None
-        date = None
         # Extract name and amount
         match = re.search(pattern, message['snippet']) 
         if match:
@@ -50,11 +49,8 @@ def parse_email(messages, pattern):
         else:
             print('Incorrect email')
             continue
-        # Extract date
-        sort_key = int(message['internalDate']) // 1000
-        date = datetime.fromtimestamp(sort_key).strftime('%-I:%M %p')
         # Add name, amount, and date to transactions list
-        transactions.append((sort_key, name, amount, date))
+        transactions.append((name, amount))
     return transactions
 
 # Mark emails as read by removing the 'UNREAD' label
