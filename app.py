@@ -128,6 +128,7 @@ def handle_disconnect():
 @socketio.on('add-start-time', namespace='/dashboard')
 def add_start_time(orderID):
     startTime = int(datetime.now().timestamp())
+    print('Order started:', orderID)
     print('Start time:', datetime.fromtimestamp(startTime).strftime('%-I:%M %p'))
     
     orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
@@ -136,22 +137,26 @@ def add_start_time(orderID):
     orders_db.update(values, where)
     orders_db.close()
 
-@socketio.on('completeOrder', namespace='/dashboard')
+@socketio.on('complete-order', namespace='/dashboard')
 def handle_complete_order(orderID):
+    completedTime = int(datetime.now().timestamp())
     print('Order completed:', orderID)
+    print('Completed time:', datetime.fromtimestamp(completedTime).strftime('%-I:%M %p'))
 
     orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
-    values = { 'completed' : True }
+    values = { 'completed' : True, 'completedTime' : completedTime }
     where = { 'id' : orderID }
     orders_db.update(values, where)
     orders_db.close()
 
-@socketio.on('completeOrders', namespace='/dashboard')
+@socketio.on('complete-orders', namespace='/dashboard')
 def handle_complete_order(orderIDs):
+    completedTime = int(datetime.now().timestamp())
     print('Orders completed:', orderIDs)
+    print('Completed time:', datetime.fromtimestamp(completedTime).strftime('%-I:%M %p'))
 
     orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
-    values = { 'completed' : True }
+    values = { 'completed' : True, 'completedTime' : completedTime }
     for orderID in orderIDs:
         where = { 'id' : orderID }
         orders_db.update(values, where)
