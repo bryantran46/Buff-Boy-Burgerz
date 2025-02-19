@@ -163,7 +163,7 @@ function submit() {
         }
     }
 
-    resultDisplay!.textContent = result || "All burgers have all toppings selected.";
+    // resultDisplay!.textContent = result || "All burgers have all toppings selected.";
     saveCheckboxState();
     saveToStorage('specialInstructions', result);
     hidePopup("toppings-popup");
