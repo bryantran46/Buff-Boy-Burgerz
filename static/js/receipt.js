@@ -93,9 +93,12 @@ export function renderReceipt() {
 function getRowById(itemId) {
     return document.querySelector(`tr[data-id="${itemId}"]`);
 }
+function formatDiscount(discount) {
+    return discount > 0 ? `-$${discount.toFixed(2)}` : `$0.00`;
+}
 export function renderTotal() {
     document.getElementById("subtotal-field").innerText = `$${data.getSubtotal().toFixed(2)}`;
-    document.getElementById("discounts-field").innerText = `$${data.getDiscounts().toFixed(2)}`;
+    document.getElementById("discounts-field").innerText = `${formatDiscount(data.getDiscounts())}`;
     document.getElementById("tip-field").innerText = `$${data.getTip().toFixed(2)}`;
     document.getElementById("total-field").innerText = `$${data.getTotal().toFixed(2)}`;
 }

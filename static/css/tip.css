@@ -113,7 +113,7 @@
 .total-cell {
     display: grid;
     grid-template-rows: 4vh;
-    grid-template-columns: 3vw 12vw 5vw;
+    grid-template-columns: 3vw 12vw 7vw;
     align-items: center;
 }
 .total-cell div{

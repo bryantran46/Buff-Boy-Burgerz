@@ -98,7 +98,7 @@ export function setDiscounts(newDiscounts: number) {
 
 export function updateDiscounts() {
     if (applyDiscounts) {
-        discounts = -numBurgers;
+        discounts = numBurgers;
         updateTotal();
     }
 }
@@ -123,7 +123,7 @@ export function setTotal(newTotal: number) {
 }
 
 export function updateTotal() {
-    total = subtotal + tip + discounts;
+    total = subtotal + tip - discounts;
     renderTotal();
 }
 
