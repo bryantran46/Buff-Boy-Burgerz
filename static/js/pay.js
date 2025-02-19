@@ -110,13 +110,13 @@ window.addEventListener('keydown', function (e) {
         }
     }
 }, true);
-document.addEventListener('click', function (event) {
-    if (event.target && !event.target.closest('input, textarea')) {
-        if (document.activeElement) {
-            document.activeElement.blur();
-        }
-    }
-});
+// document.addEventListener('click', function (event) {
+//     if (event.target && !(event.target as Element).closest('input, textarea')) {
+//         if (document.activeElement) {
+//             (document.activeElement as HTMLElement).blur();
+//         }
+//     }
+// });
 // Debug connection events
 socket.on('connect', () => {
     console.log('Connected to WebSocket server');
