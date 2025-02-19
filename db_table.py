@@ -147,18 +147,30 @@ class db_table:
     #
     # Example table.update({ "name": "Simon" }, { "id": 42 })
     #
-    def update(self, values, where):
-        # build set & where queries
-        set_query   = ", ".join(["%s = '%s'" % (k,v) for k,v in values.items()])
-        where_query = " AND ".join(["%s = '%s'" % (k,v) for k,v in where.items()])
+    def update(self, values, where, conditional_updates=None):
+        # Build SET clause
+        set_clauses = ["%s = '%s'" % (k,v) for k, v in values.items()]
+        
+        # Handle conditional updates (e.g., update startTime only if it's 0)
+        if conditional_updates:
+            for column, condition in conditional_updates.items():
+                set_clauses.append(f"{column} = CASE WHEN {condition['when']} THEN {condition['then']} ELSE {column} END")
 
-        # UPDATE users SET name = Simon WHERE id = 42
-        #
-        # Note that columns are formatted into the string without using sqlite safe substitution mechanism
-        # The reason is that sqlite does not provide substitution mechanism for columns parameters
-        # In the context of this project, this is fine (no risk of user malicious input)
+        set_query = ", ".join(set_clauses)
+
+        # Handle WHERE clause for batch updates
+        where_clauses = []
+        for key, val in where.items():
+            if isinstance(val, list):  # Handle multiple IDs
+                where_clauses.append(f"{key} IN ({', '.join(map(str, val))})")
+            else:
+                where_clauses.append(f"{key} = '{val}'")
+
+        where_query = " AND ".join(where_clauses)
+
+        # Execute the update query
         cursor = self.db_conn.cursor()
-        cursor.execute("UPDATE %s SET %s WHERE %s" % (self.name, set_query, where_query))
+        cursor.execute(f"UPDATE {self.name} SET {set_query} WHERE {where_query}")
         cursor.close()
         self.db_conn.commit()
         return cursor.rowcount

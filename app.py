@@ -147,8 +147,15 @@ def handle_complete_order(orderID):
 
     orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
     values = { 'completed' : True, 'completedTime' : completedTime }
+    # Conditional update: Set startTime to receivedTime if startTime is 0
+    conditional_updates = {
+        'startTime': {
+            'when': 'startTime = 0',
+            'then': 'receivedTime'
+        }
+    }
     where = { 'id' : orderID }
-    orders_db.update(values, where)
+    orders_db.update(values, where, conditional_updates)
     orders_db.close()
 
 @socketio.on('complete-orders', namespace='/dashboard')
@@ -158,10 +165,9 @@ def handle_complete_order(orderIDs):
     print('Completed time:', datetime.fromtimestamp(completedTime).strftime('%-I:%M %p'))
 
     orders_db = db_table(DB_NAME, ORDERS_SCHEMA)
-    values = { 'completed' : True, 'completedTime' : completedTime }
-    for orderID in orderIDs:
-        where = { 'id' : orderID }
-        orders_db.update(values, where)
+    values = { 'completed': True, 'completedTime': completedTime }
+    where = { 'id': orderIDs }
+    orders_db.update(values, where)
     orders_db.close()
 
 @socketio.on('accept-cash-order', namespace='/dashboard')
