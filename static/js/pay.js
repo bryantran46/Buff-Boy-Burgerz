@@ -54,42 +54,58 @@ electronicTransactions.forEach((method) => {
     });
 });
 document.querySelector(`#cash-popup .confirm-button`)?.addEventListener("click", async () => {
-    displayLoadingScreen();
-    const name = document.querySelector('.name-field').value;
-    const orderInfo = {
-        'name': name,
-        'paymentType': 'cash',
-        'total': getTotal(),
-        'subtotal': getSubtotal(),
-        'tip': getTip(),
-        'discount': getDiscounts(),
-        'cart': getOrder(),
-        'numBurgers': getNumBurgers(),
-        "specialInstructions": getSpecialInstructions(),
-    };
-    try {
-        const response = await fetch("/check-cash-payment", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(orderInfo),
-        });
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const status = await response.json();
-        displayResult(status, 'cash');
+    const nameField = document.querySelector('.name-field');
+    if (!nameField) {
+        console.error('Name field not found');
+        return;
     }
-    catch (error) {
-        console.error("Error:", error);
-        displayResponse('Failed to check payment.', `#cash-popup`);
+    if (nameField.validity.valueMissing) {
+        nameField.setCustomValidity("Fill this out, yo!");
+        nameField.reportValidity();
+    }
+    else if (nameField.validity.patternMismatch) {
+        nameField.setCustomValidity("Only letters, yo!");
+        nameField.reportValidity();
+    }
+    else {
+        displayLoadingScreen();
+        const name = nameField.value;
+        const orderInfo = {
+            'name': name,
+            'paymentType': 'cash',
+            'total': getTotal(),
+            'subtotal': getSubtotal(),
+            'tip': getTip(),
+            'discount': getDiscounts(),
+            'cart': getOrder(),
+            'numBurgers': getNumBurgers(),
+            "specialInstructions": getSpecialInstructions(),
+        };
+        try {
+            const response = await fetch("/check-cash-payment", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(orderInfo),
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const status = await response.json();
+            displayResult(status, 'cash');
+        }
+        catch (error) {
+            console.error("Error:", error);
+            displayResponse('Failed to check payment.', `#cash-popup`);
+        }
     }
 });
 window.addEventListener('keydown', function (e) {
     if (e.key === 'Enter') {
         if (e.target && e.target.nodeName == 'INPUT' && e.target.type == 'text') {
             e.preventDefault();
+            e.target.blur();
             return false;
         }
     }
